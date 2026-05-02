@@ -14,7 +14,7 @@ const onRrefreshed = (token: string) => {
   refreshSubscribers = [];
 };
 
-export const apiClient = async (endpoint: string, options: any = {}) => {
+export const apiClient = async (endpoint: string, options: any = {}): Promise<Response> => {
   let accessToken = getStorage('token');
   
   const headers = {
@@ -72,7 +72,7 @@ export const apiClient = async (endpoint: string, options: any = {}) => {
     }
 
     // If a refresh is already in progress, wait for it to finish and then retry this request
-    return new Promise((resolve) => {
+    return new Promise<Response>((resolve) => {
       subscribeTokenRefresh((token: string) => {
         headers['Authorization'] = `Bearer ${token}`;
         resolve(fetch(`${BASE_URL}${endpoint}`, { ...options, headers }));

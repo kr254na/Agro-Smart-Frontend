@@ -4,6 +4,7 @@ import { Eye, EyeOff, Lock, Mail, Loader2, ArrowRight, Sprout, ShieldCheck, Wifi
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { setStorage } from '../utils/storage';
+import { apiClient } from '../api/apiClient';
 
 interface LoginResponse { accessToken: string; refreshToken: string; email: string; role: string; }
 interface ApiResponse<T> { success: boolean; message: string; data: T; }
@@ -34,9 +35,8 @@ export default function LoginPage() {
 
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:8081/api/auth/login', {
+      const response = await apiClient('/api/auth/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: formData.email, password: formData.password }),
       });
       const result: ApiResponse<LoginResponse> = await response.json();
