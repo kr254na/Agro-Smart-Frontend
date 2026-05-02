@@ -190,14 +190,14 @@ export default function WeatherPage() {
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-[1100px] overflow-hidden">
-          {/* Page Header */}
+    <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 bg-gray-950 min-h-screen overflow-x-hidden">
+        {/* Page Header */}
           <div className="mb-8">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
               <div>
-                <h1 className="text-3xl font-bold text-white mb-2">Weather Insights</h1>
+                <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight uppercase">Weather Insights</h1>
                 <p className="text-gray-400">
-                  Real-time weather for <span className="text-green-400 font-medium">{locationName}</span>
+                  Real-time weather for <span className="text-green-400 font-bold">{locationName}</span>
                 </p>
               </div>
             </div>
@@ -205,40 +205,40 @@ export default function WeatherPage() {
             {/* Controls */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Select value={selectedFarm} onValueChange={setSelectedFarm}>
-                <SelectTrigger className="bg-[#1a1a1a] border-gray-800 text-white">
-                  <SelectValue placeholder="Select Farm / Location" />
-                </SelectTrigger>
-                <SelectContent className="bg-[#1a1a1a] border-gray-800">
-                  <SelectItem value="current" className="text-white focus:bg-[#2a2a2a]">
-                    📍 Current Location
-                  </SelectItem>
-                  <SelectItem value="lucknow" className="text-white focus:bg-[#2a2a2a]">
-                    Lucknow (Hazratganj)
-                  </SelectItem>
-                  <SelectItem value="kanpur" className="text-white focus:bg-[#2a2a2a]">
-                    Kanpur (Civic Lines)
-                  </SelectItem>
-                  <SelectItem value="barabanki" className="text-white focus:bg-[#2a2a2a]">
-                    Barabanki (Rural)
-                  </SelectItem>
-                  <SelectItem value="unnao" className="text-white focus:bg-[#2a2a2a]">
-                    Unnao (Central Area)
-                  </SelectItem>
-                </SelectContent>
+                <SelectTrigger className="bg-gray-900/50 border-gray-800 text-white">
+                <SelectValue placeholder="Select Farm / Location" />
+              </SelectTrigger>
+              <SelectContent className="bg-gray-900 border-gray-800">
+                <SelectItem value="current" className="text-white focus:bg-gray-800">
+                  📍 Current Location
+                </SelectItem>
+                <SelectItem value="lucknow" className="text-white focus:bg-gray-800">
+                  Lucknow (Hazratganj)
+                </SelectItem>
+                <SelectItem value="kanpur" className="text-white focus:bg-gray-800">
+                  Kanpur (Civic Lines)
+                </SelectItem>
+                <SelectItem value="barabanki" className="text-white focus:bg-gray-800">
+                  Barabanki (Rural)
+                </SelectItem>
+                <SelectItem value="unnao" className="text-white focus:bg-gray-800">
+                  Unnao (Central Area)
+                </SelectItem>
+              </SelectContent>
               </Select>
 
               <Select value={tempUnit} onValueChange={setTempUnit}>
-                <SelectTrigger className="bg-[#1a1a1a] border-gray-800 text-white">
-                  <SelectValue placeholder="Temperature Unit" />
-                </SelectTrigger>
-                <SelectContent className="bg-[#1a1a1a] border-gray-800">
-                  <SelectItem value="celsius" className="text-white focus:bg-[#2a2a2a]">
-                    Celsius (°C)
-                  </SelectItem>
-                  <SelectItem value="fahrenheit" className="text-white focus:bg-[#2a2a2a]">
-                    Fahrenheit (°F)
-                  </SelectItem>
-                </SelectContent>
+                <SelectTrigger className="bg-gray-900/50 border-gray-800 text-white">
+                <SelectValue placeholder="Temperature Unit" />
+              </SelectTrigger>
+              <SelectContent className="bg-gray-900 border-gray-800">
+                <SelectItem value="celsius" className="text-white focus:bg-gray-800">
+                  Celsius (°C)
+                </SelectItem>
+                <SelectItem value="fahrenheit" className="text-white focus:bg-gray-800">
+                  Fahrenheit (°F)
+                </SelectItem>
+              </SelectContent>
               </Select>
             </div>
 
@@ -313,28 +313,28 @@ export default function WeatherPage() {
               </div>
 
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 w-full lg:w-auto">
-                <div className="bg-[#1a1a1a]/50 rounded-lg p-3 sm:p-4">
+                <div className="bg-gray-800/50 rounded-xl p-3 sm:p-4 border border-gray-700/50">
                   <div className="flex items-center gap-2 mb-1 sm:mb-2">
                     <Droplets className="h-3.5 w-3.5 text-blue-400" />
                     <span className="text-gray-400 text-xs sm:text-sm">Humidity</span>
                   </div>
                   <p className="text-xl sm:text-2xl text-white font-bold">{currentWeather.humidity}%</p>
                 </div>
-                <div className="bg-[#1a1a1a]/50 rounded-lg p-3 sm:p-4">
+                <div className="bg-gray-800/50 rounded-xl p-3 sm:p-4 border border-gray-700/50">
                   <div className="flex items-center gap-2 mb-1 sm:mb-2">
                     <Wind className="h-3.5 w-3.5 text-cyan-400" />
                     <span className="text-gray-400 text-xs sm:text-sm">Wind</span>
                   </div>
                   <p className="text-xl sm:text-2xl text-white font-bold">{currentWeather.windSpeed} km/h</p>
                 </div>
-                <div className="bg-[#1a1a1a]/50 rounded-lg p-3 sm:p-4">
+                <div className="bg-gray-800/50 rounded-xl p-3 sm:p-4 border border-gray-700/50">
                   <div className="flex items-center gap-2 mb-1 sm:mb-2">
                     <CloudRain className="h-3.5 w-3.5 text-blue-400" />
                     <span className="text-gray-400 text-xs sm:text-sm">Rain</span>
                   </div>
                   <p className="text-xl sm:text-2xl text-white font-bold">{currentWeather.rainProbability}%</p>
                 </div>
-                <div className="bg-[#1a1a1a]/50 rounded-lg p-3 sm:p-4">
+                <div className="bg-gray-800/50 rounded-xl p-3 sm:p-4 border border-gray-700/50">
                   <div className="flex items-center gap-2 mb-1 sm:mb-2">
                     <Eye className="h-3.5 w-3.5 text-gray-400" />
                     <span className="text-gray-400 text-xs sm:text-sm">Visibility</span>
@@ -345,14 +345,17 @@ export default function WeatherPage() {
             </div>
 
           {/* Hourly Forecast */}
-          <div className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-4 sm:p-6 mb-8">
-            <h2 className="text-xl text-white mb-6">Hourly Forecast</h2>
+          <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-4 sm:p-6 mb-8">
+            <h2 className="text-lg font-bold text-white uppercase tracking-widest mb-6 flex items-center gap-2">
+              <span className="w-1 h-4 bg-[#48D87D] rounded-full inline-block"></span>
+              Hourly Forecast
+            </h2>
             <div className="overflow-x-auto">
               <div className="flex gap-4 min-w-max pb-2">
                 {hourlyForecast.map((hour, index) => (
                   <div
                     key={index}
-                    className="bg-[#0a0a0a] rounded-lg p-4 min-w-[120px] hover:bg-[#1a1a1a] transition-colors"
+                    className="bg-gray-900/50 rounded-lg p-4 min-w-[120px] hover:bg-gray-800/50 transition-colors"
                   >
                     <p className="text-gray-400 text-sm mb-3 text-center">{hour.hour}</p>
                     <div className="flex justify-center mb-3">
@@ -372,13 +375,16 @@ export default function WeatherPage() {
           </div>
 
           {/* 7-Day Forecast */}
-          <div className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-4 sm:p-6 text-sm sm:text-base">
-            <h2 className="text-xl text-white mb-6">7-Day Forecast</h2>
+          <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-4 sm:p-6 text-sm sm:text-base">
+            <h2 className="text-lg font-bold text-white uppercase tracking-widest mb-6 flex items-center gap-2">
+              <span className="w-1 h-4 bg-[#48D87D] rounded-full inline-block"></span>
+              7-Day Forecast
+            </h2>
             <div className="space-y-3">
               {dailyForecast.map((day, index) => (
                 <div
                   key={index}
-                  className="bg-[#0a0a0a] rounded-lg p-4 hover:bg-[#1a1a1a] transition-colors"
+                  className="bg-gray-900/50 rounded-lg p-4 hover:bg-gray-800/50 transition-colors"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
                     <div className="flex items-center gap-2 sm:gap-4 flex-1">

@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { 
-  Search, MapPin, Star, ShoppingCart, Plus, Edit, Trash2,
-  Package, TrendingUp, ChevronRight
+  Search, MapPin, ShoppingCart, Plus, Minus, Edit, Trash2,
+  Package, Loader2, Phone, MessageCircle, AlertTriangle, CheckCircle2
 } from 'lucide-react';
-import { Link } from 'react-router';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/app/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/app/components/ui/card';
 import { Badge } from '@/app/components/ui/badge';
 import { Input } from '@/app/components/ui/input';
+import { Textarea } from '@/app/components/ui/textarea';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/app/components/ui/dialog';
 import {
   Select,
   SelectContent,
@@ -16,407 +17,316 @@ import {
 } from '@/app/components/ui/select';
 import { Separator } from '@/app/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
+import { apiClient } from '@/api/apiClient';
+
+const CATEGORY_MAP: Record<string, string> = {
+  SEEDS: "Seeds",
+  FERTILIZERS: "Fertilizers",
+  EQUIPMENT: "Equipment",
+  TOOLS: "Tools",
+  CEREALS: "Cereals",
+  VEGETABLES: "Vegetables",
+  OTHERS: "Others"
+};
+
+interface ProductResponse {
+  id: number;
+  productName: string;
+  description: string;
+  price: number;
+  quantity: number;
+  unit: string;
+  category: keyof typeof CATEGORY_MAP;
+  imageUrl: string;
+  sellerName: string;
+  sellerContact: string;
+  isSold: boolean;
+  createdAt: string;
+}
 
 export default function Marketplace() {
+  const [products, setProducts] = useState<ProductResponse[]>([]);
+  const [myListings, setMyListings] = useState<ProductResponse[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('browse');
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedLocation, setSelectedLocation] = useState('all');
-  const [priceRange, setPriceRange] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState('ALL');
 
-  const products = [
-    {
-      id: 1,
-      name: 'Premium Sharbati Wheat Seeds',
-      category: 'Seeds',
-      price: 450,
-      unit: 'kg',
-      seller: 'Awadh Agri solutions',
-      location: 'Lucknow',
-      rating: 4.8,
-      reviews: 124,
-      stock: 'In Stock',
-      image: 'https://images.unsplash.com/photo-1762363147271-40c0c127fa52?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZ3JpY3VsdHVyYWwlMjBzZWVkcyUyMGZhcm1pbmclMjBwcm9kdWN0c3xlbnwxfHx8fDE3Njk5MjE1Mjd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      featured: true
-    },
-    {
-      id: 2,
-      name: 'Neem-Based Organic Fertilizer',
-      category: 'Fertilizers',
-      price: 850,
-      unit: 'bag (25kg)',
-      seller: 'Gomti Organic Biotech',
-      location: 'Unnao',
-      rating: 4.6,
-      reviews: 98,
-      stock: 'In Stock',
-      image: 'https://images.unsplash.com/photo-1664129092848-73287f92dabe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcmdhbmljJTIwZmVydGlsaXplciUyMHNvaWwlMjBudXRyaWVudHN8ZW58MXx8fHwxNzY5OTIxNTI3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      featured: true
-    },
-    {
-      id: 3,
-      name: 'Advanced Drip Irrigation Kit',
-      category: 'Tools',
-      price: 3200,
-      unit: 'set',
-      seller: 'Lakhnawi Tools & Tech',
-      location: 'Lucknow',
-      rating: 4.9,
-      reviews: 156,
-      stock: 'In Stock',
-      image: 'https://images.unsplash.com/photo-1727036195427-5250f60b9f22?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYXJtaW5nJTIwdG9vbHMlMjBlcXVpcG1lbnQlMjBtYWNoaW5lcnl8ZW58MXx8fHwxNzY5OTIxNTI3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      featured: false
-    },
-    {
-      id: 4,
-      name: 'Dussheri Mangoes (Pre-Order)',
-      category: 'Crops',
-      price: 120,
-      unit: 'kg',
-      seller: 'Malihabad Orchards',
-      location: 'Lucknow',
-      rating: 4.7,
-      reviews: 67,
-      stock: 'Limited',
-      image: 'https://images.unsplash.com/photo-1744659750204-87034350eec6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmcmVzaCUyMHZlZ2V0YWJsZXMlMjBoYXJ2ZXN0JTIwcHJvZHVjZXxlbnwxfHx8fDE3Njk5MjE1Mjh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      featured: false
-    },
-    {
-      id: 5,
-      name: 'Hybrid Rice Seeds - Paddy',
-      category: 'Seeds',
-      price: 580,
-      unit: 'kg',
-      seller: 'Prayagraj Seed agency',
-      location: 'Prayagraj',
-      rating: 4.5,
-      reviews: 89,
-      stock: 'In Stock',
-      image: 'https://images.unsplash.com/photo-1762363147271-40c0c127fa52?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZ3JpY3VsdHVyYWwlMjBzZWVkcyUyMGZhcm1pbmclMjBwcm9kdWN0c3xlbnwxfHx8fDE3Njk5MjE1Mjd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      featured: false
-    },
-    {
-      id: 6,
-      name: 'High Performance Power Tiller',
-      category: 'Tools',
-      price: 45000,
-      unit: 'unit',
-      seller: 'Kanpur Agri-Machinery',
-      location: 'Kanpur',
-      rating: 4.8,
-      reviews: 112,
-      stock: 'In Stock',
-      image: 'https://images.unsplash.com/photo-1727036195427-5250f60b9f22?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYXJtaW5nJTIwdG9vbHMlMjBlcXVpcG1lbnQlMjBtYWNoaW5lcnl8ZW58MXx8fHwxNzY5OTIxNTI3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      featured: false
-    },
-  ];
+  // Modal & Logic States
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [toast, setToast] = useState<{show: boolean, msg: string} | null>(null);
 
-  const myProducts = [
-    { id: 1, name: 'Suhag Wheat', price: 45, unit: 'kg', sold: 120, stock: 500 },
-    { id: 2, name: 'Lucknowi Seasonal Veg', price: 30, unit: 'kg', sold: 85, stock: 200 },
-  ];
+  const initialForm = { productName: '', description: '', price: '', quantity: 1, unit: 'KG', category: 'SEEDS' as keyof typeof CATEGORY_MAP, imageUrl: '' };
+  const [productForm, setProductForm] = useState(initialForm);
+  const [editingId, setEditingId] = useState<number | null>(null);
 
-  const filteredProducts = products.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          product.seller.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
-    const matchesLocation = selectedLocation === 'all' || product.location === selectedLocation;
-    
-    return matchesSearch && matchesCategory && matchesLocation;
-  });
+  // --- TOAST HELPER ---
+  const showNotification = (msg: string) => {
+    setToast({ show: true, msg });
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  const fetchBrowseProducts = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const params = new URLSearchParams();
+      if (selectedCategory !== 'ALL') params.append('category', selectedCategory);
+      if (searchQuery) params.append('search', searchQuery);
+      const res = await apiClient(`/api/market/products?${params.toString()}`) as Response;
+      const result = await res.json();
+      if (result.success) setProducts(result.data);
+    } catch (e) { console.error(e); } finally { setIsLoading(false); }
+  }, [selectedCategory, searchQuery]);
+
+  const fetchMyListings = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const res = await apiClient('/api/market/products/my-listings') as Response;
+      const result = await res.json();
+      if (result.success) setMyListings(result.data);
+    } catch (e) { console.error(e); } finally { setIsLoading(false); }
+  }, []);
+
+  const handleSaveProduct = async () => {
+    if (!productForm.productName || !productForm.price) return;
+    setIsSubmitting(true);
+    try {
+      const method = editingId ? 'PUT' : 'POST';
+      const url = editingId ? `/api/market/products/${editingId}` : '/api/market/products';
+      const res = await apiClient(url, {
+        method,
+        body: JSON.stringify({ ...productForm, price: parseFloat(productForm.price) })
+      }) as Response;
+      
+      if (res.ok) {
+        setIsModalOpen(false);
+        setEditingId(null);
+        showNotification(method === 'POST' ? 'Listing Deployed to Network' : 'Data Transmission Successful');
+        if (method === 'POST') setActiveTab('mylisting');
+        activeTab === 'browse' ? await fetchBrowseProducts() : await fetchMyListings();
+      }
+    } catch (e) { console.error(e); } finally { setIsSubmitting(false); }
+  };
+
+  const updateStock = async (productId: number, newQty: number) => {
+    if (newQty < 0) return;
+    try {
+      const p = myListings.find(item => item.id === productId);
+      if (!p) return;
+      const res = await apiClient(`/api/market/products/${productId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ ...p, quantity: newQty })
+      }) as Response;
+      if (res.ok) {
+        showNotification(`Stock Adjusted: ${newQty} ${p.unit}`);
+        fetchMyListings();
+      }
+    } catch (e) { console.error(e); }
+  };
+
+  const executeDelete = async () => {
+    if (!deleteConfirmId) return;
+    try {
+      const res = await apiClient(`/api/market/products/${deleteConfirmId}`, { method: 'DELETE' }) as Response;
+      if (res.ok) {
+        showNotification('Listing Permanently Purged');
+        activeTab === 'browse' ? await fetchBrowseProducts() : await fetchMyListings();
+      }
+    } catch (e) { console.error(e); } finally { setDeleteConfirmId(null); }
+  };
+
+  const openEditModal = (p: ProductResponse) => {
+    setEditingId(p.id);
+    setProductForm({
+      productName: p.productName,
+      description: p.description,
+      price: p.price.toString(),
+      quantity: p.quantity,
+      unit: p.unit,
+      category: p.category,
+      imageUrl: p.imageUrl
+    });
+    setIsModalOpen(true);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+        activeTab === 'browse' ? fetchBrowseProducts() : fetchMyListings();
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [activeTab, fetchBrowseProducts, fetchMyListings]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black text-white p-4 lg:p-8">
+    <div className="min-h-screen bg-black text-white p-4 lg:p-8">
       <div className="max-w-7xl mx-auto">
+        
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <Link to="/" className="text-gray-400 hover:text-green-400 transition-colors">
-              Dashboard
-            </Link>
-            <span className="text-gray-600">/</span>
-            <span className="text-green-400">Marketplace</span>
+        <div className="mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-black uppercase italic tracking-tighter text-white flex items-center gap-2">
+              <ShoppingCart className="text-[#48D87D]" /> Marketplace
+            </h1>
+            <p className="text-gray-500 font-bold uppercase text-[10px] tracking-[0.2em] mt-1 italic">Lucknow network</p>
           </div>
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            <div>
-              <h1 className="text-4xl font-bold mb-2">Marketplace</h1>
-              <p className="text-gray-400 text-lg">Buy or sell seeds, tools, fertilizers, and crops</p>
-            </div>
-            <button 
-              onClick={() => alert('New listing feature coming soon!')}
-              className="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:shadow-lg hover:shadow-green-500/50 transition-all flex items-center gap-2 justify-center lg:justify-start"
-            >
-              <Plus className="w-5 h-5" />
-              List New Product
-            </button>
-          </div>
+          <button onClick={() => { setEditingId(null); setProductForm(initialForm); setIsModalOpen(true); }} 
+            className="px-6 py-3 bg-[#48D87D] text-black font-black uppercase text-xs tracking-widest rounded-lg hover:shadow-[0_0_20px_rgba(72,216,125,0.4)] transition-all flex items-center gap-2">
+            <Plus className="w-5 h-5" /> New Listing
+          </button>
         </div>
 
-        {/* Tabs for Browse / My Listings */}
-        <Tabs defaultValue="browse" className="mb-8">
-          <TabsList className="bg-gray-900 border border-gray-800">
-            <TabsTrigger value="browse" className="data-[state=active]:bg-green-500/20 text-white data-[state=active]:text-green-400">
-              Browse Products
-            </TabsTrigger>
-            <TabsTrigger value="mylisting" className="data-[state=active]:bg-green-500/20 text-white data-[state=active]:text-green-400">
-              My Listings
-            </TabsTrigger>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8">
+          <TabsList className="bg-[#111] border border-gray-800 p-1 rounded-xl">
+            <TabsTrigger value="browse" className="rounded-lg data-[state=active]:bg-[#48D87D] data-[state=active]:text-black text-white font-black uppercase text-[10px]">Browse Market</TabsTrigger>
+            <TabsTrigger value="mylisting" className="rounded-lg data-[state=active]:bg-[#48D87D] data-[state=active]:text-black text-white font-black uppercase text-[10px]">My Inventory</TabsTrigger>
           </TabsList>
 
-          {/* Browse Products Tab */}
-          <TabsContent value="browse" className="mt-6">
-            {/* Search and Filters */}
-            <Card className="bg-gray-900/50 border-gray-800 mb-8">
-              <CardContent className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {/* Search */}
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    <Input
-                      placeholder="Search products or sellers..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="pl-10 bg-gray-800 border-gray-700 text-white"
-                    />
-                  </div>
-
-                  {/* Category Filter */}
-                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                    <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
-                      <SelectValue placeholder="Category" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-800 border-gray-700">
-                      <SelectItem value="all">All Categories</SelectItem>
-                      <SelectItem value="Seeds">Seeds</SelectItem>
-                      <SelectItem value="Tools">Tools</SelectItem>
-                      <SelectItem value="Fertilizers">Fertilizers</SelectItem>
-                      <SelectItem value="Crops">Crops</SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  {/* Location Filter */}
-                  <Select value={selectedLocation} onValueChange={setSelectedLocation}>
-                    <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
-                      <SelectValue placeholder="Location" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-800 border-gray-700">
-                      <SelectItem value="all">All Locations</SelectItem>
-                      <SelectItem value="Lucknow">Lucknow</SelectItem>
-                      <SelectItem value="Kanpur">Kanpur</SelectItem>
-                      <SelectItem value="Barabanki">Barabanki</SelectItem>
-                      <SelectItem value="Prayagraj">Prayagraj</SelectItem>
-                      <SelectItem value="Unnao">Unnao</SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  {/* Price Range Filter */}
-                  <Select value={priceRange} onValueChange={setPriceRange}>
-                    <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
-                      <SelectValue placeholder="Price Range" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-800 border-gray-700">
-                      <SelectItem value="all">All Prices</SelectItem>
-                      <SelectItem value="0-500">₹0 - ₹500</SelectItem>
-                      <SelectItem value="500-1000">₹500 - ₹1,000</SelectItem>
-                      <SelectItem value="1000-3000">₹1,000 - ₹3,000</SelectItem>
-                      <SelectItem value="3000+">₹3,000+</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Product Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProducts.map((product) => (
-                <Card 
-                  key={product.id}
-                  className="bg-gray-900/50 border-gray-800 hover:border-green-500/50 transition-all group hover:scale-105 cursor-pointer overflow-hidden"
-                >
-                  {/* Product Image */}
-                  <div className="relative h-48 overflow-hidden">
-                    <img 
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                    {product.featured && (
-                      <Badge className="absolute top-3 right-3 bg-yellow-500/90 text-black border-0">
-                        Featured
-                      </Badge>
-                    )}
-                    <Badge className={`absolute top-3 left-3 ${
-                      product.stock === 'In Stock' 
-                        ? 'bg-green-500/90 text-white' 
-                        : 'bg-orange-500/90 text-white'
-                    } border-0`}>
-                      {product.stock}
-                    </Badge>
-                  </div>
-
-                  <CardHeader className="pb-3">
-                    <div className="flex items-start justify-between gap-2">
-                      <CardTitle className="text-lg text-white">{product.name}</CardTitle>
-                      <Badge className="bg-purple-500/20 text-purple-400 border-purple-500/50 text-xs">
-                        {product.category}
-                      </Badge>
-                    </div>
-                    <CardDescription className="flex items-center gap-1 text-sm">
-                      <MapPin className="w-3 h-3" />
-                      {product.location}
-                    </CardDescription>
-                  </CardHeader>
-
-                  <CardContent className="space-y-4">
-                    {/* Price */}
-                    <div>
-                      <p className="text-3xl font-bold text-green-400">₹{product.price}</p>
-                      <p className="text-sm text-gray-400">per {product.unit}</p>
-                    </div>
-
-                    <Separator className="bg-gray-800" />
-
-                    {/* Seller Info */}
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-gray-400">Seller</p>
-                        <p className="text-white font-medium">{product.seller}</p>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                        <span className="text-white font-semibold">{product.rating}</span>
-                        <span className="text-gray-400 text-sm">({product.reviews})</span>
-                      </div>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex gap-2">
-                      <button 
-                        onClick={() => alert(`Redirecting to checkout for ${product.name}...`)}
-                        className="flex-1 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:shadow-lg hover:shadow-green-500/50 transition-all flex items-center justify-center gap-2"
-                      >
-                        <ShoppingCart className="w-4 h-4" />
-                        Buy Now
-                      </button>
-                      <button className="px-4 py-2 bg-gray-800 text-gray-400 rounded-lg hover:bg-gray-700 transition-all">
-                        <ChevronRight className="w-5 h-5" />
-                      </button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+          <TabsContent value="browse" className="mt-6 space-y-6">
+            <div className="flex flex-col md:flex-row gap-4 items-stretch">
+               <div className="relative flex-1">
+                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600" />
+                 <Input placeholder="Search crops or tools..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-10 bg-[#111] border-gray-800 h-12 text-white" />
+               </div>
+               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                 <SelectTrigger className="w-full md:w-56 bg-[#111] border-gray-800 h-12 uppercase font-black text-[10px] text-white flex items-center">
+                   <SelectValue placeholder="Category" />
+                 </SelectTrigger>
+                 <SelectContent className="bg-[#111] border-gray-800 text-white">
+                    <SelectItem value="ALL" className="text-[10px] font-black uppercase">All Categories</SelectItem>
+                    {Object.entries(CATEGORY_MAP).map(([key, label]) => (
+                      <SelectItem key={key} value={key} className="text-[10px] font-black uppercase">{label}</SelectItem>
+                    ))}
+                 </SelectContent>
+               </Select>
             </div>
 
-            {filteredProducts.length === 0 && (
-              <div className="text-center py-16">
-                <Package className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-400 mb-2">No products found</h3>
-                <p className="text-gray-500">Try adjusting your filters or search query</p>
+            {isLoading ? (
+              <div className="py-20 text-center"><Loader2 className="w-10 h-10 animate-spin text-[#48D87D] mx-auto" /></div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {products.map(p => {
+                  const isOut = p.quantity <= 0 || p.isSold;
+                  return (
+                    <Card key={p.id} className={`bg-[#111] border-gray-800 group overflow-hidden shadow-2xl transition-all ${isOut ? 'opacity-50' : 'hover:border-[#48D87D]/30'}`}>
+                      <div className="h-48 relative overflow-hidden">
+                        <img src={p.imageUrl || 'https://via.placeholder.com/400'} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                        <Badge className="absolute top-3 left-3 bg-[#48D87D] text-black font-black uppercase text-[8px] tracking-widest">{CATEGORY_MAP[p.category]}</Badge>
+                        {isOut && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black uppercase text-red-500 text-sm border-2 border-red-500 m-4 italic font-bold text-center">Sold Out</div>}
+                      </div>
+                      <CardContent className="p-5 space-y-4">
+                        <div className="min-h-[60px]">
+                          <h3 className="text-xl font-black italic uppercase truncate text-white">{p.productName}</h3>
+                          <p className="text-gray-400 text-[10px] line-clamp-2 mt-1 lowercase font-medium italic leading-tight">{p.description || "No technical description provided."}</p>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <p className="text-2xl font-black text-white">₹{p.price} <span className="text-[10px] text-gray-500 uppercase font-black">/ {p.unit}</span></p>
+                          <Badge variant="outline" className="text-[9px] border-gray-700 text-[#48D87D] uppercase font-black italic">{p.sellerName}</Badge>
+                        </div>
+                        <Separator className="bg-gray-800" />
+                        <div className="flex gap-2">
+                           <button onClick={() => {
+                             const phone = p.sellerContact.replace(/\D/g, '');
+                             window.open(`https://wa.me/${phone.startsWith('91') ? phone : '91'+phone}?text=Interested in ${p.productName}`, '_blank');
+                           }} disabled={isOut} className="flex-1 py-3 bg-[#25D366]/10 text-[#25D366] font-black uppercase text-[10px] rounded hover:bg-[#25D366] hover:text-black transition-all flex items-center justify-center gap-2"><MessageCircle size={14}/> WhatsApp</button>
+                           <a href={isOut ? "#" : `tel:${p.sellerContact}`} className="flex-1 py-3 border border-gray-800 text-gray-400 font-black uppercase text-[10px] rounded flex items-center justify-center gap-2 hover:bg-white hover:text-black transition-all"><Phone size={14}/> Call</a>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
             )}
           </TabsContent>
 
-          {/* My Listings Tab */}
-          <TabsContent value="mylisting" className="mt-6">
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <Card className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-green-500/30">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-gray-400 text-sm">Active Listings</p>
-                      <p className="text-4xl font-bold text-white mt-2">{myProducts.length}</p>
-                    </div>
-                    <Package className="w-12 h-12 text-green-400" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border-blue-500/30">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-gray-400 text-sm">Total Sales</p>
-                      <p className="text-4xl font-bold text-white mt-2">
-                        {myProducts.reduce((acc, p) => acc + p.sold, 0)}
-                      </p>
-                    </div>
-                    <TrendingUp className="w-12 h-12 text-blue-400" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-500/30">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-gray-400 text-sm">Revenue</p>
-                      <p className="text-4xl font-bold text-white mt-2">₹{
-                        myProducts.reduce((acc, p) => acc + (p.sold * p.price), 0).toLocaleString()
-                      }</p>
-                    </div>
-                    <ShoppingCart className="w-12 h-12 text-purple-400" />
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* My Products Table */}
-            <Card className="bg-gray-900/50 border-gray-800">
-              <CardHeader>
-                <CardTitle className="text-2xl text-white">Your Products</CardTitle>
-                <CardDescription>Manage your listings and track sales</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {myProducts.map((product, index) => (
-                    <div 
-                      key={product.id}
-                      className={`flex items-center justify-between p-4 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-all ${
-                        index !== myProducts.length - 1 ? 'mb-4' : ''
-                      }`}
-                    >
-                      <div className="flex items-center gap-4 flex-1">
-                        <div className="w-16 h-16 bg-green-500/20 rounded-lg flex items-center justify-center">
-                          <Package className="w-8 h-8 text-green-400" />
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="text-white font-semibold">{product.name}</h4>
-                          <p className="text-gray-400 text-sm">₹{product.price} per {product.unit}</p>
+          <TabsContent value="mylisting">
+             <Card className="bg-[#111] border-gray-800 shadow-2xl">
+                <CardHeader><CardTitle className="text-white font-black uppercase italic">Inventory Management</CardTitle></CardHeader>
+                <CardContent className="space-y-4">
+                  {myListings.map(p => (
+                    <div key={p.id} className="flex flex-col md:flex-row items-center justify-between p-4 bg-black border border-gray-900 rounded-xl gap-4">
+                      <div className="flex items-center gap-4 w-full md:w-1/3">
+                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${p.quantity <= 0 ? 'bg-red-500/10 text-red-500' : 'bg-[#48D87D]/10 text-[#48D87D]'}`}><Package /></div>
+                        <div>
+                          <h4 className="font-black text-white uppercase italic">{p.productName}</h4>
+                          <p className="text-gray-400 text-[10px] font-bold uppercase">{CATEGORY_MAP[p.category]} • {p.unit}</p>
                         </div>
                       </div>
-
-                      <div className="hidden md:flex items-center gap-8">
-                        <div className="text-center">
-                          <p className="text-gray-400 text-sm">Sold</p>
-                          <p className="text-white font-semibold">{product.sold}</p>
-                        </div>
-                        <div className="text-center">
-                          <p className="text-gray-400 text-sm">Stock</p>
-                          <p className="text-white font-semibold">{product.stock}</p>
-                        </div>
-                        <div className="text-center">
-                          <p className="text-gray-400 text-sm">Revenue</p>
-                          <p className="text-green-400 font-semibold">
-                            ₹{(product.sold * product.price).toLocaleString()}
-                          </p>
-                        </div>
+                      
+                      <div className="flex items-center bg-zinc-900 border border-gray-800 rounded-lg p-1 shadow-inner min-w-[140px] justify-between">
+                        <button onClick={() => updateStock(p.id, p.quantity - 1)} disabled={p.quantity <= 0} className="p-2 text-white hover:text-[#48D87D] disabled:text-zinc-700 disabled:cursor-not-allowed"><Minus size={16}/></button>
+                        <span className="text-sm font-black text-white text-center">{p.quantity}</span>
+                        <button onClick={() => updateStock(p.id, p.quantity + 1)} className="p-2 text-white hover:text-[#48D87D]"><Plus size={16}/></button>
                       </div>
 
-                      <div className="flex gap-2 ml-4">
-                        <button className="p-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-all">
-                          <Edit className="w-5 h-5" />
-                        </button>
-                        <button className="p-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-all">
-                          <Trash2 className="w-5 h-5" />
-                        </button>
+                      <div className="flex gap-2">
+                        <button onClick={() => openEditModal(p)} className="p-3 bg-blue-500/10 text-blue-400 rounded-lg hover:bg-blue-500 hover:text-white"><Edit size={16}/></button>
+                        <button onClick={() => setDeleteConfirmId(p.id)} className="p-3 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500 hover:text-white"><Trash2 size={16}/></button>
                       </div>
                     </div>
                   ))}
-                </div>
-              </CardContent>
-            </Card>
+                  {myListings.length === 0 && <p className="text-center py-10 text-gray-500 uppercase font-black text-xs italic">No listings discovered.</p>}
+                </CardContent>
+             </Card>
           </TabsContent>
         </Tabs>
+
+        {/* --- MODALS & TOAST --- */}
+        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+          <DialogContent className="bg-black border border-gray-800 text-white sm:max-w-[550px] !rounded-3xl shadow-2xl">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-black italic uppercase tracking-tighter text-[#48D87D]">{editingId ? 'Edit Listing' : 'Deploy Listing'}</DialogTitle>
+            </DialogHeader>
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <div className="col-span-2 space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Product Name</label><Input value={productForm.productName} onChange={e => setProductForm({...productForm, productName: e.target.value})} className="bg-[#111] border-gray-800 text-white" /></div>
+              <div className="space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Category</label>
+                <Select value={productForm.category} onValueChange={v => setProductForm({...productForm, category: v as keyof typeof CATEGORY_MAP})}>
+                  <SelectTrigger className="bg-[#111] border-gray-800 text-[10px] font-black uppercase text-white h-12"><SelectValue /></SelectTrigger>
+                  <SelectContent className="bg-[#111] border-gray-800 text-white">{Object.entries(CATEGORY_MAP).map(([key, label]) => (<SelectItem key={key} value={key} className="text-[10px] font-black uppercase">{label}</SelectItem>))}</SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Price (₹)</label><Input type="number" value={productForm.price} onChange={e => setProductForm({...productForm, price: e.target.value})} className="bg-[#111] border-gray-800 text-white" /></div>
+              <div className="space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Quantity</label>
+                <div className="flex items-center bg-zinc-900 border border-gray-800 rounded-lg h-12 overflow-hidden shadow-inner">
+                  <button onClick={() => setProductForm(p=>({...p, quantity: Math.max(0, p.quantity-1)}))} className="flex-1 hover:bg-zinc-800 border-r border-zinc-800 flex justify-center text-white"><Minus size={14}/></button>
+                  <div className="flex-1 flex justify-center font-black text-sm text-white">{productForm.quantity}</div>
+                  <button onClick={() => setProductForm(p=>({...p, quantity: p.quantity+1}))} className="flex-1 hover:bg-zinc-800 border-l border-zinc-800 flex justify-center text-white"><Plus size={14}/></button>
+                </div>
+              </div>
+              <div className="space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Unit</label><Input value={productForm.unit} onChange={e => setProductForm({...productForm, unit: e.target.value})} className="bg-[#111] border-gray-800 text-white" placeholder="KG, Bag..." /></div>
+              <div className="col-span-2 space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Image URL</label><Input value={productForm.imageUrl} onChange={e => setProductForm({...productForm, imageUrl: e.target.value})} className="bg-[#111] border-gray-800 text-white" /></div>
+              <div className="col-span-2 space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Details</label><Textarea value={productForm.description} onChange={e => setProductForm({...productForm, description: e.target.value})} className="bg-[#111] border-gray-800 text-white min-h-[100px]" placeholder="Technical data..." /></div>
+            </div>
+            <button disabled={isSubmitting} onClick={handleSaveProduct} className="w-full py-4 mt-4 bg-[#48D87D] text-black font-black uppercase text-xs rounded-xl shadow-xl active:scale-95 transition-all flex items-center justify-center gap-2">
+              {isSubmitting ? <Loader2 className="animate-spin w-4 h-4" /> : 'Finalize Listing'}
+            </button>
+          </DialogContent>
+        </Dialog>
+
+        {/* --- DELETE DIALOG --- */}
+        <Dialog open={!!deleteConfirmId} onOpenChange={() => setDeleteConfirmId(null)}>
+          <DialogContent className="bg-black border-2 border-red-900/50 text-white sm:max-w-[400px] !rounded-3xl shadow-2xl">
+            <DialogHeader>
+              <div className="mx-auto w-12 h-12 bg-red-900/20 rounded-full flex items-center justify-center mb-4"><AlertTriangle className="text-red-500 w-6 h-6" /></div>
+              <DialogTitle className="text-center text-xl font-black italic uppercase tracking-tighter">Confirm Delete</DialogTitle>
+              <DialogDescription className="text-center text-gray-500 font-bold uppercase text-[9px] mt-2">This item will be permanently removed from the network.</DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col gap-3 mt-6">
+              <button onClick={executeDelete} className="w-full py-4 bg-red-600 text-white font-black uppercase text-xs rounded-xl hover:bg-red-700 transition-all">Yes, Delete</button>
+              <button onClick={() => setDeleteConfirmId(null)} className="w-full py-4 bg-gray-900 text-gray-400 font-black uppercase text-xs rounded-xl hover:text-white transition-all">Cancel</button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* --- TOAST NOTIFICATION --- */}
+        {toast && (
+          <div className="fixed bottom-8 right-8 z-[100] animate-in slide-in-from-right-10 duration-300">
+            <div className="bg-[#111] border-2 border-[#48D87D] text-white px-6 py-4 rounded-2xl shadow-[0_0_30px_rgba(72,216,125,0.2)] flex items-center gap-3">
+              <CheckCircle2 className="text-[#48D87D] w-5 h-5" />
+              <span className="font-black uppercase text-[10px] tracking-widest">{toast.msg}</span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -10,8 +10,9 @@ import { Badge } from '@/app/components/ui/badge';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { WEATHER_CONFIG } from '@/config/weatherConfig';
 import { Button } from '@/app/components/ui/button';
-import { apiClient } from '@/api/apiCient';
+import { apiClient } from '@/api/apiClient';
 import { CloudRain } from 'lucide-react';
+import { getStorage } from '../utils/storage';
 
 // --- TYPES ---
 interface ApiResponse<T> {
@@ -47,7 +48,7 @@ export default function DashboardPage() {
         const profileResult = (await profileRes.json()) as ApiResponse<any>;
 
         if (profileResult.success) {
-          const role = localStorage.getItem('userRole');
+          const role = getStorage('userRole');
           setUser({
             displayName: profileResult.data.firstName,
             role: role === 'ROLE_USER' ? 'FARMER' : 'ADMIN'
@@ -101,20 +102,20 @@ export default function DashboardPage() {
 
   if (isDataLoading) {
     return (
-      <div className="h-screen w-full flex items-center justify-center bg-[#0a0a0a]">
+      <div className="h-screen w-full flex items-center justify-center bg-gray-950">
         <Loader2 className="h-12 w-12 text-[#48D87D] animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="p-4 lg:p-8 bg-[#0a0a0a] min-h-screen text-slate-100">
-      <div className="max-w-7xl mx-auto">
+    <div className="p-4 lg:p-10 bg-gray-950 min-h-screen text-slate-100">
+      <div className="max-w-6xl mx-auto">
 
         {/* Header with Dynamic Name */}
         <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-4xl font-bold text-white tracking-tight uppercase">Control Center</h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight uppercase">Control Center</h1>
             <p className="text-slate-400 font-medium">Synchronized for <span className="text-[#48D87D] font-bold underline decoration-green-500/30 underline-offset-4">{user.displayName}</span></p>
           </div>
           <Badge className="bg-[#48D87D]/10 text-[#48D87D] border-[#48D87D]/20 px-4 py-1 font-bold tracking-wider uppercase text-[10px]">
@@ -123,7 +124,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Global CTA */}
-        <div className="bg-gradient-to-r from-[#48D87D]/20 via-[#48D87D]/5 to-transparent border border-[#48D87D]/20 rounded-2xl p-8 mb-10 relative overflow-hidden group transition-all hover:border-[#48D87D]/40">
+        <div className="bg-gradient-to-r from-[#48D87D]/20 via-[#48D87D]/5 to-transparent border border-[#48D87D]/20 rounded-2xl p-6 md:p-8 mb-10 relative overflow-hidden  group transition-all hover:border-[#48D87D]/40">
           <div className="relative z-10">
             <h2 className="text-3xl md:text-4xl text-white mb-2 font-bold uppercase tracking-tight">Infrastructure Pulse</h2>
             <p className="text-slate-400 mb-6 max-w-xl font-medium leading-relaxed">
@@ -147,8 +148,8 @@ export default function DashboardPage() {
         {/* ... Rest of components like Chart and Weather follow below ... */}
         <div className="grid lg:grid-cols-3 gap-8 mb-10">
           <div className="lg:col-span-2">
-            <Card className="bg-[#111] border-slate-800 h-full overflow-hidden shadow-2xl">
-              <CardHeader className="border-b border-slate-900/50 bg-black/20 flex flex-row items-center justify-between py-4">
+            <Card className="bg-gray-900/50 border-gray-800 h-full overflow-hidden shadow-2xl">
+              <CardHeader className="border-b border-gray-800/50 bg-gray-900/80 flex flex-row items-center justify-between py-4">
                 <CardTitle className="text-white text-[10px] font-bold uppercase tracking-wider">Global Sensor Analytics</CardTitle>
                 <Badge className="bg-blue-500/10 text-blue-400 border-none text-[8px] font-bold">24H STREAM</Badge>
               </CardHeader>
@@ -189,7 +190,7 @@ function StatCard({ title, value, sub, icon: Icon, color, isStatus, isAlert }: a
     <Card className={`bg-[#111] border ${color} transition-all hover:scale-[1.02] relative overflow-hidden group`}>
       <CardHeader className="pb-2">
         <CardDescription className="text-slate-500 font-bold uppercase text-[9px] tracking-wider">{title}</CardDescription>
-        <CardTitle className={`text-4xl font-bold tracking-tight ${isStatus ? 'text-[#48D87D]' : isAlert ? 'text-red-500' : 'text-white'}`}>
+        <CardTitle className={`text-3xl sm:text-4xl font-bold tracking-tight ${isStatus ? 'text-[#48D87D]' : isAlert ? 'text-red-500' : 'text-white'}`}>
           {value}
         </CardTitle>
       </CardHeader>
@@ -203,9 +204,9 @@ function StatCard({ title, value, sub, icon: Icon, color, isStatus, isAlert }: a
 
 function WeatherCard({ data }: any) {
   return (
-    <Card className="bg-gradient-to-br from-[#111] to-black border-slate-800 h-full shadow-2xl relative overflow-hidden">
+    <Card className="bg-gray-900/50 border-gray-800 h-full shadow-2xl relative overflow-hidden">
       <CardHeader className="border-b border-slate-900/50">
-        <CardTitle className="text-white text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2">
+        <CardTitle className="text-white text-[10px] font-bold uppercase tracking-[0.2em] flex items-center gap-2">
           <CloudRain size={12} className="text-blue-400" /> Atmospheric Data
         </CardTitle>
       </CardHeader>
@@ -219,11 +220,11 @@ function WeatherCard({ data }: any) {
           </p>
         </div>
         <div className="grid grid-cols-2 gap-2">
-          <div className="bg-white/5 p-3 rounded-xl border border-white/5 text-center">
+          <div className="bg-gray-800/50 p-3 rounded-xl border border-gray-700/50 text-center">
             <p className="text-[8px] text-slate-500 font-bold uppercase mb-1">Humidity</p>
             <p className="text-white font-bold">{data?.current.humidity || '--'}%</p>
           </div>
-          <div className="bg-white/5 p-3 rounded-xl border border-white/5 text-center">
+          <div className="bg-gray-800/50 p-3 rounded-xl border border-gray-700/50 text-center">
             <p className="text-[8px] text-slate-500 font-bold uppercase mb-1">Wind Speed</p>
             <p className="text-white font-bold">{Math.round(data?.current.wind_kph || 0)} km/h</p>
           </div>
@@ -235,8 +236,8 @@ function WeatherCard({ data }: any) {
 
 function SectionCard({ title, icon: Icon, link, items }: any) {
   return (
-    <Card className="bg-[#111] border-slate-800 shadow-xl overflow-hidden">
-      <CardHeader className="flex flex-row items-center justify-between border-b border-slate-900/50 bg-black/20 py-3">
+    <Card className="bg-gray-900/50 border-gray-800 shadow-xl overflow-hidden">
+      <CardHeader className="flex flex-row items-center justify-between border-b border-gray-800/50 bg-gray-900/80 py-3">
         <CardTitle className="text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-2">
           <Icon size={12} className="text-[#48D87D]" /> {title}
         </CardTitle>
@@ -244,9 +245,9 @@ function SectionCard({ title, icon: Icon, link, items }: any) {
       </CardHeader>
       <CardContent className="p-4 space-y-3">
         {items.map((item: any, i: number) => (
-          <div key={i} className="p-3 bg-black/40 rounded-xl border border-white/5 flex items-center justify-between group hover:border-[#48D87D]/30 transition-all">
-            <span className="text-xs text-slate-300 font-bold uppercase tracking-tight">{item.title || item.name}</span>
-            <Badge className="bg-[#48D87D]/10 text-[#48D87D] border-none text-[8px] font-bold">
+          <div key={i} className="p-3 bg-gray-800/50 rounded-xl border border-gray-700/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 group hover:border-[#48D87D]/30 transition-all">
+            <span className="text-xs text-slate-300 font-bold uppercase tracking-tight truncate w-full sm:w-auto">{item.title || item.name}</span>
+            <Badge className="bg-[#48D87D]/10 text-[#48D87D] border-none text-[8px] font-bold flex-shrink-0">
               {item.replies ? `${item.replies} Replies` : `₹${item.price}`}
             </Badge>
           </div>

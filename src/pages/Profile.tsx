@@ -13,7 +13,9 @@ import { Label } from '@/app/components/ui/label';
 import { Input } from '@/app/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/app/components/ui/dialog";
 import { Button } from '@/app/components/ui/button';
-import { apiClient } from '@/api/apiCient'; 
+import { apiClient } from '@/api/apiClient'; 
+import { getStorage, clearAllStorage } from '../utils/storage';
+import { toast } from 'sonner';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -58,7 +60,7 @@ export default function Profile() {
         setProfileData({
           firstName: p.firstName || '',
           lastName: p.lastName || '',
-          email: localStorage.getItem('user_email') || '',
+          email: getStorage('user_email') || '',
           phoneNumber: p.phoneNumber || '',
           city: p.address?.city || '',
           state: p.address?.state || '',
@@ -92,11 +94,12 @@ export default function Profile() {
       const result = await response.json();
       if (result.success) {
         setIsEditing(false);
+        toast.success("Profile updated successfully!");
       } else {
-        alert(result.message);
+        toast.error(result.message);
       }
     } catch (err) {
-      alert("Failed to update profile");
+      toast.error("Failed to update profile");
     } finally {
       setIsSaving(false);
     }
@@ -137,24 +140,24 @@ export default function Profile() {
       const response = (await apiClient(`/api/users/${profileData.email}`, { method: 'DELETE' })) as Response;
       const result = await response.json();
       if (result.success) {
-        localStorage.clear();
+        clearAllStorage();
         navigate('/login');
       }
     } catch (err) {
-      alert("Failed to delete account");
+      toast.error("Failed to delete account");
     }
   };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
         <Loader2 className="w-10 h-10 text-[#48D87D] animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-slate-100 p-4 lg:p-8">
+    <div className="min-h-screen bg-gray-950 text-slate-100 p-4 lg:p-8">
       <div className="max-w-7xl mx-auto pb-20">
         
         {/* Breadcrumbs */}
@@ -164,14 +167,14 @@ export default function Profile() {
             <span>/</span>
             <span className="text-[#48D87D] font-medium">Profile</span>
           </div>
-          <h1 className="text-3xl font-bold text-white">Farmer Profile</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight uppercase">User Profile</h1>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
           
           {/* LEFT COLUMN */}
           <div className="lg:col-span-1 space-y-6">
-            <Card className="bg-[#111] border-slate-800 shadow-xl">
+            <Card className="bg-gray-900/50 border-gray-800 shadow-xl">
               <CardContent className="p-6 text-center">
                 <Avatar className="w-32 h-32 border-4 border-[#48D87D] mx-auto mb-4">
                   <AvatarFallback className="bg-gradient-to-br from-[#48D87D] to-emerald-700 text-3xl font-bold text-white">
@@ -211,7 +214,7 @@ export default function Profile() {
                       <Lock size={16} className="mr-2" /> Change Password
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="bg-[#111] border-slate-800 text-white shadow-2xl">
+                  <DialogContent className="bg-gray-900 border-gray-800 text-white shadow-2xl">
                     <DialogHeader><DialogTitle className="text-white">Update Security</DialogTitle></DialogHeader>
                     <form onSubmit={handleChangePassword} className="space-y-4 pt-4">
                       {pwdStatus && (
@@ -222,15 +225,15 @@ export default function Profile() {
                       )}
                       <div className="space-y-1">
                         <Label className="text-slate-300">Current Password</Label>
-                        <Input type="password" required value={passwordForm.currentPassword} onChange={e => setPasswordForm({...passwordForm, currentPassword: e.target.value})} className="bg-black border-slate-800 text-white" />
+                        <Input type="password" required value={passwordForm.currentPassword} onChange={e => setPasswordForm({...passwordForm, currentPassword: e.target.value})} className="bg-gray-900/50 border-gray-800 text-white" />
                       </div>
                       <div className="space-y-1">
                         <Label className="text-slate-300">New Password</Label>
-                        <Input type="password" required value={passwordForm.newPassword} onChange={e => setPasswordForm({...passwordForm, newPassword: e.target.value})} className="bg-black border-slate-800 text-white" />
+                        <Input type="password" required value={passwordForm.newPassword} onChange={e => setPasswordForm({...passwordForm, newPassword: e.target.value})} className="bg-gray-900/50 border-gray-800 text-white" />
                       </div>
                       <div className="space-y-1">
                         <Label className="text-slate-300">Confirm New Password</Label>
-                        <Input type="password" required value={passwordForm.confirmPassword} onChange={e => setPasswordForm({...passwordForm, confirmPassword: e.target.value})} className="bg-black border-slate-800 text-white" />
+                        <Input type="password" required value={passwordForm.confirmPassword} onChange={e => setPasswordForm({...passwordForm, confirmPassword: e.target.value})} className="bg-gray-900/50 border-gray-800 text-white" />
                       </div>
                       <Button type="submit" className="w-full bg-[#48D87D] text-black font-bold hover:bg-[#3bc56d]">Update Password</Button>
                     </form>
@@ -251,7 +254,7 @@ export default function Profile() {
 
           {/* RIGHT COLUMN */}
           <div className="lg:col-span-2 space-y-6">
-            <Card className="bg-[#111] border-slate-800 shadow-xl">
+            <Card className="bg-gray-900/50 border-gray-800 shadow-xl">
               <CardHeader className="flex flex-row items-center justify-between border-b border-slate-800 pb-4">
                 <CardTitle className="text-xl text-white">Account Information</CardTitle>
                 {!isEditing ? (
@@ -271,38 +274,38 @@ export default function Profile() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label className="text-slate-500 font-medium">First Name</Label>
-                    <Input disabled={!isEditing} value={profileData.firstName} onChange={e => setProfileData({...profileData, firstName: e.target.value})} className="bg-black border-slate-800 text-white disabled:opacity-70" />
+                    <Input disabled={!isEditing} value={profileData.firstName} onChange={e => setProfileData({...profileData, firstName: e.target.value})} className="bg-gray-900/50 border-gray-800 text-white disabled:opacity-70" />
                   </div>
                   <div className="space-y-2">
                     <Label className="text-slate-500 font-medium">Last Name</Label>
-                    <Input disabled={!isEditing} value={profileData.lastName} onChange={e => setProfileData({...profileData, lastName: e.target.value})} className="bg-black border-slate-800 text-white disabled:opacity-70" />
+                    <Input disabled={!isEditing} value={profileData.lastName} onChange={e => setProfileData({...profileData, lastName: e.target.value})} className="bg-gray-900/50 border-gray-800 text-white disabled:opacity-70" />
                   </div>
                   <div className="space-y-2">
                     <Label className="text-slate-500 font-medium">Phone Number</Label>
-                    <Input disabled={!isEditing} value={profileData.phoneNumber} onChange={e => setProfileData({...profileData, phoneNumber: e.target.value})} className="bg-black border-slate-800 text-white disabled:opacity-70" />
+                    <Input disabled={!isEditing} value={profileData.phoneNumber} onChange={e => setProfileData({...profileData, phoneNumber: e.target.value})} className="bg-gray-900/50 border-gray-800 text-white disabled:opacity-70" />
                   </div>
                   <div className="space-y-2">
                     <Label className="text-slate-500 font-medium">Pincode</Label>
-                    <Input disabled={!isEditing} value={profileData.pincode} onChange={e => setProfileData({...profileData, pincode: e.target.value})} className="bg-black border-slate-800 text-white disabled:opacity-70" />
+                    <Input disabled={!isEditing} value={profileData.pincode} onChange={e => setProfileData({...profileData, pincode: e.target.value})} className="bg-gray-900/50 border-gray-800 text-white disabled:opacity-70" />
                   </div>
                   <div className="space-y-2">
                     <Label className="text-slate-500 font-medium">District</Label>
-                    <Input disabled={!isEditing} value={profileData.district} onChange={e => setProfileData({...profileData, district: e.target.value})} className="bg-black border-slate-800 text-white disabled:opacity-70" />
+                    <Input disabled={!isEditing} value={profileData.district} onChange={e => setProfileData({...profileData, district: e.target.value})} className="bg-gray-900/50 border-gray-800 text-white disabled:opacity-70" />
                   </div>
                   <div className="space-y-2">
                     <Label className="text-slate-500 font-medium">City</Label>
-                    <Input disabled={!isEditing} value={profileData.city} onChange={e => setProfileData({...profileData, city: e.target.value})} className="bg-black border-slate-800 text-white disabled:opacity-70" />
+                    <Input disabled={!isEditing} value={profileData.city} onChange={e => setProfileData({...profileData, city: e.target.value})} className="bg-gray-900/50 border-gray-800 text-white disabled:opacity-70" />
                   </div>
                   <div className="space-y-2 md:col-span-2">
                     <Label className="text-slate-500 font-medium">State</Label>
-                    <Input disabled={!isEditing} value={profileData.state} onChange={e => setProfileData({...profileData, state: e.target.value})} className="bg-black border-slate-800 text-white disabled:opacity-70" />
+                    <Input disabled={!isEditing} value={profileData.state} onChange={e => setProfileData({...profileData, state: e.target.value})} className="bg-gray-900/50 border-gray-800 text-white disabled:opacity-70" />
                   </div>
                 </div>
               </CardContent>
             </Card>
 
             {/* System Preferences */}
-            <Card className="bg-[#111] border-slate-800 shadow-xl">
+            <Card className="bg-gray-900/50 border-gray-800 shadow-xl">
               <CardHeader className="border-b border-slate-800 pb-4">
                 <CardTitle className="text-lg text-white">System Preferences</CardTitle>
               </CardHeader>

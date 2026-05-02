@@ -104,7 +104,7 @@ export default function About() {
   ];
 
   return (
-    <div className="pt-20 bg-gradient-to-b from-black via-gray-950 to-black text-white">
+    <div className="pt-20 bg-gray-950 text-white">
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
@@ -172,7 +172,7 @@ export default function About() {
       </section>
 
       {/* Vision Section */}
-      <section className="py-20 bg-gradient-to-b from-black to-gray-950">
+      <section className="py-20 bg-gray-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -267,7 +267,7 @@ export default function About() {
       </section>
 
       {/* Technology Stack Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-950 to-black">
+      <section className="py-20 bg-gray-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -385,7 +385,7 @@ export default function About() {
       </section>
 
       {/* Team Section */}
-      <section className="py-20 bg-gradient-to-b from-black to-gray-950">
+      <section className="py-20 bg-gray-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

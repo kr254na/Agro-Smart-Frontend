@@ -136,7 +136,18 @@ export default function Farmer() {
 ];
 
   return (
-      <div className="p-4 lg:p-8">
+    <div className="p-4 lg:p-8 bg-gray-950 min-h-screen text-slate-100">
+        {/* Header Section */}
+        <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight uppercase">Control Center</h1>
+            <p className="text-slate-400 font-medium tracking-tight">Synchronized Agricultural Intelligence</p>
+          </div>
+          <Badge className="bg-[#48D87D]/10 text-[#48D87D] border-[#48D87D]/20 px-4 py-1 font-bold tracking-wider uppercase text-[10px]">
+            FARMER ACCESS ENABLED
+          </Badge>
+        </div>
+
         {/* Overview Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card 
@@ -408,7 +419,7 @@ export default function Farmer() {
         <section className="mb-8">
           <div className="flex items-center gap-2 mb-4">
             <Brain className="w-6 h-6 text-purple-400" />
-            <h2 className="text-2xl font-bold text-white">AI Insights & Recommendations</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-white uppercase tracking-tight">AI Insights & Recommendations</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {aiRecommendations.map((rec, index) => (

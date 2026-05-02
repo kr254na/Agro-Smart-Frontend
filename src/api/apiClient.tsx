@@ -1,4 +1,5 @@
-const BASE_URL = 'http://localhost:8081';
+const BASE_URL = 'https://agrosmart-backend-spz5.onrender.com';
+import { getStorage, setStorage, clearAllStorage } from '../utils/storage';
 
 // Internal state to handle multiple simultaneous 401s
 let isRefreshing = false;
@@ -14,7 +15,7 @@ const onRrefreshed = (token: string) => {
 };
 
 export const apiClient = async (endpoint: string, options: any = {}) => {
-  let accessToken = localStorage.getItem('token');
+  let accessToken = getStorage('token');
   
   const headers = {
     'Content-Type': 'application/json',
@@ -26,7 +27,7 @@ export const apiClient = async (endpoint: string, options: any = {}) => {
 
   // Handle Token Expiration (401)
   if (response.status === 401) {
-    const refreshToken = localStorage.getItem('refresh');
+    const refreshToken = getStorage('refresh');
     
     if (!refreshToken) {
       handleAuthFailure();
@@ -47,16 +48,24 @@ export const apiClient = async (endpoint: string, options: any = {}) => {
 
         if (refreshResponse.ok && refreshResult.success) {
           const newToken = refreshResult.data.accessToken;
-          localStorage.setItem('token', newToken);
+          setStorage('token', newToken);
           isRefreshing = false;
           
           // Notify all queued requests that the new token is ready
           onRrefreshed(newToken);
+          
+          // Retry the original request that triggered the refresh
+          headers['Authorization'] = `Bearer ${newToken}`;
+          return fetch(`${BASE_URL}${endpoint}`, { ...options, headers });
         } else {
           throw new Error('Refresh failed');
         }
       } catch (error) {
         isRefreshing = false;
+        
+        // Clear queue on failure so pending requests don't hang
+        refreshSubscribers = [];
+        
         handleAuthFailure();
         return response;
       }
@@ -76,7 +85,7 @@ export const apiClient = async (endpoint: string, options: any = {}) => {
 
 // Centralized logout logic for expired sessions
 const handleAuthFailure = () => {
-  localStorage.clear();
+  clearAllStorage();
   if (window.location.pathname !== '/login') {
     window.location.href = '/login';
   }

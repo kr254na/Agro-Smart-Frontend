@@ -33,7 +33,7 @@ export default function UpdateDeviceModal({ isOpen, onClose, onSave, device }: a
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-[#111] border-slate-800 text-white max-w-sm">
+      <DialogContent className="bg-gray-900 border-gray-800 text-white max-w-sm">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Cpu className="text-[#48D87D]" size={20} /> Device Configuration
@@ -45,7 +45,7 @@ export default function UpdateDeviceModal({ isOpen, onClose, onSave, device }: a
             <Input 
               value={newName}
               onChange={e => setNewName(e.target.value)}
-              className="bg-black border-slate-800 focus:border-[#48D87D]" required 
+              className="bg-gray-900/50 border-gray-800 focus:border-[#48D87D]" required 
             />
           </div>
           

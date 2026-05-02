@@ -324,7 +324,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 bg-gradient-to-b from-black to-gray-950">
+      <section id="features" className="py-20 bg-gray-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -474,7 +474,7 @@ export default function Home() {
       </section>
 
       {/* Why Choose Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-950 to-black">
+      <section className="py-20 bg-gray-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -613,7 +613,7 @@ export default function Home() {
       </section>
 
       {/* Marketplace Section */}
-      <section id="marketplace" className="py-20 bg-gradient-to-b from-black to-gray-950">
+      <section id="marketplace" className="py-20 bg-gray-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

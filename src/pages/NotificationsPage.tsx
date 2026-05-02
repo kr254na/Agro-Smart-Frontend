@@ -221,13 +221,13 @@ export default function NotificationsPage() {
   };
 
   return (
-    <div className="p-6 lg:p-8">
+    <div className="p-6 lg:p-8 bg-gray-950 min-h-screen text-slate-100">
       {/* Page Header */}
       <div className="mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-3xl text-white font-bold leading-tight">Notifications</h1>
+              <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight uppercase">Notifications</h1>
               {unreadCount > 0 && (
                 <span className="bg-[#48D87D] text-black text-sm px-3 py-1 rounded-full font-semibold">
                   {unreadCount} new
@@ -309,23 +309,25 @@ export default function NotificationsPage() {
                   {getNotificationIcon(notification.type)}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2 mb-2">
+                  <div className="flex flex-col sm:flex-row items-start justify-between gap-3 mb-2">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="text-white font-medium">{notification.title}</h3>
-                      <span
-                        className={`text-xs px-2 py-1 rounded-full ${getSeverityBadge(
-                          notification.severity
-                        )} font-semibold`}
-                      >
-                        {notification.severity}
-                      </span>
-                      {!notification.read && (
-                        <span className="bg-[#48D87D] text-black text-xs px-2 py-1 rounded-full font-bold">
-                          New
+                      <h3 className="text-white font-medium text-sm sm:text-base">{notification.title}</h3>
+                      <div className="flex gap-2">
+                        <span
+                          className={`text-[9px] sm:text-xs px-2 py-1 rounded-full ${getSeverityBadge(
+                            notification.severity
+                          )} font-semibold uppercase tracking-wider`}
+                        >
+                          {notification.severity}
                         </span>
-                      )}
+                        {!notification.read && (
+                          <span className="bg-[#48D87D] text-black text-[9px] sm:text-xs px-2 py-1 rounded-full font-bold uppercase">
+                            New
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 self-end sm:self-auto">
                       {!notification.read && (
                         <Button
                           onClick={(e) => {

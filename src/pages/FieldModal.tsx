@@ -51,7 +51,7 @@ export default function FieldModal({ isOpen, onClose, onSave, editingField }: Fi
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-[#111] border-slate-800 text-white max-w-sm">
+      <DialogContent className="bg-gray-900 border-gray-800 text-white max-w-sm">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Leaf className="text-[#48D87D]" size={20} /> 
@@ -64,7 +64,7 @@ export default function FieldModal({ isOpen, onClose, onSave, editingField }: Fi
             <Input 
               value={formData.fieldName} 
               onChange={e => setFormData({...formData, fieldName: e.target.value})} 
-              className="bg-black border-slate-800 focus:border-[#48D87D]" placeholder="e.g. North Sector" required
+              className="bg-gray-900/50 border-gray-800 focus:border-[#48D87D]" placeholder="e.g. North Sector" required
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
@@ -73,7 +73,7 @@ export default function FieldModal({ isOpen, onClose, onSave, editingField }: Fi
               <Input 
                 value={formData.cropType} 
                 onChange={e => setFormData({...formData, cropType: e.target.value})} 
-                className="bg-black border-slate-800 focus:border-[#48D87D]" placeholder="Wheat" required
+                className="bg-gray-900/50 border-gray-800 focus:border-[#48D87D]" placeholder="Wheat" required
               />
             </div>
             <div className="space-y-1">
@@ -82,7 +82,7 @@ export default function FieldModal({ isOpen, onClose, onSave, editingField }: Fi
                 type="number" step="0.1"
                 value={formData.fieldArea} 
                 onChange={e => setFormData({...formData, fieldArea: e.target.value})} 
-                className="bg-black border-slate-800 focus:border-[#48D87D]" required
+                className="bg-gray-900/50 border-gray-800 focus:border-[#48D87D]" required
               />
             </div>
           </div>
@@ -91,7 +91,7 @@ export default function FieldModal({ isOpen, onClose, onSave, editingField }: Fi
             <Input 
               value={formData.soilType} 
               onChange={e => setFormData({...formData, soilType: e.target.value})} 
-              className="bg-black border-slate-800 focus:border-[#48D87D]" placeholder="Alluvial"
+              className="bg-gray-900/50 border-gray-800 focus:border-[#48D87D]" placeholder="Alluvial"
             />
           </div>
           <Button type="submit" disabled={isSubmitting} className="w-full bg-[#48D87D] text-black font-bold uppercase tracking-widest text-xs">

@@ -1,13 +1,15 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
+// 🔧 DEV MODE: Set to true to bypass login (backend not connected)
+//    Set to false before deploying to production!
+const DEV_BYPASS = true;
+
+import { getStorage } from '../../utils/storage';
+
 export default function ProtectedRoute() {
-  const token = localStorage.getItem('token');
+  if (DEV_BYPASS) return <Outlet />;
 
-  // If no token exists, redirect to login
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
-
-  // If token exists, render the protected component
+  const token = getStorage('token');
+  if (!token) return <Navigate to="/login" replace />;
   return <Outlet />;
 }

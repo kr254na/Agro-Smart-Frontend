@@ -20,6 +20,7 @@ import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute'; // Ensure this path is correct
+import { Toaster } from './components/ui/sonner';
 
 function AppContent() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -31,6 +32,7 @@ function AppContent() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-950 text-white">
+      <Toaster />
       <Navbar 
         onMenuToggle={() => setIsSidebarOpen(!isSidebarOpen)} 
         isSidebarOpen={isSidebarOpen} 

@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/app/components/ui/card';
 
 export default function AnalysisPage() {
   return (
-    <div className="p-6 lg:p-8 bg-[#0a0a0a] min-h-screen text-slate-100">
+    <div className="p-6 lg:p-8 bg-gray-950 min-h-screen text-slate-100">
       <div className="max-w-7xl mx-auto">
         
         {/* Header Section */}
@@ -14,7 +14,7 @@ export default function AnalysisPage() {
               <div className="p-2 bg-[#48D87D]/20 rounded-lg">
                 <Brain className="h-6 w-6 text-[#48D87D]" />
               </div>
-              <h1 className="text-4xl font-black uppercase tracking-tighter italic">AI Engine v2.0</h1>
+              <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight uppercase">AI Engine v2.0</h1>
             </div>
             <p className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.3em] ml-1">
               Neural Network Analysis & Predictive Agronomy
@@ -103,7 +103,7 @@ function MetaCard({ icon, title, desc }: { icon: React.ReactNode, title: string,
     <div className="bg-[#111]/50 border border-slate-800/50 p-4 rounded-xl flex gap-4 items-start">
       <div className="text-[#48D87D] mt-1">{icon}</div>
       <div>
-        <h4 className="text-white text-[10px] font-black uppercase tracking-widest mb-1">{title}</h4>
+        <h4 className="text-white text-[10px] font-bold uppercase tracking-widest mb-1">{title}</h4>
         <p className="text-slate-500 text-xs leading-relaxed">{desc}</p>
       </div>
     </div>
