@@ -9,7 +9,7 @@ const subscribeTokenRefresh = (cb: (token: string) => void) => {
   refreshSubscribers.push(cb);
 };
 
-const onRrefreshed = (token: string) => {
+const onRefreshed = (token: string) => {
   refreshSubscribers.map((cb) => cb(token));
   refreshSubscribers = [];
 };
@@ -49,10 +49,14 @@ export const apiClient = async (endpoint: string, options: any = {}): Promise<Re
         if (refreshResponse.ok && refreshResult.success) {
           const newToken = refreshResult.data.accessToken;
           setStorage('token', newToken);
+          if (refreshResult.data.refreshToken) setStorage('refresh', refreshResult.data.refreshToken);
+          if (refreshResult.data.email) setStorage('user_email', refreshResult.data.email);
+          if (refreshResult.data.role) setStorage('userRole', refreshResult.data.role);
+
           isRefreshing = false;
           
           // Notify all queued requests that the new token is ready
-          onRrefreshed(newToken);
+          onRefreshed(newToken);
           
           // Retry the original request that triggered the refresh
           headers['Authorization'] = `Bearer ${newToken}`;

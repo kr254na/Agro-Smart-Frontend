@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Loader2, Sprout, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { Checkbox } from '@/app/components/ui/checkbox';
+import { apiClient } from '../api/apiClient';
 
 type PasswordStrength = 'weak' | 'medium' | 'strong';
 interface ApiResponse<T> { success: boolean; message: string; data: T; timestamp: string; }
@@ -71,9 +72,8 @@ export default function RegisterPage() {
     if (Object.keys(e2).length > 0) { setErrors(e2); return; }
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:8081/api/auth/register', {
+      const response = await apiClient('/api/auth/register', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           firstName: formData.firstName, lastName: formData.lastName,
           email: formData.email, password: formData.password, role: 'ROLE_USER',
