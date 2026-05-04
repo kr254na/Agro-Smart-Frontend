@@ -11,7 +11,8 @@ import {
   Settings,
   Home,
   Info,
-  LogOut
+  LogOut,
+  Eye
 } from 'lucide-react';
 import { cn } from './ui/utils';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +28,7 @@ const menuItems = [
   { icon: Sprout, label: 'Farms', path: '/farms' },
   { icon: Radio, label: 'Sensors', path: '/sensors' },
   { icon: TrendingUp, label: 'Analysis', path: '/analysis' },
+  { icon: Eye, label: 'Smart Eye', path: '/smart-eye' },
   { icon: Cloud, label: 'Weather', path: '/weather' },
   { icon: Users, label: 'Community', path: '/community' },
   { icon: ShoppingCart, label: 'Marketplace', path: '/marketplace' },

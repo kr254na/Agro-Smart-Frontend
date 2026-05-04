@@ -6,6 +6,7 @@ import DashboardPage from '../pages/DashboardPage';
 import FarmsPage from '../pages/FarmsPage';
 import SensorsPage from '../pages/SensorsPage';
 import AnalysisPage from '../pages/AnalysisPage';
+import AgroSmartEyePage from '../pages/AgroSmartEyePage';
 import WeatherPage from '../pages/WeatherPage';
 import NotificationsPage from '../pages/NotificationsPage';
 import CommunityPage from '../pages/Community';
@@ -27,7 +28,7 @@ function AppContent() {
   const location = useLocation();
 
   const isDashboardRoute = [
-    '/dashboard', '/farms', '/sensors', '/analysis', '/weather', '/community', '/marketplace', '/notifications', '/settings', '/profile'
+    '/dashboard', '/farms', '/sensors', '/analysis', '/smart-eye', '/weather', '/community', '/marketplace', '/notifications', '/settings', '/profile'
   ].some(path => location.pathname === path || location.pathname.startsWith(path + '/'));
 
   return (
@@ -63,6 +64,7 @@ function AppContent() {
                 <Route path="/farms/:id" element={<FarmDetailPage />} />
                 <Route path="/sensors" element={<SensorsPage />} />
                 <Route path="/analysis" element={<AnalysisPage />} />
+                <Route path="/smart-eye" element={<AgroSmartEyePage />} />
                 <Route path="/weather" element={<WeatherPage />} />
                 <Route path="/notifications" element={<NotificationsPage />} />
                 <Route path="/community" element={<CommunityPage />} />
