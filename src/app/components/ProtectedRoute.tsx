@@ -2,7 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 // 🔧 DEV MODE: Set to true to bypass login (backend not connected)
 //    Set to false before deploying to production!
-const DEV_BYPASS = true;
+const DEV_BYPASS = false;
 
 import { getStorage } from '../../utils/storage';
 
