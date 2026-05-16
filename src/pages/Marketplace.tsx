@@ -58,9 +58,21 @@ export default function Marketplace() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [toast, setToast] = useState<{show: boolean, msg: string} | null>(null);
 
-  const initialForm = { productName: '', description: '', price: '', quantity: 1, unit: 'KG', category: 'SEEDS' as keyof typeof CATEGORY_MAP, imageUrl: '' };
+  const initialForm = { productName: '', description: '', price: '', quantity: 1, unit: 'KG', category: 'SEEDS' as keyof typeof CATEGORY_MAP, imageUrl: '', removeImage: false };
   const [productForm, setProductForm] = useState(initialForm);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!imageFile) {
+      setImagePreview(null);
+      return;
+    }
+    const objectUrl = URL.createObjectURL(imageFile);
+    setImagePreview(objectUrl);
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [imageFile]);
 
   // --- TOAST HELPER ---
   const showNotification = (msg: string) => {
@@ -95,9 +107,22 @@ export default function Marketplace() {
     try {
       const method = editingId ? 'PUT' : 'POST';
       const url = editingId ? `/api/market/products/${editingId}` : '/api/market/products';
+      
+      const formData = new FormData();
+      formData.append('productName', productForm.productName);
+      formData.append('description', productForm.description || '');
+      formData.append('price', productForm.price);
+      formData.append('quantity', productForm.quantity.toString());
+      formData.append('unit', productForm.unit);
+      formData.append('category', productForm.category);
+      formData.append('removeImage', productForm.removeImage ? 'true' : 'false');
+      if (imageFile) {
+        formData.append('image', imageFile);
+      }
+
       const res = await apiClient(url, {
         method,
-        body: JSON.stringify({ ...productForm, price: parseFloat(productForm.price) })
+        body: formData
       }) as Response;
       
       if (res.ok) {
@@ -115,9 +140,18 @@ export default function Marketplace() {
     try {
       const p = myListings.find(item => item.id === productId);
       if (!p) return;
+
+      const formData = new FormData();
+      formData.append('productName', p.productName);
+      formData.append('description', p.description || '');
+      formData.append('price', p.price.toString());
+      formData.append('quantity', newQty.toString());
+      formData.append('unit', p.unit);
+      formData.append('category', p.category);
+
       const res = await apiClient(`/api/market/products/${productId}`, {
         method: 'PUT',
-        body: JSON.stringify({ ...p, quantity: newQty })
+        body: formData
       }) as Response;
       if (res.ok) {
         showNotification(`Stock Adjusted: ${newQty} ${p.unit}`);
@@ -139,14 +173,16 @@ export default function Marketplace() {
 
   const openEditModal = (p: ProductResponse) => {
     setEditingId(p.id);
+    setImageFile(null);
     setProductForm({
       productName: p.productName,
-      description: p.description,
+      description: p.description || '',
       price: p.price.toString(),
       quantity: p.quantity,
       unit: p.unit,
       category: p.category,
-      imageUrl: p.imageUrl
+      imageUrl: p.imageUrl,
+      removeImage: false
     });
     setIsModalOpen(true);
   };
@@ -170,7 +206,7 @@ export default function Marketplace() {
             </h1>
             <p className="text-gray-500 font-bold uppercase text-[10px] tracking-[0.2em] mt-1 italic">Lucknow network</p>
           </div>
-          <button onClick={() => { setEditingId(null); setProductForm(initialForm); setIsModalOpen(true); }} 
+          <button onClick={() => { setEditingId(null); setProductForm(initialForm); setImageFile(null); setIsModalOpen(true); }} 
             className="px-6 py-3 bg-[#48D87D] text-black font-black uppercase text-xs tracking-widest rounded-lg hover:shadow-[0_0_20px_rgba(72,216,125,0.4)] transition-all flex items-center gap-2">
             <Plus className="w-5 h-5" /> New Listing
           </button>
@@ -288,13 +324,39 @@ export default function Marketplace() {
               <div className="space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Price (₹)</label><Input type="number" value={productForm.price} onChange={e => setProductForm({...productForm, price: e.target.value})} className="bg-[#111] border-gray-800 text-white" /></div>
               <div className="space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Quantity</label>
                 <div className="flex items-center bg-zinc-900 border border-gray-800 rounded-lg h-12 overflow-hidden shadow-inner">
-                  <button onClick={() => setProductForm(p=>({...p, quantity: Math.max(0, p.quantity-1)}))} className="flex-1 hover:bg-zinc-800 border-r border-zinc-800 flex justify-center text-white"><Minus size={14}/></button>
-                  <div className="flex-1 flex justify-center font-black text-sm text-white">{productForm.quantity}</div>
-                  <button onClick={() => setProductForm(p=>({...p, quantity: p.quantity+1}))} className="flex-1 hover:bg-zinc-800 border-l border-zinc-800 flex justify-center text-white"><Plus size={14}/></button>
+                  <button onClick={() => setProductForm(p=>({...p, quantity: Math.max(0, p.quantity-1)}))} className="w-12 h-full hover:bg-zinc-800 border-r border-zinc-800 flex items-center justify-center text-white"><Minus size={14}/></button>
+                  <input type="number" min="0" value={productForm.quantity} onChange={e => setProductForm(p=>({...p, quantity: Math.max(0, Number(e.target.value))}))} className="flex-1 w-full bg-transparent border-none text-center font-black text-sm text-white focus:outline-none min-w-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                  <button onClick={() => setProductForm(p=>({...p, quantity: p.quantity+1}))} className="w-12 h-full hover:bg-zinc-800 border-l border-zinc-800 flex items-center justify-center text-white"><Plus size={14}/></button>
                 </div>
               </div>
               <div className="space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Unit</label><Input value={productForm.unit} onChange={e => setProductForm({...productForm, unit: e.target.value})} className="bg-[#111] border-gray-800 text-white" placeholder="KG, Bag..." /></div>
-              <div className="col-span-2 space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Image URL</label><Input value={productForm.imageUrl} onChange={e => setProductForm({...productForm, imageUrl: e.target.value})} className="bg-[#111] border-gray-800 text-white" /></div>
+              <div className="col-span-2 space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Product Image</label>
+                <div className="flex flex-col gap-2">
+                  {imagePreview ? (
+                    <div className="relative w-24 h-24 rounded-lg overflow-hidden border border-gray-800">
+                      <img src={imagePreview} alt="New Preview" className="w-full h-full object-cover" />
+                      <button type="button" onClick={(e) => { e.preventDefault(); setImageFile(null); }} className="absolute top-1 right-1 bg-black/50 text-white rounded-full p-1 hover:bg-red-500 transition-colors"><Trash2 size={12} /></button>
+                    </div>
+                  ) : productForm.imageUrl && !productForm.removeImage ? (
+                    <div className="relative w-24 h-24 rounded-lg overflow-hidden border border-gray-800">
+                      <img src={productForm.imageUrl} alt="Product" className="w-full h-full object-cover" />
+                      <button type="button" onClick={(e) => { e.preventDefault(); setProductForm({...productForm, removeImage: true}); }} className="absolute top-1 right-1 bg-black/50 text-white rounded-full p-1 hover:bg-red-500 transition-colors"><Trash2 size={12} /></button>
+                    </div>
+                  ) : null}
+                  <input key={imageFile ? 'has-file' : 'no-file'} type="file" accept="image/*" onChange={e => {
+                    if (e.target.files && e.target.files[0]) {
+                      const file = e.target.files[0];
+                      if (file.size > 5 * 1024 * 1024) {
+                        showNotification("Image size cannot exceed 5MB.");
+                        e.target.value = '';
+                        return;
+                      }
+                      setImageFile(file);
+                      setProductForm({...productForm, removeImage: false});
+                    }
+                  }} className="w-full bg-[#111] border border-gray-800 rounded-lg text-gray-400 text-sm file:text-white file:bg-zinc-800 file:border-0 file:rounded-md file:px-4 file:py-2.5 file:text-[10px] file:font-black file:uppercase file:cursor-pointer file:hover:bg-zinc-700 file:transition-colors file:mr-4 cursor-pointer p-1.5 focus:outline-none focus:ring-1 focus:ring-[#48D87D]" />
+                </div>
+              </div>
               <div className="col-span-2 space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Details</label><Textarea value={productForm.description} onChange={e => setProductForm({...productForm, description: e.target.value})} className="bg-[#111] border-gray-800 text-white min-h-[100px]" placeholder="Technical data..." /></div>
             </div>
             <button disabled={isSubmitting} onClick={handleSaveProduct} className="w-full py-4 mt-4 bg-[#48D87D] text-black font-black uppercase text-xs rounded-xl shadow-xl active:scale-95 transition-all flex items-center justify-center gap-2">

@@ -1,5 +1,5 @@
-const BASE_URL = 'https://agrosmart-backend-spz5.onrender.com';
-//const BASE_URL = 'http://localhost:8081';
+//const BASE_URL = 'https://agrosmart-backend-spz5.onrender.com';
+const BASE_URL = 'http://localhost:8081';
 import { getStorage, setStorage, clearAllStorage } from '../utils/storage';
 
 // Internal state to handle multiple simultaneous 401s
@@ -18,8 +18,9 @@ const onRefreshed = (token: string) => {
 export const apiClient = async (endpoint: string, options: any = {}): Promise<Response> => {
   let accessToken = getStorage('token');
   
-  const headers = {
-    'Content-Type': 'application/json',
+  const isFormData = options.body instanceof FormData;
+  const headers: Record<string, string> = {
+    ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
     ...(accessToken && { 'Authorization': `Bearer ${accessToken}` }),
     ...options.headers,
   };
