@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Loader2, Sprout, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Eye, EyeOff, Loader2, Sprout, ArrowRight, CheckCircle2, User, Camera } from 'lucide-react';
 import { Checkbox } from '@/app/components/ui/checkbox';
 import { apiClient } from '../api/apiClient';
 
@@ -20,6 +20,19 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState<PasswordStrength>('weak');
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [profilePic, setProfilePic] = useState<File | null>(null);
+  const [profilePicPreview, setProfilePicPreview] = useState<string | null>(null);
+
+
+  useEffect(() => {
+    if (!profilePic) {
+      setProfilePicPreview(null);
+      return;
+    }
+    const url = URL.createObjectURL(profilePic);
+    setProfilePicPreview(url);
+    return () => URL.revokeObjectURL(url);
+  }, [profilePic]);
 
   const [formData, setFormData] = useState({
     firstName: '', lastName: '', email: '', password: '',
@@ -72,14 +85,24 @@ export default function RegisterPage() {
     if (Object.keys(e2).length > 0) { setErrors(e2); return; }
     setIsLoading(true);
     try {
+      const formDataToSend = new FormData();
+      formDataToSend.append('firstName', formData.firstName);
+      formDataToSend.append('lastName', formData.lastName);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('password', formData.password);
+      formDataToSend.append('role', 'ROLE_USER');
+      formDataToSend.append('phoneNumber', formData.phoneNo);
+      formDataToSend.append('city', formData.city);
+      formDataToSend.append('district', formData.district);
+      formDataToSend.append('state', formData.state);
+      formDataToSend.append('pincode', formData.pincode);
+      if (profilePic) {
+        formDataToSend.append('profilePic', profilePic);
+      }
+
       const response = await apiClient('/api/auth/register', {
         method: 'POST',
-        body: JSON.stringify({
-          firstName: formData.firstName, lastName: formData.lastName,
-          email: formData.email, password: formData.password, role: 'ROLE_USER',
-          phoneNumber: formData.phoneNo, city: formData.city,
-          district: formData.district, state: formData.state, pincode: formData.pincode
-        }),
+        body: formDataToSend,
       });
       const result: ApiResponse<string> = await response.json();
       if (response.ok && result.success) {
@@ -170,6 +193,32 @@ export default function RegisterPage() {
             {/* ── STEP 1 ── */}
             {step === 1 && (
               <div className="space-y-4">
+                <div className="flex justify-center mb-4">
+                  <div className="relative">
+                    <div className="w-20 h-20 rounded-full bg-gray-900/80 border border-gray-700/60 overflow-hidden flex items-center justify-center">
+                      {profilePicPreview ? (
+                        <img src={profilePicPreview} alt="Preview" className="w-full h-full object-cover" />
+                      ) : (
+                        <User className="w-8 h-8 text-slate-600" />
+                      )}
+                    </div>
+                    <label className="absolute bottom-0 right-0 p-1.5 bg-[#48D87D] text-black rounded-full cursor-pointer hover:bg-[#3bc56d] transition-colors shadow-lg">
+                      <Camera size={12} />
+                      <input type="file" accept="image/*" className="hidden" onChange={e => {
+                        if (e.target.files && e.target.files[0]) {
+                          if (e.target.files[0].size > 5 * 1024 * 1024) {
+                             setErrors({...errors, profilePic: 'Max 5MB'});
+                             e.target.value = '';
+                             return;
+                          }
+                          setProfilePic(e.target.files[0]);
+                          setErrors({...errors, profilePic: undefined});
+                        }
+                      }} />
+                    </label>
+                  </div>
+                </div>
+                {errors.profilePic && <p className="text-[10px] text-red-400 text-center -mt-3 mb-2">✕ {errors.profilePic}</p>}
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1.5">
                     <label className="text-slate-500 text-[10px] uppercase tracking-widest font-bold">First Name</label>

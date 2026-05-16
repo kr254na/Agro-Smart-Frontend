@@ -203,7 +203,7 @@ export default function Navbar({ onMenuToggle, isSidebarOpen }: NavbarProps) {
             ) : (
               <div className="hidden lg:flex items-center gap-4">
                 <Link to="/login" className="text-sm font-medium text-gray-300 hover:text-white">Login</Link>
-                <Link to="/register">
+                <Link to="/login">
                   <Button className="bg-green-600 hover:bg-green-700 text-white">Get Started</Button>
                 </Link>
               </div>
@@ -271,7 +271,7 @@ export default function Navbar({ onMenuToggle, isSidebarOpen }: NavbarProps) {
                 <>
                   <div className="h-px bg-gray-800 my-2" />
                   <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-lg font-medium text-gray-300 hover:text-white">Login</Link>
-                  <Link to="/register" onClick={() => setMobileMenuOpen(false)}>
+                  <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
                     <Button className="w-full bg-green-600 hover:bg-green-700 text-white text-lg">Get Started</Button>
                   </Link>
                 </>

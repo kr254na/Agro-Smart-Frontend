@@ -56,6 +56,7 @@ export default function Marketplace() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [toast, setToast] = useState<{show: boolean, msg: string} | null>(null);
 
   const initialForm = { productName: '', description: '', price: '', quantity: 1, unit: 'KG', category: 'SEEDS' as keyof typeof CATEGORY_MAP, imageUrl: '', removeImage: false };
@@ -162,13 +163,17 @@ export default function Marketplace() {
 
   const executeDelete = async () => {
     if (!deleteConfirmId) return;
+    setIsDeleting(true);
     try {
       const res = await apiClient(`/api/market/products/${deleteConfirmId}`, { method: 'DELETE' }) as Response;
       if (res.ok) {
         showNotification('Listing Permanently Purged');
         activeTab === 'browse' ? await fetchBrowseProducts() : await fetchMyListings();
       }
-    } catch (e) { console.error(e); } finally { setDeleteConfirmId(null); }
+    } catch (e) { console.error(e); } finally { 
+      setDeleteConfirmId(null); 
+      setIsDeleting(false);
+    }
   };
 
   const openEditModal = (p: ProductResponse) => {
@@ -374,8 +379,10 @@ export default function Marketplace() {
               <DialogDescription className="text-center text-gray-500 font-bold uppercase text-[9px] mt-2">This item will be permanently removed from the network.</DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-3 mt-6">
-              <button onClick={executeDelete} className="w-full py-4 bg-red-600 text-white font-black uppercase text-xs rounded-xl hover:bg-red-700 transition-all">Yes, Delete</button>
-              <button onClick={() => setDeleteConfirmId(null)} className="w-full py-4 bg-gray-900 text-gray-400 font-black uppercase text-xs rounded-xl hover:text-white transition-all">Cancel</button>
+              <button disabled={isDeleting} onClick={executeDelete} className="w-full py-4 bg-red-600 text-white font-black uppercase text-xs rounded-xl hover:bg-red-700 transition-all flex items-center justify-center gap-2 disabled:opacity-70">
+                {isDeleting ? <Loader2 className="animate-spin w-4 h-4" /> : 'Yes, Delete'}
+              </button>
+              <button disabled={isDeleting} onClick={() => setDeleteConfirmId(null)} className="w-full py-4 bg-gray-900 text-gray-400 font-black uppercase text-xs rounded-xl hover:text-white transition-all disabled:opacity-70">Cancel</button>
             </div>
           </DialogContent>
         </Dialog>

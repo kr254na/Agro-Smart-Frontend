@@ -9,9 +9,12 @@ import {
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/app/components/ui/card';
 import { Badge } from '@/app/components/ui/badge';
-import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
+import { getStorage } from '../utils/storage';
 
 export default function About() {
+  const token = getStorage('token');
+  const ctaLink = (token && token !== 'null' && token !== 'undefined') ? '/dashboard' : '/login';
 
   const objectives = [
     {
@@ -89,8 +92,9 @@ export default function About() {
       name: 'Krishna Agarwal',
       role: 'Backend Developer',
       avatar: 'KA',
-      linkedin: '#',
-      instagram: '#',
+      image: '/krishna.jpg',
+      linkedin: 'https://www.linkedin.com/in/kr254na/',
+      instagram: 'https://www.instagram.com/kr254na/',
       color: 'from-cyan-400 to-blue-600'
     },
     {
@@ -146,7 +150,7 @@ export default function About() {
               </p>
 
               {/* CTA Button */}
-              <Link to="/register" className="px-8 py-4 bg-gradient-to-r from-green-500 cursor-pointer to-emerald-600 text-white rounded-lg hover:shadow-xl hover:shadow-green-500/50 transition-all text-lg font-semibold flex items-center justify-center gap-2">
+              <Link to={ctaLink} className="px-8 py-4 bg-gradient-to-r from-green-500 cursor-pointer to-emerald-600 text-white rounded-lg hover:shadow-xl z-10 relative hover:shadow-green-500/50 transition-all text-lg font-semibold flex items-center justify-center gap-2">
                 Get Started
                 <ArrowRight className="w-5 h-5" />
               </Link>
@@ -160,7 +164,7 @@ export default function About() {
               className="relative"
             >
               <img 
-                src="https://images.unsplash.com/photo-1744230673231-865d54a0aba4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWNobm9sb2d5JTIwYWdyaWN1bHR1cmUlMjBpb3QlMjBkZXZpY2VzJTIwZmllbGR8ZW58MXx8fHwxNzY5ODcwODE5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                src="/iot-agriculture.png"
                 alt="IoT Agriculture Technology"
                 className="rounded-2xl shadow-2xl shadow-green-500/20 border border-green-500/20"
               />
@@ -414,6 +418,7 @@ export default function About() {
                 <Card className="bg-gray-900/50 border-gray-800 hover:border-green-500/50 transition-all group hover:scale-105 cursor-pointer text-center">
                   <CardContent className="p-6">
                     <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-gray-800 group-hover:border-green-500/50 transition-all">
+                      {member.image && <AvatarImage src={member.image} alt={member.name} className="object-cover" />}
                       <AvatarFallback className={`bg-gradient-to-br ${member.color} text-white text-2xl`}>
                         {member.avatar}
                       </AvatarFallback>
@@ -471,7 +476,7 @@ export default function About() {
               Join thousands of farmers who are already using AgroSmart to increase yields, 
               reduce waste, and build a sustainable future.
             </p>
-            <Link to="/register" className="px-10 py-5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:shadow-2xl hover:shadow-green-500/50 transition-all text-xl font-bold inline-flex items-center gap-3">
+            <Link to={ctaLink} className="px-10 py-5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:shadow-2xl hover:shadow-green-500/50 transition-all text-xl font-bold inline-flex items-center gap-3">
               Create Free Account
               <ArrowRight className="w-6 h-6" />
             </Link>

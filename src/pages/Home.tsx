@@ -10,11 +10,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/app
 import { Badge } from '@/app/components/ui/badge';
 import { useState, useEffect } from 'react';
 import { WEATHER_CONFIG } from '@/config/weatherConfig';
+import { getStorage } from '../utils/storage';
 
 export default function Home() {
   const [weatherData, setWeatherData] = useState<any>(null);
   const [locationName, setLocationName] = useState('Lucknow, UP');
   const [isWeatherLoading, setIsWeatherLoading] = useState(true);
+
+  const token = getStorage('token');
+  const ctaLink = (token && token !== 'null' && token !== 'undefined') ? '/dashboard' : '/login';
 
   useEffect(() => {
     const fetchHomeWeather = async (query: string) => {
@@ -165,7 +169,7 @@ export default function Home() {
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/register" className="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:shadow-xl
+                <Link to={ctaLink} className="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:shadow-xl
                 z-10 hover:shadow-green-500/50 transition-all text-lg font-semibold flex items-center justify-center gap-2">
                   Start Farming Smart
                   <ArrowRight className="w-5 h-5" />
@@ -696,7 +700,7 @@ export default function Home() {
             <p className="text-xl text-gray-300 mb-10">
               Join thousands of farmers using smart technology to grow better crops and increase profitability
             </p>
-            <Link to="/register" className="px-10 py-5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:shadow-2xl hover:shadow-green-500/50 transition-all text-xl font-bold inline-flex items-center gap-3">
+            <Link to={ctaLink} className="px-10 py-5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:shadow-2xl hover:shadow-green-500/50 transition-all text-xl font-bold inline-flex items-center gap-3">
               Create Free Account
               <ArrowRight className="w-6 h-6" />
             </Link>

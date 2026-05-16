@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { 
   Mail, Phone, MapPin, Edit, Save, Lock, 
-  Loader2, AlertCircle, CheckCircle2, Trash2
+  Loader2, AlertCircle, CheckCircle2, Trash2, Camera
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/app/components/ui/card';
@@ -31,8 +31,23 @@ export default function Profile() {
     city: '',
     state: '',
     district: '',
-    pincode: ''
+    pincode: '',
+    profilePicUrl: ''
   });
+
+  const [profilePicFile, setProfilePicFile] = useState<File | null>(null);
+  const [profilePicPreview, setProfilePicPreview] = useState<string | null>(null);
+  const [removeImage, setRemoveImage] = useState(false);
+
+  useEffect(() => {
+    if (!profilePicFile) {
+      setProfilePicPreview(null);
+      return;
+    }
+    const url = URL.createObjectURL(profilePicFile);
+    setProfilePicPreview(url);
+    return () => URL.revokeObjectURL(url);
+  }, [profilePicFile]);
 
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: '',
@@ -65,7 +80,8 @@ export default function Profile() {
           city: p.address?.city || '',
           state: p.address?.state || '',
           district: p.address?.district || '',
-          pincode: p.address?.pincode || ''
+          pincode: p.address?.pincode || '',
+          profilePicUrl: p.profilePicUrl || ''
         });
       }
     } catch (err) {
@@ -78,22 +94,41 @@ export default function Profile() {
   const handleSave = async () => {
     setIsSaving(true);
     try {
+      const formData = new FormData();
+      formData.append('firstName', profileData.firstName);
+      formData.append('lastName', profileData.lastName);
+      formData.append('phoneNumber', profileData.phoneNumber);
+      formData.append('city', profileData.city);
+      formData.append('state', profileData.state);
+      formData.append('district', profileData.district);
+      formData.append('pincode', profileData.pincode);
+      formData.append('removeImage', removeImage ? 'true' : 'false');
+      if (profilePicFile) {
+        formData.append('profilePic', profilePicFile);
+      }
+
       const response = (await apiClient('/api/users/me', {
         method: 'PUT',
-        body: JSON.stringify({
-          firstName: profileData.firstName,
-          lastName: profileData.lastName,
-          phoneNumber: profileData.phoneNumber,
-          city: profileData.city,
-          state: profileData.state,
-          district: profileData.district,
-          pincode: profileData.pincode
-        })
+        body: formData
       })) as Response;
 
       const result = await response.json();
       if (result.success) {
+        const p = result.data;
+        setProfileData({
+          firstName: p.firstName || '',
+          lastName: p.lastName || '',
+          email: getStorage('user_email') || '',
+          phoneNumber: p.phoneNumber || '',
+          city: p.address?.city || '',
+          state: p.address?.state || '',
+          district: p.address?.district || '',
+          pincode: p.address?.pincode || '',
+          profilePicUrl: p.profilePicUrl || ''
+        });
         setIsEditing(false);
+        setRemoveImage(false);
+        setProfilePicFile(null);
         toast.success("Profile updated successfully!");
       } else {
         toast.error(result.message);
@@ -176,10 +211,37 @@ export default function Profile() {
           <div className="lg:col-span-1 space-y-6">
             <Card className="bg-gray-900/50 border-gray-800 shadow-xl">
               <CardContent className="p-6 text-center">
-                <Avatar className="w-32 h-32 border-4 border-[#48D87D] mx-auto mb-4">
-                  <AvatarFallback className="bg-gradient-to-br from-[#48D87D] to-emerald-700 text-3xl font-bold text-white">
-                    {profileData.firstName?.[0]}{profileData.lastName?.[0]}
-                  </AvatarFallback>
+                <Avatar className="w-32 h-32 border-4 border-[#48D87D] mx-auto mb-4 relative overflow-hidden group">
+                  {(profilePicPreview || (profileData.profilePicUrl && !removeImage)) ? (
+                    <img src={profilePicPreview || profileData.profilePicUrl} className="w-full h-full object-cover rounded-full" />
+                  ) : (
+                    <AvatarFallback className="bg-gradient-to-br from-[#48D87D] to-emerald-700 text-3xl font-bold text-white w-full h-full flex items-center justify-center">
+                      {profileData.firstName?.[0]}{profileData.lastName?.[0]}
+                    </AvatarFallback>
+                  )}
+                  {isEditing && (
+                    <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <label className="cursor-pointer p-2 hover:text-[#48D87D] transition-colors">
+                        <Camera size={24} className="text-white hover:text-[#48D87D]" />
+                        <input type="file" accept="image/*" className="hidden" onChange={e => {
+                          if (e.target.files && e.target.files[0]) {
+                            if (e.target.files[0].size > 5 * 1024 * 1024) {
+                              toast.error("Image size cannot exceed 5MB.");
+                              e.target.value = '';
+                              return;
+                            }
+                            setProfilePicFile(e.target.files[0]);
+                            setRemoveImage(false);
+                          }
+                        }} />
+                      </label>
+                      {(profileData.profilePicUrl || profilePicFile) && !removeImage && (
+                        <button type="button" onClick={() => { setRemoveImage(true); setProfilePicFile(null); }} className="p-2 text-white hover:text-red-500 transition-colors">
+                          <Trash2 size={20} />
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </Avatar>
                 
                 <h2 className="text-2xl font-bold text-white mb-1">
@@ -266,7 +328,7 @@ export default function Profile() {
                     <Button onClick={handleSave} disabled={isSaving} size="sm" className="bg-[#48D87D] text-black hover:bg-[#3bc56d]">
                       {isSaving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} className="mr-2" />} Save
                     </Button>
-                    <Button onClick={() => setIsEditing(false)} variant="ghost" size="sm" className="text-slate-400">Cancel</Button>
+                    <Button onClick={() => { setIsEditing(false); setRemoveImage(false); setProfilePicFile(null); }} variant="ghost" size="sm" className="text-slate-400">Cancel</Button>
                   </div>
                 )}
               </CardHeader>
