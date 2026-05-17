@@ -4,6 +4,7 @@ import { Mail, Lock, ShieldCheck, Loader2, ArrowLeft, CheckCircle2, Eye, EyeOff 
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
+import { apiClient } from '../api/apiClient';
 
 type ResetStep = 'EMAIL' | 'OTP' | 'PASSWORD' | 'SUCCESS';
 
@@ -29,7 +30,7 @@ export default function ForgotPasswordPage() {
     setError('');
 
     try {
-      const response = await fetch(`http://localhost:8081/api/auth/password/forgot?email=${formData.email}`, {
+      const response = await apiClient(`/api/auth/password/forgot?email=${formData.email}`, {
         method: 'POST'
       });
       const result = await response.json();
@@ -53,7 +54,7 @@ export default function ForgotPasswordPage() {
     setError('');
 
     try {
-      const response = await fetch(`http://localhost:8081/api/auth/password/verify-otp?email=${formData.email}&otp=${formData.otp}`, {
+      const response = await apiClient(`/api/auth/password/verify-otp?email=${formData.email}&otp=${formData.otp}`, {
         method: 'POST'
       });
       const result = await response.json();
@@ -82,7 +83,7 @@ export default function ForgotPasswordPage() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:8081/api/auth/password/reset', {
+      const response = await apiClient('/api/auth/password/reset', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
