@@ -5,6 +5,7 @@ import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { setStorage } from '../utils/storage';
 import { apiClient } from '../api/apiClient';
+import { GoogleLogin } from '@react-oauth/google';
 
 interface LoginResponse { accessToken: string; refreshToken: string; email: string; role: string; }
 interface ApiResponse<T> { success: boolean; message: string; data: T; }
@@ -19,6 +20,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({ email: '', password: '', general: '' });
   const [focusedField, setFocusedField] = useState<string | null>(null);
@@ -47,12 +49,36 @@ export default function LoginPage() {
         setStorage('userRole', result.data.role);
         navigate('/dashboard');
       } else {
-        setErrors(prev => ({ ...prev, general: result.message || 'Invalid credentials. Please try again.' }));
+        setErrors(prev => ({ ...prev, general: 'Invalid credentials. Please try again.' }));
       }
     } catch {
       setErrors(prev => ({ ...prev, general: 'Cannot connect to server. Please try again later.' }));
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    setIsGoogleLoading(true);
+    try {
+      const response = await apiClient('/api/auth/google', {
+        method: 'POST',
+        body: JSON.stringify({ idToken: credentialResponse.credential }),
+      });
+      const result: ApiResponse<LoginResponse> = await response.json();
+      if (response.ok && result.success) {
+        setStorage('token', result.data.accessToken);
+        if (result.data.refreshToken) setStorage('refresh', result.data.refreshToken);
+        if (result.data.email) setStorage('user_email', result.data.email);
+        if (result.data.role) setStorage('userRole', result.data.role);
+        navigate('/dashboard');
+      } else {
+        setErrors(prev => ({ ...prev, general: 'Google login failed.' }));
+      }
+    } catch {
+      setErrors(prev => ({ ...prev, general: 'Cannot connect to server. Please try again later.' }));
+    } finally {
+      setIsGoogleLoading(false);
     }
   };
 
@@ -64,6 +90,12 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gray-950 flex relative overflow-hidden">
+      {isGoogleLoading && (
+        <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center">
+          <Loader2 className="w-12 h-12 text-[#48D87D] animate-spin mb-4" />
+          <p className="text-[#48D87D] font-bold tracking-widest uppercase text-sm animate-pulse">Authenticating with Google...</p>
+        </div>
+      )}
       {/* Ambient background blobs */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#48D87D]/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
@@ -203,6 +235,25 @@ export default function LoginPage() {
                 }
               </button>
             </form>
+
+            <div className="mt-6 flex items-center gap-4">
+              <div className="h-px bg-gray-800/60 flex-1"></div>
+              <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">or</span>
+              <div className="h-px bg-gray-800/60 flex-1"></div>
+            </div>
+
+            <div className="mt-6 flex justify-center">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={() => {
+                  setErrors(prev => ({ ...prev, general: 'Google login was unsuccessful.' }));
+                }}
+                theme="filled_black"
+                shape="pill"
+                text="signin_with"
+                size="large"
+              />
+            </div>
 
             {/* Footer */}
             <div className="mt-7 pt-6 border-t border-gray-800/60 text-center space-y-3">

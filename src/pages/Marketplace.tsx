@@ -267,10 +267,14 @@ export default function Marketplace() {
                         <Separator className="bg-gray-800" />
                         <div className="flex gap-2">
                            <button onClick={() => {
+                             if (!p.sellerContact) {
+                               showNotification("Seller contact not provided.");
+                               return;
+                             }
                              const phone = p.sellerContact.replace(/\D/g, '');
                              window.open(`https://wa.me/${phone.startsWith('91') ? phone : '91'+phone}?text=Interested in ${p.productName}`, '_blank');
-                           }} disabled={isOut} className="flex-1 py-3 bg-[#25D366]/10 text-[#25D366] font-black uppercase text-[10px] rounded hover:bg-[#25D366] hover:text-black transition-all flex items-center justify-center gap-2"><MessageCircle size={14}/> WhatsApp</button>
-                           <a href={isOut ? "#" : `tel:${p.sellerContact}`} className="flex-1 py-3 border border-gray-800 text-gray-400 font-black uppercase text-[10px] rounded flex items-center justify-center gap-2 hover:bg-white hover:text-black transition-all"><Phone size={14}/> Call</a>
+                           }} disabled={isOut || !p.sellerContact} className="flex-1 py-3 bg-[#25D366]/10 text-[#25D366] font-black uppercase text-[10px] rounded hover:bg-[#25D366] hover:text-black transition-all flex items-center justify-center gap-2"><MessageCircle size={14}/> WhatsApp</button>
+                           <a href={isOut || !p.sellerContact ? "#" : `tel:${p.sellerContact}`} onClick={(e) => { if (!p.sellerContact) e.preventDefault(); }} className={`flex-1 py-3 border border-gray-800 text-gray-400 font-black uppercase text-[10px] rounded flex items-center justify-center gap-2 hover:bg-white hover:text-black transition-all ${!p.sellerContact ? 'opacity-50 cursor-not-allowed' : ''}`}><Phone size={14}/> Call</a>
                         </div>
                       </CardContent>
                     </Card>

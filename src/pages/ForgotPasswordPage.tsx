@@ -38,7 +38,7 @@ export default function ForgotPasswordPage() {
       if (response.ok && result.success) {
         setStep('OTP');
       } else {
-        setError(result.message || 'Email not found or service unavailable.');
+        setError('Email not found or service unavailable.');
       }
     } catch (err) {
       setError('Server connection failed.');
@@ -62,7 +62,7 @@ export default function ForgotPasswordPage() {
       if (response.ok && result.success) {
         setStep('PASSWORD');
       } else {
-        setError(result.message || 'Invalid or expired OTP.');
+        setError('Invalid or expired OTP.');
       }
     } catch (err) {
       setError('Server connection failed.');
@@ -74,6 +74,14 @@ export default function ForgotPasswordPage() {
   // Step 3: Complete Reset (@PostMapping("/reset") with ResetPasswordRequest DTO)
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (formData.newPassword.length < 8) {
+      setError('Password must be at least 8 characters long.');
+      return;
+    }
+    if (!/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$/.test(formData.newPassword)) {
+      setError('Password must contain digit, lowercase, uppercase, and special character.');
+      return;
+    }
     if (formData.newPassword !== formData.confirmPassword) {
       setError('Passwords do not match.');
       return;
@@ -97,7 +105,7 @@ export default function ForgotPasswordPage() {
       if (response.ok && result.success) {
         setStep('SUCCESS');
       } else {
-        setError(result.message || 'Reset failed. Ensure password requirements are met.');
+        setError('Reset failed. Ensure password requirements are met.');
       }
     } catch (err) {
       setError('Server connection failed.');

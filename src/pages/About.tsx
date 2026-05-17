@@ -76,17 +76,10 @@ export default function About() {
       name: 'Akshat Sharma',
       role: 'Frontend Developer',
       avatar: 'AS',
-      linkedin: '#',
+      image: '/akshat.jpeg',
+      linkedin: 'https://www.linkedin.com/in/akshat-sharma-011724267/',
       instagram: '#',
       color: 'from-green-400 to-emerald-600'
-    },
-    {
-      name: 'Pushpesh Srivastava',
-      role: 'AI/ML Engineer',
-      avatar: 'PS',
-      linkedin: '#',
-      instagram: '#',
-      color: 'from-purple-400 to-pink-600'
     },
     {
       name: 'Krishna Agarwal',
@@ -98,11 +91,21 @@ export default function About() {
       color: 'from-cyan-400 to-blue-600'
     },
     {
+      name: 'Pushpesh Srivastava',
+      role: 'AI/ML Engineer',
+      avatar: 'PS',
+      image: '/pushpesh.jpeg',
+      linkedin: 'https://www.linkedin.com/in/pushpesh-srivastava-870634288/',
+      instagram: 'https://www.instagram.com/___pushpesh___/',
+      color: 'from-purple-400 to-pink-600'
+    },
+    {
       name: 'Abhay Verma',
       role: 'IoT Engineer',
       avatar: 'AV',
-      linkedin: '#',
-      instagram: '#',
+      image: '/abhay.jpeg',
+      linkedin: 'https://www.linkedin.com/in/abhay-verma02/',
+      instagram: 'https://www.instagram.com/abhayy_v02/',
       color: 'from-orange-400 to-red-600'
     }
   ];

@@ -92,12 +92,19 @@ export default function Profile() {
   };
 
   const handleSave = async () => {
+    if (!profileData.firstName.trim()) { toast.error("First Name is required."); return; }
+    if (!profileData.lastName.trim()) { toast.error("Last Name is required."); return; }
+    if (!profileData.city.trim()) { toast.error("City is required."); return; }
+    if (!profileData.state.trim()) { toast.error("State is required."); return; }
+    if (!profileData.district.trim()) { toast.error("District is required."); return; }
+    if (!/^\d{6}$/.test(profileData.pincode)) { toast.error("Pincode must be 6 digits."); return; }
+
     setIsSaving(true);
     try {
       const formData = new FormData();
       formData.append('firstName', profileData.firstName);
       formData.append('lastName', profileData.lastName);
-      formData.append('phoneNumber', profileData.phoneNumber);
+      formData.append('phoneNumber', profileData.phoneNumber || '');
       formData.append('city', profileData.city);
       formData.append('state', profileData.state);
       formData.append('district', profileData.district);
@@ -131,7 +138,7 @@ export default function Profile() {
         setProfilePicFile(null);
         toast.success("Profile updated successfully!");
       } else {
-        toast.error(result.message);
+        toast.error('Failed to update profile. Please verify your inputs.');
       }
     } catch (err) {
       toast.error("Failed to update profile");
@@ -143,6 +150,14 @@ export default function Profile() {
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setPwdStatus(null);
+    if (passwordForm.newPassword.length < 8) {
+      setPwdStatus({ type: 'error', msg: "Password must be at least 8 characters long" });
+      return;
+    }
+    if (!/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$/.test(passwordForm.newPassword)) {
+      setPwdStatus({ type: 'error', msg: "Password must contain digit, lowercase, uppercase, and special character" });
+      return;
+    }
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
       setPwdStatus({ type: 'error', msg: "Passwords do not match" });
       return;
@@ -162,7 +177,7 @@ export default function Profile() {
         setPwdStatus({ type: 'success', msg: "Password updated successfully!" });
         setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
       } else {
-        setPwdStatus({ type: 'error', msg: result.message || "Failed to change password" });
+        setPwdStatus({ type: 'error', msg: "Failed to change password. Please verify requirements." });
       }
     } catch (err) {
       setPwdStatus({ type: 'error', msg: "Server error occurred" });

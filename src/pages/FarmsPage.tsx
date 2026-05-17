@@ -49,7 +49,7 @@ export default function FarmsPage() {
         setIsAddModalOpen(false);
         setEditingFarm(null); // Reset state
       } else {
-        toast.error("Operation failed: " + result.message);
+        toast.error("Operation failed. Please verify your inputs.");
       }
     } catch (err) {
       console.error("Save error:", err);
