@@ -136,14 +136,14 @@ export default function Farmer() {
 ];
 
   return (
-    <div className="p-4 lg:p-8 bg-gray-950 min-h-screen text-slate-100">
+    <div className="p-4 lg:p-8 bg-background min-h-screen text-foreground">
         {/* Header Section */}
         <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight uppercase">Control Center</h1>
-            <p className="text-slate-400 font-medium tracking-tight">Synchronized Agricultural Intelligence</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight uppercase">Control Center</h1>
+            <p className="text-muted-foreground font-medium tracking-tight">Synchronized Agricultural Intelligence</p>
           </div>
-          <Badge className="bg-[#48D87D]/10 text-[#48D87D] border-[#48D87D]/20 px-4 py-1 font-bold tracking-wider uppercase text-[10px]">
+          <Badge className="bg-primary/10 text-primary border-primary/20 px-4 py-1 font-bold tracking-wider uppercase text-[10px]">
             FARMER ACCESS ENABLED
           </Badge>
         </div>
@@ -155,8 +155,8 @@ export default function Farmer() {
             className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border-blue-500/30 hover:border-blue-500/50 transition-all cursor-pointer hover:shadow-lg"
           >
             <CardHeader className="pb-3">
-              <CardDescription className="text-gray-400">Total Farms</CardDescription>
-              <CardTitle className="text-4xl text-white font-bold">3</CardTitle>
+              <CardDescription className="text-muted-foreground">Total Farms</CardDescription>
+              <CardTitle className="text-4xl text-foreground font-bold">3</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-2 text-cyan-400">
@@ -168,8 +168,8 @@ export default function Farmer() {
 
           <Card className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-green-500/30 hover:border-green-500/50 transition-all cursor-pointer hover:shadow-lg">
             <CardHeader className="pb-3">
-              <CardDescription className="text-gray-400">Active Crops</CardDescription>
-              <CardTitle className="text-4xl text-white font-bold">5</CardTitle>
+              <CardDescription className="text-muted-foreground">Active Crops</CardDescription>
+              <CardTitle className="text-4xl text-foreground font-bold">5</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-2 text-green-400">
@@ -181,7 +181,7 @@ export default function Farmer() {
 
           <Card className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-green-500/30 hover:border-green-500/50 transition-all cursor-pointer hover:shadow-lg">
             <CardHeader className="pb-3">
-              <CardDescription className="text-gray-400">Health Status</CardDescription>
+              <CardDescription className="text-muted-foreground">Health Status</CardDescription>
               <CardTitle className="text-4xl text-green-400 font-bold">Good</CardTitle>
             </CardHeader>
             <CardContent>
@@ -197,7 +197,7 @@ export default function Farmer() {
             className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-yellow-500/30 hover:border-yellow-500/50 transition-all cursor-pointer hover:shadow-lg"
           >
             <CardHeader className="pb-3">
-              <CardDescription className="text-gray-400">Alerts</CardDescription>
+              <CardDescription className="text-muted-foreground">Alerts</CardDescription>
               <CardTitle className="text-4xl text-yellow-400 font-bold">2</CardTitle>
             </CardHeader>
             <CardContent>
@@ -212,7 +212,7 @@ export default function Farmer() {
         {/* Farm Health Overview */}
         <section className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-white">Farm Health Overview</h2>
+            <h2 className="text-2xl font-bold text-foreground">Farm Health Overview</h2>
             <Link to="/farms" className="text-green-400 hover:text-green-300 text-sm flex items-center gap-1 font-medium">
               View All <ChevronRight className="w-4 h-4" />
             </Link>
@@ -222,7 +222,7 @@ export default function Farmer() {
               <Card 
                 key={farm.id} 
                 onClick={() => navigate(`/farms/${farm.id}`)}
-                className={`bg-gray-950 border-2 transition-all cursor-pointer hover:shadow-xl ${
+                className={`bg-background border-2 transition-all cursor-pointer hover:shadow-xl ${
                   farm.health === 'healthy' 
                     ? 'border-green-500/30 hover:border-green-500/50' 
                     : farm.health === 'attention'
@@ -233,8 +233,8 @@ export default function Farmer() {
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div>
-                      <CardTitle className="text-xl text-white font-bold">{farm.name}</CardTitle>
-                      <CardDescription className="flex items-center gap-1 mt-1 text-gray-400">
+                      <CardTitle className="text-xl text-foreground font-bold">{farm.name}</CardTitle>
+                      <CardDescription className="flex items-center gap-1 mt-1 text-muted-foreground">
                         <MapPin className="w-3 h-3" />
                         {farm.location}
                       </CardDescription>
@@ -255,28 +255,28 @@ export default function Farmer() {
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center text-sm">
-                      <span className="text-gray-400">Crop Type</span>
-                      <span className="text-white font-semibold">{farm.fields[0]?.cropType || 'N/A'}</span>
+                      <span className="text-muted-foreground">Crop Type</span>
+                      <span className="text-foreground font-semibold">{farm.fields[0]?.cropType || 'N/A'}</span>
                     </div>
                     <div className="flex justify-between items-center text-sm">
-                      <span className="text-gray-400">Area</span>
-                      <span className="text-white font-semibold">{farm.area}</span>
+                      <span className="text-muted-foreground">Area</span>
+                      <span className="text-foreground font-semibold">{farm.area}</span>
                     </div>
-                    <Separator className="bg-gray-800" />
+                    <Separator className="bg-accent" />
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="bg-gray-900 rounded-lg p-3 border border-gray-800">
+                      <div className="bg-card rounded-lg p-3 border border-border">
                         <div className="flex items-center gap-2 mb-1">
                           <Droplets className="w-4 h-4 text-blue-400" />
-                          <span className="text-xs text-gray-500">Moisture</span>
+                          <span className="text-xs text-muted-foreground">Moisture</span>
                         </div>
-                        <p className="text-lg font-bold text-white">{farm.moisture}%</p>
+                        <p className="text-lg font-bold text-foreground">{farm.moisture}%</p>
                       </div>
-                      <div className="bg-gray-900 rounded-lg p-3 border border-gray-800">
+                      <div className="bg-card rounded-lg p-3 border border-border">
                         <div className="flex items-center gap-2 mb-1">
                           <Thermometer className="w-4 h-4 text-orange-400" />
-                          <span className="text-xs text-gray-500">Temp</span>
+                          <span className="text-xs text-muted-foreground">Temp</span>
                         </div>
-                        <p className="text-lg font-bold text-white">{farm.temp}°C</p>
+                        <p className="text-lg font-bold text-foreground">{farm.temp}°C</p>
                       </div>
                     </div>
                   </div>
@@ -289,18 +289,18 @@ export default function Farmer() {
         <div className="grid lg:grid-cols-3 gap-8 mb-8">
           {/* Live Sensor Data - Takes 2 columns */}
           <div className="lg:col-span-2">
-            <Card className="bg-gray-950 border-gray-800 h-full shadow-lg">
+            <Card className="bg-background border-border h-full shadow-lg">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle className="text-xl text-white font-bold">Live Sensor Data</CardTitle>
-                    <CardDescription className="text-gray-400">Real-time monitoring - Last 24 hours</CardDescription>
+                    <CardTitle className="text-xl text-foreground font-bold">Live Sensor Data</CardTitle>
+                    <CardDescription className="text-muted-foreground">Real-time monitoring - Last 24 hours</CardDescription>
                   </div>
                   <div className="flex gap-2">
                     <button className="px-3 py-1 bg-green-500/20 text-green-400 rounded-lg text-sm border border-green-500/50 font-medium">
                       24h
                     </button>
-                    <button className="px-3 py-1 bg-gray-900 text-gray-400 rounded-lg text-sm hover:bg-gray-800 hover:text-white transition-all">
+                    <button className="px-3 py-1 bg-card text-muted-foreground rounded-lg text-sm hover:bg-accent hover:text-foreground transition-all">
                       7d
                     </button>
                   </div>
@@ -327,26 +327,26 @@ export default function Farmer() {
                   <div className="bg-blue-500/5 border border-blue-500/20 rounded-lg p-3">
                     <div className="flex items-center gap-2 mb-2">
                       <Droplets className="w-4 h-4 text-blue-400" />
-                      <span className="text-xs text-gray-500 font-medium">Avg Moisture</span>
+                      <span className="text-xs text-muted-foreground font-medium">Avg Moisture</span>
                     </div>
                     <p className="text-2xl font-bold text-blue-400">60%</p>
-                    <p className="text-xs text-gray-500 mt-1">Optimal: 55-75%</p>
+                    <p className="text-xs text-muted-foreground mt-1">Optimal: 55-75%</p>
                   </div>
                   <div className="bg-orange-500/5 border border-orange-500/20 rounded-lg p-3">
                     <div className="flex items-center gap-2 mb-2">
                       <Thermometer className="w-4 h-4 text-orange-400" />
-                      <span className="text-xs text-gray-500 font-medium">Avg Temp</span>
+                      <span className="text-xs text-muted-foreground font-medium">Avg Temp</span>
                     </div>
                     <p className="text-2xl font-bold text-orange-400">27°C</p>
-                    <p className="text-xs text-gray-500 mt-1">Optimal: 20-30°C</p>
+                    <p className="text-xs text-muted-foreground mt-1">Optimal: 20-30°C</p>
                   </div>
                   <div className="bg-green-500/5 border border-green-500/20 rounded-lg p-3">
                     <div className="flex items-center gap-2 mb-2">
                       <Wind className="w-4 h-4 text-green-400" />
-                      <span className="text-xs text-gray-500 font-medium">Avg Humidity</span>
+                      <span className="text-xs text-muted-foreground font-medium">Avg Humidity</span>
                     </div>
                     <p className="text-2xl font-bold text-green-400">66%</p>
-                    <p className="text-xs text-gray-500 mt-1">Optimal: 60-80%</p>
+                    <p className="text-xs text-muted-foreground mt-1">Optimal: 60-80%</p>
                   </div>
                 </div>
               </CardContent>
@@ -357,16 +357,16 @@ export default function Farmer() {
           <div>
             <Card className="bg-gradient-to-br from-cyan-950 to-blue-950 border-cyan-500/30 mb-6 shadow-lg h-full">
               <CardHeader>
-                <CardTitle className="text-xl text-white flex items-center gap-2 font-bold">
+                <CardTitle className="text-xl text-foreground flex items-center gap-2 font-bold">
                   <CloudRain className="w-5 h-5 text-cyan-400" />
                   Weather Risk
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="bg-black/40 rounded-lg p-4">
-                  <p className="text-sm text-gray-400 mb-1 font-medium">Local Forecast for {locationName}</p>
+                <div className="bg-background/40 rounded-lg p-4">
+                  <p className="text-sm text-muted-foreground mb-1 font-medium">Local Forecast for {locationName}</p>
                   <div className="flex items-center justify-between">
-                    <p className="text-3xl font-bold text-white">
+                    <p className="text-3xl font-bold text-foreground">
                       {weatherData ? `${Math.round(weatherData.current.temp_c)}°C` : isWeatherLoading ? '...' : '28°C'}
                     </p>
                     <div className="text-right">
@@ -377,21 +377,21 @@ export default function Farmer() {
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-black/40 rounded-lg p-3 border border-gray-800">
+                  <div className="bg-background/40 rounded-lg p-3 border border-border">
                     <div className="flex items-center gap-1 mb-1">
                       <Droplets className="w-4 h-4 text-blue-400" />
-                      <span className="text-xs text-gray-500 font-medium">Humidity</span>
+                      <span className="text-xs text-muted-foreground font-medium">Humidity</span>
                     </div>
-                    <p className="text-lg font-bold text-white">
+                    <p className="text-lg font-bold text-foreground">
                       {weatherData ? `${weatherData.current.humidity}%` : '--%'}
                     </p>
                   </div>
-                  <div className="bg-black/40 rounded-lg p-3 border border-gray-800">
+                  <div className="bg-background/40 rounded-lg p-3 border border-border">
                     <div className="flex items-center gap-1 mb-1">
                       <Wind className="w-4 h-4 text-green-400" />
-                      <span className="text-xs text-gray-500 font-medium">Wind</span>
+                      <span className="text-xs text-muted-foreground font-medium">Wind</span>
                     </div>
-                    <p className="text-lg font-bold text-white">
+                    <p className="text-lg font-bold text-foreground">
                       {weatherData ? `${Math.round(weatherData.current.wind_kph)} km/h` : '--'}
                     </p>
                   </div>
@@ -402,7 +402,7 @@ export default function Farmer() {
                     <AlertTriangle className="w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5" />
                     <div>
                       <p className="text-sm font-bold text-yellow-500">Weather Alert</p>
-                      <p className="text-xs text-gray-300 mt-1 font-medium">Heavy rainfall expected in 36 hours</p>
+                      <p className="text-xs text-secondary-foreground mt-1 font-medium">Heavy rainfall expected in 36 hours</p>
                     </div>
                   </div>
                 </div>
@@ -419,13 +419,13 @@ export default function Farmer() {
         <section className="mb-8">
           <div className="flex items-center gap-2 mb-4">
             <Brain className="w-6 h-6 text-purple-400" />
-            <h2 className="text-xl md:text-2xl font-bold text-white uppercase tracking-tight">AI Insights & Recommendations</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground uppercase tracking-tight">AI Insights & Recommendations</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {aiRecommendations.map((rec, index) => (
               <Card 
                 key={index} 
-                className={`bg-gray-950 border-2 ${rec.color} hover:shadow-xl transition-all cursor-pointer`}
+                className={`bg-background border-2 ${rec.color} hover:shadow-xl transition-all cursor-pointer`}
               >
                 <CardHeader>
                   <div className="flex items-start gap-3">
@@ -441,7 +441,7 @@ export default function Farmer() {
                       }`} />
                     </div>
                     <div className="flex-1">
-                      <CardTitle className="text-lg text-white mb-1 font-bold">{rec.title}</CardTitle>
+                      <CardTitle className="text-lg text-foreground mb-1 font-bold">{rec.title}</CardTitle>
                       <Badge className={`text-xs ${
                         rec.type === 'warning' ? 'bg-yellow-500/20 text-yellow-400' :
                         rec.type === 'critical' ? 'bg-red-500/20 text-red-400' :
@@ -453,7 +453,7 @@ export default function Farmer() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-400 text-sm leading-relaxed">{rec.message}</p>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{rec.message}</p>
                   <button className="mt-4 text-sm text-green-400 hover:text-green-300 flex items-center gap-1 font-semibold">
                     View Details <ChevronRight className="w-4 h-4" />
                   </button>
@@ -466,24 +466,24 @@ export default function Farmer() {
         {/* Recent Alerts & Notifications */}
         <section className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-white">Recent Alerts & Notifications</h2>
+            <h2 className="text-2xl font-bold text-foreground">Recent Alerts & Notifications</h2>
             <button className="text-green-400 hover:text-green-300 text-sm font-medium">Mark all as read</button>
           </div>
-          <Card className="bg-gray-950 border-gray-800 shadow-lg overflow-hidden">
+          <Card className="bg-background border-border shadow-lg overflow-hidden">
             <CardContent className="p-0">
               {alerts.map((alert, index) => (
                 <div 
                   key={alert.id} 
-                  className={`flex items-start gap-4 p-5 hover:bg-gray-900 cursor-pointer transition-colors ${
-                    index !== alerts.length - 1 ? 'border-b border-gray-900' : ''
+                  className={`flex items-start gap-4 p-5 hover:bg-card cursor-pointer transition-colors ${
+                    index !== alerts.length - 1 ? 'border-b border-border' : ''
                   }`}
                 >
                   <alert.icon className={`w-5 h-5 ${alert.color} flex-shrink-0 mt-0.5`} />
                   <div className="flex-1">
-                    <p className="text-white text-sm font-medium">{alert.message}</p>
-                    <p className="text-gray-500 text-xs mt-1">{alert.time}</p>
+                    <p className="text-foreground text-sm font-medium">{alert.message}</p>
+                    <p className="text-muted-foreground text-xs mt-1">{alert.time}</p>
                   </div>
-                  <button className="text-gray-600 hover:text-white text-xs font-medium">
+                  <button className="text-muted-foreground hover:text-foreground text-xs font-medium">
                     Mark read
                   </button>
                 </div>
@@ -495,31 +495,31 @@ export default function Farmer() {
         {/* Community & Marketplace Row */}
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Community Snapshot */}
-          <Card className="bg-gray-950 border-gray-800 shadow-lg">
+          <Card className="bg-background border-border shadow-lg">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Users className="w-5 h-5 text-orange-400" />
-                  <CardTitle className="text-xl text-white font-bold">Community Highlights</CardTitle>
+                  <CardTitle className="text-xl text-foreground font-bold">Community Highlights</CardTitle>
                 </div>
                 <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/50 font-semibold">
                   {communityPosts.reduce((acc, post) => acc + post.replies, 0)} Active
                 </Badge>
               </div>
-              <CardDescription className="text-gray-400">Trending discussions from nearby farmers</CardDescription>
+              <CardDescription className="text-muted-foreground">Trending discussions from nearby farmers</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {communityPosts.map((post, index) => (
                 <div 
                   key={index} 
-                  className="bg-gray-900 rounded-lg p-4 hover:border-orange-500/40 transition-all border border-gray-800 cursor-pointer"
+                  className="bg-card rounded-lg p-4 hover:border-orange-500/40 transition-all border border-border cursor-pointer"
                 >
                   <div className="flex items-start gap-3">
                     <MessageSquare className="w-5 h-5 text-orange-400 flex-shrink-0 mt-0.5" />
                     <div className="flex-1">
-                      <h4 className="text-white font-semibold text-sm mb-1">{post.title}</h4>
+                      <h4 className="text-foreground font-semibold text-sm mb-1">{post.title}</h4>
                       <div className="flex items-center justify-between mt-2">
-                        <span className="text-gray-500 text-xs">by {post.author}</span>
+                        <span className="text-muted-foreground text-xs">by {post.author}</span>
                         <span className="text-orange-400 text-xs font-bold">{post.replies} replies</span>
                       </div>
                     </div>
@@ -533,24 +533,24 @@ export default function Farmer() {
           </Card>
 
           {/* Marketplace Highlights */}
-          <Card className="bg-gray-950 border-gray-800 shadow-lg">
+          <Card className="bg-background border-border shadow-lg">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <ShoppingCart className="w-5 h-5 text-yellow-400" />
-                  <CardTitle className="text-xl text-white font-bold">Marketplace Highlights</CardTitle>
+                  <CardTitle className="text-xl text-foreground font-bold">Marketplace Highlights</CardTitle>
                 </div>
                 <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/50 font-semibold">
                   Featured
                 </Badge>
               </div>
-              <CardDescription className="text-gray-400">Popular products from nearby sellers</CardDescription>
+              <CardDescription className="text-muted-foreground">Popular products from nearby sellers</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {marketplaceItems.map((item, index) => (
                 <div 
                   key={index} 
-                  className="bg-gray-900 rounded-lg p-4 hover:border-yellow-500/40 transition-all border border-gray-800 cursor-pointer"
+                  className="bg-card rounded-lg p-4 hover:border-yellow-500/40 transition-all border border-border cursor-pointer"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -558,8 +558,8 @@ export default function Farmer() {
                         <Package className="w-5 h-5 text-yellow-500" />
                       </div>
                       <div>
-                        <h4 className="text-white font-semibold text-sm">{item.name}</h4>
-                        <span className="text-gray-500 text-xs">{item.seller}</span>
+                        <h4 className="text-foreground font-semibold text-sm">{item.name}</h4>
+                        <span className="text-muted-foreground text-xs">{item.seller}</span>
                       </div>
                     </div>
                     <span className="text-yellow-400 font-bold">{item.price}</span>

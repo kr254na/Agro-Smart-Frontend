@@ -115,23 +115,23 @@ export default function SensorsPage() {
   }, [selectedFieldId]);
 
   return (
-    <div className="p-6 lg:p-8 bg-gray-950 min-h-screen text-slate-100">
+    <div className="p-6 lg:p-8 bg-background min-h-screen text-foreground">
       <div className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight uppercase">Multi-Node Analytics</h1>
-          <p className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.3em] mt-1">Full-Spectrum Sensor Integration</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight uppercase">Multi-Node Analytics</h1>
+          <p className="text-muted-foreground font-bold uppercase text-[10px] tracking-[0.3em] mt-1">Full-Spectrum Sensor Integration</p>
         </div>
         <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
           <div className="flex items-center gap-2 w-full sm:w-auto">
             <Select value={selectedFarmId} onValueChange={setSelectedFarmId}>
-              <SelectTrigger className="flex-1 sm:w-[140px] bg-gray-900/50 border-gray-800 text-[10px] font-black uppercase tracking-widest h-10"><SelectValue placeholder="FARM" /></SelectTrigger>
-              <SelectContent className="bg-gray-900 border-gray-800 text-white">
+              <SelectTrigger className="flex-1 sm:w-[140px] bg-card/50 border-border text-[10px] font-black uppercase tracking-widest h-10"><SelectValue placeholder="FARM" /></SelectTrigger>
+              <SelectContent className="bg-card border-border text-foreground">
                 {farms.map(f => <SelectItem key={f.id} value={f.id.toString()}>{f.farmName}</SelectItem>)}
               </SelectContent>
             </Select>
             <Select value={selectedFieldId} onValueChange={setSelectedFieldId} disabled={!selectedFarmId}>
-              <SelectTrigger className="flex-1 sm:w-[140px] bg-gray-900/50 border-gray-800 text-[10px] font-black uppercase tracking-widest h-10"><SelectValue placeholder="FIELD" /></SelectTrigger>
-              <SelectContent className="bg-gray-900 border-gray-800 text-white">
+              <SelectTrigger className="flex-1 sm:w-[140px] bg-card/50 border-border text-[10px] font-black uppercase tracking-widest h-10"><SelectValue placeholder="FIELD" /></SelectTrigger>
+              <SelectContent className="bg-card border-border text-foreground">
                 {fields.map(f => <SelectItem key={f.id} value={f.id.toString()}>{f.fieldName}</SelectItem>)}
               </SelectContent>
             </Select>
@@ -139,7 +139,7 @@ export default function SensorsPage() {
           <Button
             onClick={handleExport}
             variant="outline"
-            className="w-full sm:w-auto border-slate-800 text-[#48D87D] hover:bg-[#48D87D]/10 font-black text-[10px] uppercase h-10 shadow-[0_4px_10px_rgba(0,0,0,0.3)]"
+            className="w-full sm:w-auto border-border text-primary hover:bg-primary/10 font-black text-[10px] uppercase h-10 shadow-[0_4px_10px_rgba(0,0,0,0.3)]"
           >
             <Download size={14} className="mr-2" /> Export CSV
           </Button>
@@ -160,8 +160,8 @@ export default function SensorsPage() {
           title="Active Nodes"
           value={devices.filter(isDeviceActive).length}
           unit="Nodes"
-          icon={<Cpu className={devices.filter(isDeviceActive).length > 0 ? "text-[#48D87D]" : "text-slate-500"} />}
-          color={devices.filter(isDeviceActive).length > 0 ? "text-[#48D87D]" : "text-slate-200"}
+          icon={<Cpu className={devices.filter(isDeviceActive).length > 0 ? "text-primary" : "text-muted-foreground"} />}
+          color={devices.filter(isDeviceActive).length > 0 ? "text-primary" : "text-secondary-foreground"}
           isRaw
         />
       </div>
@@ -169,7 +169,7 @@ export default function SensorsPage() {
       <div className="grid lg:grid-cols-4 gap-8">
         <CardContainer title="7-DAY TREND ANALYSIS" className="lg:col-span-3">
           <Tabs value={activeChart} onValueChange={setActiveChart} className="w-full">
-            <TabsList className="bg-gray-900/50 border border-gray-800 mb-8 overflow-x-auto custom-scrollbar flex-nowrap justify-start h-auto p-1.5 gap-1 shadow-inner">
+            <TabsList className="bg-card/50 border border-border mb-8 overflow-x-auto custom-scrollbar flex-nowrap justify-start h-auto p-1.5 gap-1 shadow-inner">
               {[
                 { id: 'moisture', label: 'Moisture' },
                 { id: 'rain', label: 'Rainfall' },
@@ -184,26 +184,26 @@ export default function SensorsPage() {
                 <TabsTrigger
                   key={metric.id}
                   value={metric.id}
-                  className="uppercase text-[9px] font-black tracking-widest px-4 py-2 transition-all duration-300 text-slate-400 hover:text-white hover:bg-white/5 data-[state=active]:bg-[#48D87D] data-[state=active]:text-black data-[state=active]:shadow-[0_0_15px_rgba(72,216,125,0.4)]"
+                  className="uppercase text-[9px] font-black tracking-widest px-4 py-2 transition-all duration-300 text-muted-foreground hover:text-foreground hover:bg-white/5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-[0_0_15px_rgba(72,216,125,0.4)]"
                 >
                   {metric.label}
                 </TabsTrigger>
               ))}
             </TabsList>
-            <div className="h-[400px] w-full bg-gray-900/30 rounded-xl p-4 border border-gray-800/50">
+            <div className="h-[400px] w-full bg-card/30 rounded-xl p-4 border border-border/50">
               <ResponsiveContainer>
                 <AreaChart data={historyData}>
                   <defs>
                     <linearGradient id="colorActive" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#48D87D" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#48D87D" stopOpacity={0} />
+                      <stop offset="5%" stopColor="var(--color-primary)" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="var(--color-primary)" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#111" vertical={false} />
                   <XAxis dataKey="date" stroke="#444" fontSize={10} tickFormatter={(val) => val.split('-').slice(1).join('/')} />
                   <YAxis stroke="#444" fontSize={10} />
                   <Tooltip contentStyle={{ backgroundColor: '#000', border: '1px solid #222', fontSize: '10px', fontWeight: '900' }} formatter={(val: any) => [val.toFixed(2), activeChart.toUpperCase()]} />
-                  <Area type="monotone" dataKey={activeChart} stroke="#48D87D" fill="url(#colorActive)" strokeWidth={3} activeDot={{ r: 6, fill: '#000', stroke: '#48D87D', strokeWidth: 2 }} />
+                  <Area type="monotone" dataKey={activeChart} stroke="var(--color-primary)" fill="url(#colorActive)" strokeWidth={3} activeDot={{ r: 6, fill: '#000', stroke: 'var(--color-primary)', strokeWidth: 2 }} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -216,15 +216,15 @@ export default function SensorsPage() {
               {devices.length > 0 ? devices.map(dev => {
                 const active = isDeviceActive(dev);
                 return (
-                  <div key={dev.id} className={`bg-gray-900/50 border p-3 rounded-lg flex items-center justify-between group transition-all ${active ? 'border-[#48D87D]/30' : 'border-gray-800'}`}>
+                  <div key={dev.id} className={`bg-card/50 border p-3 rounded-lg flex items-center justify-between group transition-all ${active ? 'border-primary/30' : 'border-border'}`}>
                     <div className="flex items-center gap-3">
-                      <div className={`w-2 h-2 rounded-full ${active ? 'bg-[#48D87D] shadow-[0_0_10px_#48D87D] animate-pulse' : 'bg-red-600 shadow-[0_0_5px_rgba(220,38,38,0.5)]'}`} />
+                      <div className={`w-2 h-2 rounded-full ${active ? 'bg-primary shadow-[0_0_10px_var(--color-primary)] animate-pulse' : 'bg-red-600 shadow-[0_0_5px_rgba(220,38,38,0.5)]'}`} />
                       <div className="flex flex-col">
-                        <span className={`font-black text-[9px] uppercase tracking-tighter ${active ? 'text-white' : 'text-slate-500'}`}>{dev.deviceName}</span>
+                        <span className={`font-black text-[9px] uppercase tracking-tighter ${active ? 'text-foreground' : 'text-muted-foreground'}`}>{dev.deviceName}</span>
                         <span className="text-[7px] text-slate-600 font-bold uppercase">{dev.deviceSerialNumber}</span>
                       </div>
                     </div>
-                    <Cpu size={12} className={active ? "text-[#48D87D]" : "text-slate-800"} />
+                    <Cpu size={12} className={active ? "text-primary" : "text-slate-800"} />
                   </div>
                 );
               }) : (
@@ -241,11 +241,11 @@ export default function SensorsPage() {
 function StatusCard({ title, value, unit, icon, color, isRaw }: any) {
   const displayVal = isRaw ? value : (!isNaN(parseFloat(value)) ? parseFloat(value).toFixed(2) : '--');
   return (
-    <div className={`bg-gray-900/50 border border-gray-800 p-5 rounded-xl transition-all relative overflow-hidden group ${isRaw && value > 0 ? 'border-[#48D87D]/30 shadow-[0_0_15px_rgba(72,216,125,0.1)]' : ''}`}>
+    <div className={`bg-card/50 border border-border p-5 rounded-xl transition-all relative overflow-hidden group ${isRaw && value > 0 ? 'border-primary/30 shadow-[0_0_15px_rgba(72,216,125,0.1)]' : ''}`}>
       <div className="absolute -right-2 -bottom-2 opacity-5 group-hover:scale-110 transition-transform">{icon}</div>
-      <p className="text-slate-500 text-[8px] font-black uppercase tracking-[0.2em] mb-1">{title}</p>
+      <p className="text-muted-foreground text-[8px] font-black uppercase tracking-[0.2em] mb-1">{title}</p>
       <div className="flex items-baseline gap-1">
-        <span className={`text-2xl font-black italic tracking-tighter ${color || 'text-white'}`}>{displayVal}</span>
+        <span className={`text-2xl font-black italic tracking-tighter ${color || 'text-foreground'}`}>{displayVal}</span>
         <span className="text-slate-600 text-[8px] font-bold uppercase">{unit}</span>
       </div>
     </div>
@@ -254,10 +254,10 @@ function StatusCard({ title, value, unit, icon, color, isRaw }: any) {
 
 function CardContainer({ title, children, className }: any) {
   return (
-    <div className={`bg-gray-900/50 border border-gray-800 rounded-2xl overflow-hidden shadow-2xl ${className}`}>
-      <div className="bg-gray-900/80 border-b border-gray-800 px-6 py-4 flex items-center justify-between">
-        <h2 className="text-white text-[9px] font-bold uppercase tracking-widest">{title}</h2>
-        <div className="w-1 h-1 rounded-full bg-[#48D87D] animate-ping" />
+    <div className={`bg-card/50 border border-border rounded-2xl overflow-hidden shadow-2xl ${className}`}>
+      <div className="bg-card/80 border-b border-border px-6 py-4 flex items-center justify-between">
+        <h2 className="text-foreground text-[9px] font-bold uppercase tracking-widest">{title}</h2>
+        <div className="w-1 h-1 rounded-full bg-primary animate-ping" />
       </div>
       <div className="p-6">{children}</div>
     </div>

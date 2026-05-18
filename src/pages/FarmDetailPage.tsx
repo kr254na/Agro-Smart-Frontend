@@ -139,25 +139,25 @@ export default function FarmDetailPage() {
     } catch (err) { toast.error("Delete failed"); }
   };
 
-  if (isLoading) return <div className="flex h-screen items-center justify-center bg-gray-950"><Loader2 className="w-12 h-12 text-[#48D87D] animate-spin" /></div>;
-  if (!farm) return <div className="p-20 text-center"><h2 className="text-white text-2xl font-bold">Node not found</h2></div>;
+  if (isLoading) return <div className="flex h-screen items-center justify-center bg-background"><Loader2 className="w-12 h-12 text-primary animate-spin" /></div>;
+  if (!farm) return <div className="p-20 text-center"><h2 className="text-foreground text-2xl font-bold">Node not found</h2></div>;
 
   return (
-    <div className="p-4 lg:p-8 pt-6 bg-gray-950 min-h-screen text-slate-100">
+    <div className="p-4 lg:p-8 pt-6 bg-background min-h-screen text-foreground">
       <div className="max-w-7xl mx-auto">
         <div className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <button onClick={() => navigate('/farms')} className="flex items-center gap-2 text-slate-500 hover:text-[#48D87D] mb-4 text-xs font-bold uppercase tracking-widest transition-colors">
+            <button onClick={() => navigate('/farms')} className="flex items-center gap-2 text-muted-foreground hover:text-primary mb-4 text-xs font-bold uppercase tracking-widest transition-colors">
               <ArrowLeft size={14} /> Back
             </button>
-            <h1 className="text-4xl font-bold text-white tracking-tight uppercase">{farm.farmName}</h1>
-            <div className="flex items-center gap-4 text-slate-500 text-xs font-bold">
-              <div className="flex items-center gap-1.5"><MapPin size={14} className="text-[#48D87D]" />{farm.latitude?.toFixed(4)}, {farm.longitude?.toFixed(4)}</div>
+            <h1 className="text-4xl font-bold text-foreground tracking-tight uppercase">{farm.farmName}</h1>
+            <div className="flex items-center gap-4 text-muted-foreground text-xs font-bold">
+              <div className="flex items-center gap-1.5"><MapPin size={14} className="text-primary" />{farm.latitude?.toFixed(4)}, {farm.longitude?.toFixed(4)}</div>
               <Separator orientation="vertical" className="h-3 bg-slate-800" />
-              <Badge className="bg-[#48D87D] text-black border-none text-[10px] font-black">{farm.totalArea?.toFixed(2)} AC COVERAGE</Badge>
+              <Badge className="bg-primary text-primary-foreground border-none text-[10px] font-black">{farm.totalArea?.toFixed(2)} AC COVERAGE</Badge>
             </div>
           </div>
-          <Button onClick={() => setIsEditModalOpen(true)} className="bg-white text-black font-bold hover:bg-slate-200 px-6 uppercase text-[10px] tracking-widest">Configure Node</Button>
+          <Button onClick={() => setIsEditModalOpen(true)} className="bg-white text-primary-foreground font-bold hover:bg-slate-200 px-6 uppercase text-[10px] tracking-widest">Configure Node</Button>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
@@ -174,33 +174,33 @@ export default function FarmDetailPage() {
             </div>
 
             {/* SECTION 2: NUTRIENTS (NPK) */}
-            <Card className="bg-gray-900/50 border-gray-800 shadow-2xl p-6">
-              <h3 className="text-white font-bold text-xs uppercase tracking-widest flex items-center gap-2 mb-6">
-                <Leaf size={14} className="text-[#48D87D]" /> Live Soil Nutrients (NPK)
+            <Card className="bg-card/50 border-border shadow-2xl p-6">
+              <h3 className="text-foreground font-bold text-xs uppercase tracking-widest flex items-center gap-2 mb-6">
+                <Leaf size={14} className="text-primary" /> Live Soil Nutrients (NPK)
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="space-y-1">
-                  <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Nitrogen (N)</p>
-                  <p className="text-3xl font-black text-white">{latestData ? formatValue(latestData.nitrogen) : '--'} <span className="text-xs font-normal text-slate-600">mg/kg</span></p>
+                  <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Nitrogen (N)</p>
+                  <p className="text-3xl font-black text-foreground">{latestData ? formatValue(latestData.nitrogen) : '--'} <span className="text-xs font-normal text-slate-600">mg/kg</span></p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Phosphorus (P)</p>
-                  <p className="text-3xl font-black text-white">{latestData ? formatValue(latestData.phosphorus) : '--'} <span className="text-xs font-normal text-slate-600">mg/kg</span></p>
+                  <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Phosphorus (P)</p>
+                  <p className="text-3xl font-black text-foreground">{latestData ? formatValue(latestData.phosphorus) : '--'} <span className="text-xs font-normal text-slate-600">mg/kg</span></p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Potassium (K)</p>
-                  <p className="text-3xl font-black text-white">{latestData ? formatValue(latestData.potassium) : '--'} <span className="text-xs font-normal text-slate-600">mg/kg</span></p>
+                  <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Potassium (K)</p>
+                  <p className="text-3xl font-black text-foreground">{latestData ? formatValue(latestData.potassium) : '--'} <span className="text-xs font-normal text-slate-600">mg/kg</span></p>
                 </div>
               </div>
             </Card>
 
             {/* SECTION 3: 7-DAY ANALYTICS CHART */}
-            <Card className="bg-gray-900/50 border-gray-800 shadow-2xl p-6">
+            <Card className="bg-card/50 border-border shadow-2xl p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-white font-bold text-xs uppercase tracking-widest flex items-center gap-2">
-                  <TrendingUp size={14} className="text-[#48D87D]" /> Multi-Variable Trend Analysis
+                <h3 className="text-foreground font-bold text-xs uppercase tracking-widest flex items-center gap-2">
+                  <TrendingUp size={14} className="text-primary" /> Multi-Variable Trend Analysis
                 </h3>
-                <Badge variant="outline" className="border-slate-800 text-[10px] text-slate-500 uppercase font-black">7-Day History</Badge>
+                <Badge variant="outline" className="border-border text-[10px] text-muted-foreground uppercase font-black">7-Day History</Badge>
               </div>
               <div className="h-[350px] w-full">
                 <ResponsiveContainer>
@@ -226,18 +226,18 @@ export default function FarmDetailPage() {
               </div>
             </Card>
 
-            <Card className="bg-gray-900/50 border-gray-800 overflow-hidden shadow-2xl h-[400px]">
+            <Card className="bg-card/50 border-border overflow-hidden shadow-2xl h-[400px]">
               <FarmMap farms={[farm]} />
             </Card>
           </div>
 
           <div className="space-y-8">
-            <Card className="bg-gray-900/50 border-gray-800 shadow-2xl">
+            <Card className="bg-card/50 border-border shadow-2xl">
               <CardHeader className="flex flex-row items-center justify-between border-b border-slate-900/50 pb-4">
-                <CardTitle className="text-lg text-white flex items-center gap-2 font-bold italic uppercase tracking-tighter">
+                <CardTitle className="text-lg text-foreground flex items-center gap-2 font-bold italic uppercase tracking-tighter">
                   Infrastructure Nodes
                 </CardTitle>
-                <Button onClick={() => { setEditingField(null); setIsFieldModalOpen(true); }} className="h-7 w-7 p-0 bg-[#48D87D] text-black rounded-full shadow-[0_0_10px_rgba(72,216,125,0.4)]"><Plus size={14} /></Button>
+                <Button onClick={() => { setEditingField(null); setIsFieldModalOpen(true); }} className="h-7 w-7 p-0 bg-primary text-primary-foreground rounded-full shadow-[0_0_10px_rgba(72,216,125,0.4)]"><Plus size={14} /></Button>
               </CardHeader>
               <CardContent className="pt-6">
                 <div className="space-y-6">
@@ -245,49 +245,49 @@ export default function FarmDetailPage() {
                     <div
                       key={field.id}
                       onClick={() => { setSelectedFieldId(field.id); fetchTelemetry(field.id); }}
-                      className={`bg-gray-900/50 p-4 rounded-xl border group relative cursor-pointer transition-all ${selectedFieldId === field.id ? 'border-[#48D87D]' : 'border-gray-800'}`}
+                      className={`bg-card/50 p-4 rounded-xl border group relative cursor-pointer transition-all ${selectedFieldId === field.id ? 'border-primary' : 'border-border'}`}
                     >
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex flex-col gap-0.5">
-                          <span className="text-[#48D87D] font-black text-[10px] uppercase tracking-widest">{field.fieldName}</span>
-                          <Badge className="bg-[#48D87D] text-black border-none text-[10px] font-black px-2 py-0.5">
+                          <span className="text-primary font-black text-[10px] uppercase tracking-widest">{field.fieldName}</span>
+                          <Badge className="bg-primary text-primary-foreground border-none text-[10px] font-black px-2 py-0.5">
                             {field.cropType}
                           </Badge>
                         </div>
                         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button onClick={(e) => { e.stopPropagation(); setEditingField(field); setIsFieldModalOpen(true); }} className="p-1.5 text-slate-400 hover:text-[#48D87D] transition-colors"><Edit3 size={14} /></button>
+                          <button onClick={(e) => { e.stopPropagation(); setEditingField(field); setIsFieldModalOpen(true); }} className="p-1.5 text-muted-foreground hover:text-primary transition-colors"><Edit3 size={14} /></button>
                           <button onClick={(e) => { e.stopPropagation(); handleDeleteField(field.id); }} className="p-1.5 text-red-900 hover:text-red-500 transition-colors"><Trash2 size={14} /></button>
                         </div>
                       </div>
 
-                      <div className="mt-4 space-y-2 border-t border-slate-800/50 pt-4">
+                      <div className="mt-4 space-y-2 border-t border-border/50 pt-4">
                         <div className="flex justify-between items-center mb-2">
-                          <p className="text-[9px] font-black text-slate-500 uppercase tracking-tighter">Active Sensors ({devices[field.id]?.length || 0})</p>
+                          <p className="text-[9px] font-black text-muted-foreground uppercase tracking-tighter">Active Sensors ({devices[field.id]?.length || 0})</p>
                           <p className="text-[8px] font-bold text-slate-600 uppercase tracking-tighter">{field.fieldArea?.toFixed(2)} AC</p>
                         </div>
 
                         {devices[field.id]?.map((dev) => {
                           const isOn = dev.isActive || dev.active;
                           return (
-                            <div key={dev.id} className="flex items-center justify-between bg-gray-800/50 p-2.5 rounded-lg border border-gray-700/50 group/dev hover:border-[#48D87D]/30 transition-all">
+                            <div key={dev.id} className="flex items-center justify-between bg-accent/50 p-2.5 rounded-lg border border-input/50 group/dev hover:border-primary/30 transition-all">
                               <div className="flex items-center gap-3">
                                 <div className="relative flex h-2 w-2">
-                                  {isOn && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#48D87D] opacity-75"></span>}
-                                  <span className={`relative inline-flex rounded-full h-2 w-2 ${isOn ? 'bg-[#48D87D]' : 'bg-red-600'}`}></span>
+                                  {isOn && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>}
+                                  <span className={`relative inline-flex rounded-full h-2 w-2 ${isOn ? 'bg-primary' : 'bg-red-600'}`}></span>
                                 </div>
                                 <div className="flex flex-col">
-                                  <span className="text-[10px] font-bold text-slate-200">{dev.deviceName}</span>
-                                  <span className="text-[8px] text-slate-500 font-medium uppercase tracking-tighter">{isOn ? 'Signal Active' : 'Node Offline'}</span>
+                                  <span className="text-[10px] font-bold text-secondary-foreground">{dev.deviceName}</span>
+                                  <span className="text-[8px] text-muted-foreground font-medium uppercase tracking-tighter">{isOn ? 'Signal Active' : 'Node Offline'}</span>
                                 </div>
                               </div>
                               <div className="flex items-center gap-2 opacity-0 group-hover/dev:opacity-100 transition-opacity">
-                                <button onClick={(e) => { e.stopPropagation(); setSelectedDevice(dev); setIsUpdateDeviceOpen(true); }} className="text-slate-400 hover:text-[#48D87D]"><Edit3 size={12} /></button>
+                                <button onClick={(e) => { e.stopPropagation(); setSelectedDevice(dev); setIsUpdateDeviceOpen(true); }} className="text-muted-foreground hover:text-primary"><Edit3 size={12} /></button>
                                 <button onClick={(e) => { e.stopPropagation(); handleUnlinkDevice(dev.id, field.id); }} className="text-red-500/70 hover:text-red-400"><Trash2 size={12} /></button>
                               </div>
                             </div>
                           );
                         })}
-                        <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); setSelectedFieldId(field.id); setIsDeviceModalOpen(true); }} className="w-full h-8 mt-2 border border-dashed border-gray-700 text-slate-500 hover:text-[#48D87D] text-[9px] font-bold uppercase tracking-widest transition-all">
+                        <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); setSelectedFieldId(field.id); setIsDeviceModalOpen(true); }} className="w-full h-8 mt-2 border border-dashed border-input text-muted-foreground hover:text-primary text-[9px] font-bold uppercase tracking-widest transition-all">
                           <Cpu size={10} className="mr-2" /> Register Node
                         </Button>
                       </div>
@@ -310,10 +310,10 @@ export default function FarmDetailPage() {
 
 function StatusCard({ icon: Icon, title, value, unit, color }: any) {
   return (
-    <Card className="bg-gray-900/50 border-gray-800 relative group transition-all hover:bg-gray-900 shadow-lg">
+    <Card className="bg-card/50 border-border relative group transition-all hover:bg-card shadow-lg">
       <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><Icon size={54} className={color} /></div>
-      <CardHeader className="pb-1"><CardDescription className={`${color} font-black text-[9px] uppercase tracking-[0.2em]`}>{title}</CardDescription><CardTitle className="text-4xl text-white font-black tracking-tighter italic">{value}</CardTitle></CardHeader>
-      <CardContent><p className="text-[10px] text-slate-500 font-bold uppercase italic tracking-widest">{unit}</p></CardContent>
+      <CardHeader className="pb-1"><CardDescription className={`${color} font-black text-[9px] uppercase tracking-[0.2em]`}>{title}</CardDescription><CardTitle className="text-4xl text-foreground font-black tracking-tighter italic">{value}</CardTitle></CardHeader>
+      <CardContent><p className="text-[10px] text-muted-foreground font-bold uppercase italic tracking-widest">{unit}</p></CardContent>
     </Card>
   );
 }

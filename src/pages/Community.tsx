@@ -84,7 +84,7 @@ export default function Community() {
   const [deleteConfig, setDeleteConfig] = useState<{ id: number; type: 'POST' | 'COMMENT'; postId?: number } | null>(null);
 
   const categoryConfig: Record<string, { name: string; icon: any; color: string }> = {
-    ALL: { name: 'All Topics', icon: MessageSquare, color: 'text-slate-400' },
+    ALL: { name: 'All Topics', icon: MessageSquare, color: 'text-muted-foreground' },
     GENERAL_DISCUSSION: { name: 'General', icon: MessageSquare, color: 'text-blue-400' },
     DISEASE_OUTBREAK: { name: 'Disease Alert', icon: AlertCircle, color: 'text-red-500' },
     WEATHER_ALERT: { name: 'Weather', icon: CloudAlert, color: 'text-amber-400' },
@@ -254,19 +254,19 @@ export default function Community() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white p-4 lg:p-8">
+    <div className="min-h-screen bg-background text-foreground p-4 lg:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h1 className="text-4xl font-black uppercase tracking-tighter italic flex items-center gap-3 text-white">
-              <MessageSquare className="text-[#48D87D]" /> Community Hub
+            <h1 className="text-4xl font-black uppercase tracking-tighter italic flex items-center gap-3 text-foreground">
+              <MessageSquare className="text-primary" /> Community Hub
             </h1>
-            <p className="text-gray-500 font-bold uppercase text-[10px] tracking-[0.2em] mt-1 italic">
+            <p className="text-muted-foreground font-bold uppercase text-[10px] tracking-[0.2em] mt-1 italic">
                 {currentUser ? `Welcome, ${currentUser.name}` : 'AgroSmart Lucknow'}
             </p>
           </div>
-          <button onClick={() => setIsSubmitOpen(true)} className="px-6 py-3 bg-[#48D87D] text-black font-black uppercase text-xs tracking-widest rounded-lg hover:shadow-[0_0_20px_rgba(72,216,125,0.4)] transition-all flex items-center gap-2">
+          <button onClick={() => setIsSubmitOpen(true)} className="px-6 py-3 bg-primary text-primary-foreground font-black uppercase text-xs tracking-widest rounded-lg hover:shadow-[0_0_20px_rgba(72,216,125,0.4)] transition-all flex items-center gap-2">
             <Plus className="w-5 h-5" /> New Post
           </button>
         </div>
@@ -274,14 +274,14 @@ export default function Community() {
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
-            <Card className="bg-[#111] border-gray-800 shadow-2xl overflow-hidden">
-              <CardHeader className="bg-black/40 border-b border-gray-800/50 pb-4">
-                <CardTitle className="text-[10px] font-black uppercase tracking-widest text-white italic text-center">Topics</CardTitle>
+            <Card className="bg-card border-border shadow-2xl overflow-hidden">
+              <CardHeader className="bg-background/40 border-b border-border/50 pb-4">
+                <CardTitle className="text-[10px] font-black uppercase tracking-widest text-foreground italic text-center">Topics</CardTitle>
               </CardHeader>
               <CardContent className="pt-4 space-y-1.5">
                 {Object.entries(categoryConfig).map(([id, config]) => (
                   <button key={id} onClick={() => setSelectedCategory(id)}
-                    className={`w-full flex items-center justify-between p-3 rounded-lg transition-all text-[10px] font-black uppercase tracking-tighter ${selectedCategory === id ? 'bg-[#48D87D]/10 border border-[#48D87D]/30 text-[#48D87D]' : 'text-gray-500 hover:bg-white/5 hover:text-white'}`}>
+                    className={`w-full flex items-center justify-between p-3 rounded-lg transition-all text-[10px] font-black uppercase tracking-tighter ${selectedCategory === id ? 'bg-primary/10 border border-primary/30 text-primary' : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'}`}>
                     <div className="flex items-center gap-2.5"><config.icon className="w-3.5 h-3.5" /> {config.name}</div>
                   </button>
                 ))}
@@ -292,32 +292,32 @@ export default function Community() {
           {/* Feed */}
           <div className="lg:col-span-3 space-y-6">
             <div className="relative group">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600 group-focus-within:text-[#48D87D] transition-colors" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
               <Input placeholder="Search posts..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-[#111] border-gray-800 h-12 focus:border-[#48D87D] transition-all rounded-xl shadow-inner text-white" />
+                className="pl-10 bg-card border-border h-12 focus:border-primary transition-all rounded-xl shadow-inner text-foreground" />
             </div>
 
             {isLoading ? (
-              <div className="py-20 text-center"><Loader2 className="w-10 h-10 animate-spin text-[#48D87D] mx-auto" /></div>
+              <div className="py-20 text-center"><Loader2 className="w-10 h-10 animate-spin text-primary mx-auto" /></div>
             ) : posts.map((post) => (
-              <Card key={post.id} className="bg-[#111] border-gray-800 hover:border-[#48D87D]/20 transition-all shadow-xl overflow-hidden">
+              <Card key={post.id} className="bg-card border-border hover:border-primary/20 transition-all shadow-xl overflow-hidden">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
-                      <Avatar className="w-10 h-10 border-2 border-gray-900 shadow-inner">
-                        <AvatarFallback className="bg-gradient-to-br from-[#48D87D] to-emerald-600 text-black font-black uppercase">{post.authorName?.[0] || 'A'}</AvatarFallback>
+                      <Avatar className="w-10 h-10 border-2 border-border shadow-inner">
+                        <AvatarFallback className="bg-gradient-to-br from-primary to-emerald-600 text-primary-foreground font-black uppercase">{post.authorName?.[0] || 'A'}</AvatarFallback>
                       </Avatar>
                       <div>
-                        <h3 className="text-white font-black text-[11px] uppercase tracking-wide">{post.authorName}</h3>
-                        <p className="text-gray-600 text-[9px] font-bold uppercase tracking-widest">{formatDistanceToNow(new Date(post.createdAt))} ago</p>
+                        <h3 className="text-foreground font-black text-[11px] uppercase tracking-wide">{post.authorName}</h3>
+                        <p className="text-muted-foreground text-[9px] font-bold uppercase tracking-widest">{formatDistanceToNow(new Date(post.createdAt))} ago</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Badge variant="outline" className={`text-[8px] font-black uppercase bg-black/40 border-gray-800 ${categoryConfig[post.category]?.color}`}>
+                      <Badge variant="outline" className={`text-[8px] font-black uppercase bg-background/40 border-border ${categoryConfig[post.category]?.color}`}>
                         {categoryConfig[post.category]?.name}
                       </Badge>
                       {isOwner(post.authorEmail) && (
-                        <button onClick={() => setDeleteConfig({ id: post.id, type: 'POST' })} className="text-gray-700 hover:text-red-500 transition-colors p-1">
+                        <button onClick={() => setDeleteConfig({ id: post.id, type: 'POST' })} className="text-secondary-foreground hover:text-red-500 transition-colors p-1">
                           <Trash2 size={14} />
                         </button>
                       )}
@@ -325,16 +325,16 @@ export default function Community() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <h2 className="text-xl font-bold text-white tracking-tight italic uppercase">{post.title}</h2>
-                  <p className="text-gray-400 text-sm leading-relaxed line-clamp-3 font-medium">{post.content}</p>
-                  <Separator className="bg-gray-800/50" />
+                  <h2 className="text-xl font-bold text-foreground tracking-tight italic uppercase">{post.title}</h2>
+                  <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3 font-medium">{post.content}</p>
+                  <Separator className="bg-accent/50" />
                   <div className="flex items-center gap-4">
                     <button onClick={() => handleToggleLike(post.id)}
-                      className={`flex items-center gap-2 px-5 py-2 rounded-full transition-all text-[10px] font-black uppercase ${post.isLikedByCurrentUser ? 'bg-[#48D87D] text-black shadow-[0_0_15px_rgba(72,216,125,0.4)]' : 'bg-black text-gray-500 hover:bg-gray-800 border border-gray-800'}`}>
+                      className={`flex items-center gap-2 px-5 py-2 rounded-full transition-all text-[10px] font-black uppercase ${post.isLikedByCurrentUser ? 'bg-primary text-primary-foreground shadow-[0_0_15px_rgba(72,216,125,0.4)]' : 'bg-background text-muted-foreground hover:bg-accent border border-border'}`}>
                       <ThumbsUp className="w-3.5 h-3.5" /> {post.likesCount}
                     </button>
                     <button onClick={() => { setSelectedPostForComments(post); setIsCommentModalOpen(true); }}
-                      className="flex items-center gap-2 px-5 py-2 bg-black text-gray-500 rounded-full hover:bg-gray-800 transition-all text-[10px] font-black uppercase border border-gray-800">
+                      className="flex items-center gap-2 px-5 py-2 bg-background text-muted-foreground rounded-full hover:bg-accent transition-all text-[10px] font-black uppercase border border-border">
                       <MessageCircle className="w-3.5 h-3.5" /> {post.comments?.length || 0} Comments
                     </button>
                   </div>
@@ -347,30 +347,30 @@ export default function Community() {
 
       {/* --- CREATE POST MODAL --- */}
       <Dialog open={isSubmitOpen} onOpenChange={setIsSubmitOpen}>
-        <DialogContent className="bg-black border-gray-800 text-white sm:max-w-[600px] !rounded-3xl shadow-2xl">
-          <DialogHeader><DialogTitle className="uppercase font-black italic text-[#48D87D]">Create New Post</DialogTitle></DialogHeader>
-          <div className="space-y-4 mt-4 text-white">
-            <Input placeholder="Title" value={newPost.title} onChange={(e) => setNewPost({ ...newPost, title: e.target.value })} className="bg-[#111] border-gray-800 text-white" />
+        <DialogContent className="bg-background border-border text-foreground sm:max-w-[600px] !rounded-3xl shadow-2xl">
+          <DialogHeader><DialogTitle className="uppercase font-black italic text-primary">Create New Post</DialogTitle></DialogHeader>
+          <div className="space-y-4 mt-4 text-foreground">
+            <Input placeholder="Title" value={newPost.title} onChange={(e) => setNewPost({ ...newPost, title: e.target.value })} className="bg-card border-border text-foreground" />
             <Select value={newPost.category} onValueChange={(val) => setNewPost({ ...newPost, category: val as PostCategory })}>
-              <SelectTrigger className="bg-[#111] border-gray-800 uppercase text-[10px] font-black text-white"><SelectValue placeholder="Category" /></SelectTrigger>
-              <SelectContent className="bg-[#111] border-gray-800 text-white">
+              <SelectTrigger className="bg-card border-border uppercase text-[10px] font-black text-foreground"><SelectValue placeholder="Category" /></SelectTrigger>
+              <SelectContent className="bg-card border-border text-foreground">
                 {Object.entries(categoryConfig).filter(([id]) => id !== 'ALL').map(([id, config]) => (
                   <SelectItem key={id} value={id} className="uppercase text-[10px] font-black">{config.name}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            <Textarea placeholder="Post content..." value={newPost.content} onChange={(e) => setNewPost({ ...newPost, content: e.target.value })} className="bg-[#111] border-gray-800 min-h-[150px] text-white" />
-            <button onClick={handleCreatePost} className="w-full py-3 bg-[#48D87D] text-black font-black uppercase rounded-xl shadow-xl active:scale-95 transition-all">Submit</button>
+            <Textarea placeholder="Post content..." value={newPost.content} onChange={(e) => setNewPost({ ...newPost, content: e.target.value })} className="bg-card border-border min-h-[150px] text-foreground" />
+            <button onClick={handleCreatePost} className="w-full py-3 bg-primary text-primary-foreground font-black uppercase rounded-xl shadow-xl active:scale-95 transition-all">Submit</button>
           </div>
         </DialogContent>
       </Dialog>
 
       {/* --- SCROLLABLE COMMENT MODAL --- */}
       <Dialog open={isCommentModalOpen} onOpenChange={setIsCommentModalOpen}>
-        <DialogContent className="bg-black border-gray-800 text-white sm:max-w-[700px] h-[85vh] max-h-[85vh] flex flex-col p-0 overflow-hidden shadow-2xl !rounded-3xl">
+        <DialogContent className="bg-background border-border text-foreground sm:max-w-[700px] h-[85vh] max-h-[85vh] flex flex-col p-0 overflow-hidden shadow-2xl !rounded-3xl">
           {selectedPostForComments && (
             <div className="flex flex-col h-full w-full">
-              <DialogHeader className="p-6 border-b border-gray-800 bg-[#111] shrink-0">
+              <DialogHeader className="p-6 border-b border-border bg-card shrink-0">
                 <div className="flex items-center justify-between">
                   <Badge className={`w-fit text-[8px] font-black uppercase ${categoryConfig[selectedPostForComments.category]?.color}`}>
                       {categoryConfig[selectedPostForComments.category]?.name}
@@ -381,53 +381,53 @@ export default function Community() {
                     </button>
                   )}
                 </div>
-                <DialogTitle className="text-2xl font-black italic tracking-tight uppercase text-white mt-2">{selectedPostForComments.title}</DialogTitle>
-                <div className="flex items-center gap-2 text-[10px] text-gray-500 font-bold uppercase mt-2">
-                    <span className="text-[#48D87D]">{selectedPostForComments.authorName}</span>
+                <DialogTitle className="text-2xl font-black italic tracking-tight uppercase text-foreground mt-2">{selectedPostForComments.title}</DialogTitle>
+                <div className="flex items-center gap-2 text-[10px] text-muted-foreground font-bold uppercase mt-2">
+                    <span className="text-primary">{selectedPostForComments.authorName}</span>
                     <span>•</span>
                     <span>{formatDistanceToNow(new Date(selectedPostForComments.createdAt))} ago</span>
                 </div>
               </DialogHeader>
 
-              <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-black custom-scrollbar">
-                <p className="text-gray-300 text-sm leading-relaxed border-l-2 border-[#48D87D] pl-4 italic bg-[#111] p-4 rounded-r-xl shadow-inner">
+              <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-background custom-scrollbar">
+                <p className="text-secondary-foreground text-sm leading-relaxed border-l-2 border-primary pl-4 italic bg-card p-4 rounded-r-xl shadow-inner">
                   {selectedPostForComments.content}
                 </p>
                 <div className="space-y-4 pb-10">
                     {selectedPostForComments.comments?.map(comment => (
-                      <div key={comment.id} className="bg-[#111] p-4 rounded-xl border border-gray-800 group relative shadow-inner">
+                      <div key={comment.id} className="bg-card p-4 rounded-xl border border-border group relative shadow-inner">
                         <div className="flex justify-between items-center mb-2">
-                          <span className="text-[#48D87D] text-[9px] font-black uppercase tracking-widest">{comment.authorName}</span>
+                          <span className="text-primary text-[9px] font-black uppercase tracking-widest">{comment.authorName}</span>
                           <div className="flex items-center gap-2">
-                            <span className="text-gray-600 text-[8px] font-bold">{formatDistanceToNow(new Date(comment.createdAt))} ago</span>
+                            <span className="text-muted-foreground text-[8px] font-bold">{formatDistanceToNow(new Date(comment.createdAt))} ago</span>
                             {isOwner(comment.authorEmail) && editingCommentId !== comment.id && (
                               <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button onClick={() => { setEditingCommentId(comment.id); setEditCommentValue(comment.content); }} className="text-gray-600 hover:text-[#48D87D] p-1"><Edit3 size={12} /></button>
-                                <button onClick={() => setDeleteConfig({ id: comment.id, type: 'COMMENT', postId: selectedPostForComments.id })} className="text-gray-600 hover:text-red-500 p-1"><Trash2 size={12} /></button>
+                                <button onClick={() => { setEditingCommentId(comment.id); setEditCommentValue(comment.content); }} className="text-muted-foreground hover:text-primary p-1"><Edit3 size={12} /></button>
+                                <button onClick={() => setDeleteConfig({ id: comment.id, type: 'COMMENT', postId: selectedPostForComments.id })} className="text-muted-foreground hover:text-red-500 p-1"><Trash2 size={12} /></button>
                               </div>
                             )}
                           </div>
                         </div>
                         {editingCommentId === comment.id ? (
                           <div className="flex gap-2">
-                            <Input value={editCommentValue} onChange={(e) => setEditCommentValue(e.target.value)} className="bg-black border-gray-800 h-8 text-xs text-white" />
-                            <button onClick={() => handleUpdateComment(comment.id)} className="bg-[#48D87D] text-black p-1 rounded-md px-2 font-bold text-xs">Save</button>
-                            <button onClick={() => setEditingCommentId(null)} className="bg-gray-800 text-white p-1 rounded-md"><X size={14}/></button>
+                            <Input value={editCommentValue} onChange={(e) => setEditCommentValue(e.target.value)} className="bg-background border-border h-8 text-xs text-foreground" />
+                            <button onClick={() => handleUpdateComment(comment.id)} className="bg-primary text-primary-foreground p-1 rounded-md px-2 font-bold text-xs">Save</button>
+                            <button onClick={() => setEditingCommentId(null)} className="bg-accent text-foreground p-1 rounded-md"><X size={14}/></button>
                           </div>
                         ) : (
-                          <p className="text-gray-300 text-xs leading-relaxed font-medium">{comment.content}</p>
+                          <p className="text-secondary-foreground text-xs leading-relaxed font-medium">{comment.content}</p>
                         )}
                       </div>
                     ))}
                 </div>
               </div>
 
-              <div className="p-4 bg-[#111] border-t border-gray-800 shrink-0">
-                <div className="flex gap-2 items-center bg-black p-2 rounded-xl border border-gray-800 focus-within:border-[#48D87D]/50 transition-all shadow-inner">
+              <div className="p-4 bg-card border-t border-border shrink-0">
+                <div className="flex gap-2 items-center bg-background p-2 rounded-xl border border-border focus-within:border-primary/50 transition-all shadow-inner">
                     <Input placeholder="Add a comment..." value={activeCommentInput} onChange={(e) => setActiveCommentInput(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleAddComment(selectedPostForComments.id)}
-                        className="bg-transparent border-none focus-visible:ring-0 text-sm h-9 text-white" />
-                    <button onClick={() => handleAddComment(selectedPostForComments.id)} className="p-2 bg-[#48D87D] text-black rounded-lg hover:scale-105 transition-all"><Send size={16}/></button>
+                        className="bg-transparent border-none focus-visible:ring-0 text-sm h-9 text-foreground" />
+                    <button onClick={() => handleAddComment(selectedPostForComments.id)} className="p-2 bg-primary text-primary-foreground rounded-lg hover:scale-105 transition-all"><Send size={16}/></button>
                 </div>
               </div>
             </div>
@@ -437,19 +437,19 @@ export default function Community() {
 
       {/* --- DELETE CONFIRMATION --- */}
       <Dialog open={!!deleteConfig} onOpenChange={() => setDeleteConfig(null)}>
-        <DialogContent className="bg-black border-2 border-red-900/50 text-white sm:max-w-[400px] !rounded-3xl shadow-2xl">
+        <DialogContent className="bg-background border-2 border-red-900/50 text-foreground sm:max-w-[400px] !rounded-3xl shadow-2xl">
           <DialogHeader>
             <div className="mx-auto w-12 h-12 bg-red-900/20 rounded-full flex items-center justify-center mb-4">
               <AlertCircle className="text-red-500 w-6 h-6" />
             </div>
-            <DialogTitle className="text-center text-xl font-black italic uppercase tracking-tighter text-white">Are you sure?</DialogTitle>
-            <DialogDescription className="text-center text-gray-500 font-bold uppercase text-[10px] mt-2">
+            <DialogTitle className="text-center text-xl font-black italic uppercase tracking-tighter text-foreground">Are you sure?</DialogTitle>
+            <DialogDescription className="text-center text-muted-foreground font-bold uppercase text-[10px] mt-2">
               This will be deleted forever.
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3 mt-6">
-            <button onClick={executeDelete} className="w-full py-4 bg-red-600 text-white font-black uppercase text-xs rounded-xl hover:bg-red-700 transition-all">Yes, Delete</button>
-            <button onClick={() => setDeleteConfig(null)} className="w-full py-4 bg-gray-900 text-gray-400 font-black uppercase text-xs rounded-xl hover:text-white transition-all">Cancel</button>
+            <button onClick={executeDelete} className="w-full py-4 bg-red-600 text-foreground font-black uppercase text-xs rounded-xl hover:bg-red-700 transition-all">Yes, Delete</button>
+            <button onClick={() => setDeleteConfig(null)} className="w-full py-4 bg-card text-muted-foreground font-black uppercase text-xs rounded-xl hover:text-foreground transition-all">Cancel</button>
           </div>
         </DialogContent>
       </Dialog>
@@ -458,7 +458,7 @@ export default function Community() {
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #48D87D; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
       `}</style>
     </div>
   );

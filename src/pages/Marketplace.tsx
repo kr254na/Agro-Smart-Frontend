@@ -200,40 +200,40 @@ export default function Marketplace() {
   }, [activeTab, fetchBrowseProducts, fetchMyListings]);
 
   return (
-    <div className="min-h-screen bg-black text-white p-4 lg:p-8">
+    <div className="min-h-screen bg-background text-foreground p-4 lg:p-8">
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}
         <div className="mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h1 className="text-4xl font-black uppercase italic tracking-tighter text-white flex items-center gap-2">
-              <ShoppingCart className="text-[#48D87D]" /> Marketplace
+            <h1 className="text-4xl font-black uppercase italic tracking-tighter text-foreground flex items-center gap-2">
+              <ShoppingCart className="text-primary" /> Marketplace
             </h1>
-            <p className="text-gray-500 font-bold uppercase text-[10px] tracking-[0.2em] mt-1 italic">Lucknow network</p>
+            <p className="text-muted-foreground font-bold uppercase text-[10px] tracking-[0.2em] mt-1 italic">Lucknow network</p>
           </div>
           <button onClick={() => { setEditingId(null); setProductForm(initialForm); setImageFile(null); setIsModalOpen(true); }} 
-            className="px-6 py-3 bg-[#48D87D] text-black font-black uppercase text-xs tracking-widest rounded-lg hover:shadow-[0_0_20px_rgba(72,216,125,0.4)] transition-all flex items-center gap-2">
+            className="px-6 py-3 bg-primary text-primary-foreground font-black uppercase text-xs tracking-widest rounded-lg hover:shadow-[0_0_20px_rgba(72,216,125,0.4)] transition-all flex items-center gap-2">
             <Plus className="w-5 h-5" /> New Listing
           </button>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8">
-          <TabsList className="bg-[#111] border border-gray-800 p-1 rounded-xl">
-            <TabsTrigger value="browse" className="rounded-lg data-[state=active]:bg-[#48D87D] data-[state=active]:text-black text-white font-black uppercase text-[10px]">Browse Market</TabsTrigger>
-            <TabsTrigger value="mylisting" className="rounded-lg data-[state=active]:bg-[#48D87D] data-[state=active]:text-black text-white font-black uppercase text-[10px]">My Inventory</TabsTrigger>
+          <TabsList className="bg-card border border-border p-1 rounded-xl">
+            <TabsTrigger value="browse" className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-foreground font-black uppercase text-[10px]">Browse Market</TabsTrigger>
+            <TabsTrigger value="mylisting" className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-foreground font-black uppercase text-[10px]">My Inventory</TabsTrigger>
           </TabsList>
 
           <TabsContent value="browse" className="mt-6 space-y-6">
             <div className="flex flex-col md:flex-row gap-4 items-stretch">
                <div className="relative flex-1">
-                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600" />
-                 <Input placeholder="Search crops or tools..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-10 bg-[#111] border-gray-800 h-12 text-white" />
+                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                 <Input placeholder="Search crops or tools..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-10 bg-card border-border h-12 text-foreground" />
                </div>
                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                 <SelectTrigger className="w-full md:w-56 bg-[#111] border-gray-800 h-12 uppercase font-black text-[10px] text-white flex items-center">
+                 <SelectTrigger className="w-full md:w-56 bg-card border-border h-12 uppercase font-black text-[10px] text-foreground flex items-center">
                    <SelectValue placeholder="Category" />
                  </SelectTrigger>
-                 <SelectContent className="bg-[#111] border-gray-800 text-white">
+                 <SelectContent className="bg-card border-border text-foreground">
                     <SelectItem value="ALL" className="text-[10px] font-black uppercase">All Categories</SelectItem>
                     {Object.entries(CATEGORY_MAP).map(([key, label]) => (
                       <SelectItem key={key} value={key} className="text-[10px] font-black uppercase">{label}</SelectItem>
@@ -243,28 +243,28 @@ export default function Marketplace() {
             </div>
 
             {isLoading ? (
-              <div className="py-20 text-center"><Loader2 className="w-10 h-10 animate-spin text-[#48D87D] mx-auto" /></div>
+              <div className="py-20 text-center"><Loader2 className="w-10 h-10 animate-spin text-primary mx-auto" /></div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {products.map(p => {
                   const isOut = p.quantity <= 0 || p.isSold;
                   return (
-                    <Card key={p.id} className={`bg-[#111] border-gray-800 group overflow-hidden shadow-2xl transition-all ${isOut ? 'opacity-50' : 'hover:border-[#48D87D]/30'}`}>
+                    <Card key={p.id} className={`bg-card border-border group overflow-hidden shadow-2xl transition-all ${isOut ? 'opacity-50' : 'hover:border-primary/30'}`}>
                       <div className="h-48 relative overflow-hidden">
                         <img src={p.imageUrl || 'https://via.placeholder.com/400'} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                        <Badge className="absolute top-3 left-3 bg-[#48D87D] text-black font-black uppercase text-[8px] tracking-widest">{CATEGORY_MAP[p.category]}</Badge>
-                        {isOut && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black uppercase text-red-500 text-sm border-2 border-red-500 m-4 italic font-bold text-center">Sold Out</div>}
+                        <Badge className="absolute top-3 left-3 bg-primary text-primary-foreground font-black uppercase text-[8px] tracking-widest">{CATEGORY_MAP[p.category]}</Badge>
+                        {isOut && <div className="absolute inset-0 bg-background/60 flex items-center justify-center font-black uppercase text-red-500 text-sm border-2 border-red-500 m-4 italic font-bold text-center">Sold Out</div>}
                       </div>
                       <CardContent className="p-5 space-y-4">
                         <div className="min-h-[60px]">
-                          <h3 className="text-xl font-black italic uppercase truncate text-white">{p.productName}</h3>
-                          <p className="text-gray-400 text-[10px] line-clamp-2 mt-1 lowercase font-medium italic leading-tight">{p.description || "No technical description provided."}</p>
+                          <h3 className="text-xl font-black italic uppercase truncate text-foreground">{p.productName}</h3>
+                          <p className="text-muted-foreground text-[10px] line-clamp-2 mt-1 lowercase font-medium italic leading-tight">{p.description || "No technical description provided."}</p>
                         </div>
                         <div className="flex justify-between items-center">
-                          <p className="text-2xl font-black text-white">₹{p.price} <span className="text-[10px] text-gray-500 uppercase font-black">/ {p.unit}</span></p>
-                          <Badge variant="outline" className="text-[9px] border-gray-700 text-[#48D87D] uppercase font-black italic">{p.sellerName}</Badge>
+                          <p className="text-2xl font-black text-foreground">₹{p.price} <span className="text-[10px] text-muted-foreground uppercase font-black">/ {p.unit}</span></p>
+                          <Badge variant="outline" className="text-[9px] border-input text-primary uppercase font-black italic">{p.sellerName}</Badge>
                         </div>
-                        <Separator className="bg-gray-800" />
+                        <Separator className="bg-accent" />
                         <div className="flex gap-2">
                            <button onClick={() => {
                              if (!p.sellerContact) {
@@ -273,8 +273,8 @@ export default function Marketplace() {
                              }
                              const phone = p.sellerContact.replace(/\D/g, '');
                              window.open(`https://wa.me/${phone.startsWith('91') ? phone : '91'+phone}?text=Interested in ${p.productName}`, '_blank');
-                           }} disabled={isOut || !p.sellerContact} className="flex-1 py-3 bg-[#25D366]/10 text-[#25D366] font-black uppercase text-[10px] rounded hover:bg-[#25D366] hover:text-black transition-all flex items-center justify-center gap-2"><MessageCircle size={14}/> WhatsApp</button>
-                           <a href={isOut || !p.sellerContact ? "#" : `tel:${p.sellerContact}`} onClick={(e) => { if (!p.sellerContact) e.preventDefault(); }} className={`flex-1 py-3 border border-gray-800 text-gray-400 font-black uppercase text-[10px] rounded flex items-center justify-center gap-2 hover:bg-white hover:text-black transition-all ${!p.sellerContact ? 'opacity-50 cursor-not-allowed' : ''}`}><Phone size={14}/> Call</a>
+                           }} disabled={isOut || !p.sellerContact} className="flex-1 py-3 bg-[#25D366]/10 text-[#25D366] font-black uppercase text-[10px] rounded hover:bg-[#25D366] hover:text-primary-foreground transition-all flex items-center justify-center gap-2"><MessageCircle size={14}/> WhatsApp</button>
+                           <a href={isOut || !p.sellerContact ? "#" : `tel:${p.sellerContact}`} onClick={(e) => { if (!p.sellerContact) e.preventDefault(); }} className={`flex-1 py-3 border border-border text-muted-foreground font-black uppercase text-[10px] rounded flex items-center justify-center gap-2 hover:bg-white hover:text-primary-foreground transition-all ${!p.sellerContact ? 'opacity-50 cursor-not-allowed' : ''}`}><Phone size={14}/> Call</a>
                         </div>
                       </CardContent>
                     </Card>
@@ -285,32 +285,32 @@ export default function Marketplace() {
           </TabsContent>
 
           <TabsContent value="mylisting">
-             <Card className="bg-[#111] border-gray-800 shadow-2xl">
-                <CardHeader><CardTitle className="text-white font-black uppercase italic">Inventory Management</CardTitle></CardHeader>
+             <Card className="bg-card border-border shadow-2xl">
+                <CardHeader><CardTitle className="text-foreground font-black uppercase italic">Inventory Management</CardTitle></CardHeader>
                 <CardContent className="space-y-4">
                   {myListings.map(p => (
-                    <div key={p.id} className="flex flex-col md:flex-row items-center justify-between p-4 bg-black border border-gray-900 rounded-xl gap-4">
+                    <div key={p.id} className="flex flex-col md:flex-row items-center justify-between p-4 bg-background border border-border rounded-xl gap-4">
                       <div className="flex items-center gap-4 w-full md:w-1/3">
-                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${p.quantity <= 0 ? 'bg-red-500/10 text-red-500' : 'bg-[#48D87D]/10 text-[#48D87D]'}`}><Package /></div>
+                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${p.quantity <= 0 ? 'bg-red-500/10 text-red-500' : 'bg-primary/10 text-primary'}`}><Package /></div>
                         <div>
-                          <h4 className="font-black text-white uppercase italic">{p.productName}</h4>
-                          <p className="text-gray-400 text-[10px] font-bold uppercase">{CATEGORY_MAP[p.category]} • {p.unit}</p>
+                          <h4 className="font-black text-foreground uppercase italic">{p.productName}</h4>
+                          <p className="text-muted-foreground text-[10px] font-bold uppercase">{CATEGORY_MAP[p.category]} • {p.unit}</p>
                         </div>
                       </div>
                       
-                      <div className="flex items-center bg-zinc-900 border border-gray-800 rounded-lg p-1 shadow-inner min-w-[140px] justify-between">
-                        <button onClick={() => updateStock(p.id, p.quantity - 1)} disabled={p.quantity <= 0} className="p-2 text-white hover:text-[#48D87D] disabled:text-zinc-700 disabled:cursor-not-allowed"><Minus size={16}/></button>
-                        <span className="text-sm font-black text-white text-center">{p.quantity}</span>
-                        <button onClick={() => updateStock(p.id, p.quantity + 1)} className="p-2 text-white hover:text-[#48D87D]"><Plus size={16}/></button>
+                      <div className="flex items-center bg-zinc-900 border border-border rounded-lg p-1 shadow-inner min-w-[140px] justify-between">
+                        <button onClick={() => updateStock(p.id, p.quantity - 1)} disabled={p.quantity <= 0} className="p-2 text-foreground hover:text-primary disabled:text-zinc-700 disabled:cursor-not-allowed"><Minus size={16}/></button>
+                        <span className="text-sm font-black text-foreground text-center">{p.quantity}</span>
+                        <button onClick={() => updateStock(p.id, p.quantity + 1)} className="p-2 text-foreground hover:text-primary"><Plus size={16}/></button>
                       </div>
 
                       <div className="flex gap-2">
-                        <button onClick={() => openEditModal(p)} className="p-3 bg-blue-500/10 text-blue-400 rounded-lg hover:bg-blue-500 hover:text-white"><Edit size={16}/></button>
-                        <button onClick={() => setDeleteConfirmId(p.id)} className="p-3 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500 hover:text-white"><Trash2 size={16}/></button>
+                        <button onClick={() => openEditModal(p)} className="p-3 bg-blue-500/10 text-blue-400 rounded-lg hover:bg-blue-500 hover:text-foreground"><Edit size={16}/></button>
+                        <button onClick={() => setDeleteConfirmId(p.id)} className="p-3 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500 hover:text-foreground"><Trash2 size={16}/></button>
                       </div>
                     </div>
                   ))}
-                  {myListings.length === 0 && <p className="text-center py-10 text-gray-500 uppercase font-black text-xs italic">No listings discovered.</p>}
+                  {myListings.length === 0 && <p className="text-center py-10 text-muted-foreground uppercase font-black text-xs italic">No listings discovered.</p>}
                 </CardContent>
              </Card>
           </TabsContent>
@@ -318,38 +318,38 @@ export default function Marketplace() {
 
         {/* --- MODALS & TOAST --- */}
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-          <DialogContent className="bg-black border border-gray-800 text-white sm:max-w-[550px] !rounded-3xl shadow-2xl">
+          <DialogContent className="bg-background border border-border text-foreground sm:max-w-[550px] !rounded-3xl shadow-2xl">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-black italic uppercase tracking-tighter text-[#48D87D]">{editingId ? 'Edit Listing' : 'Deploy Listing'}</DialogTitle>
+              <DialogTitle className="text-2xl font-black italic uppercase tracking-tighter text-primary">{editingId ? 'Edit Listing' : 'Deploy Listing'}</DialogTitle>
             </DialogHeader>
             <div className="grid grid-cols-2 gap-4 mt-4">
-              <div className="col-span-2 space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Product Name</label><Input value={productForm.productName} onChange={e => setProductForm({...productForm, productName: e.target.value})} className="bg-[#111] border-gray-800 text-white" /></div>
-              <div className="space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Category</label>
+              <div className="col-span-2 space-y-1.5"><label className="text-[10px] font-black uppercase text-muted-foreground ml-1">Product Name</label><Input value={productForm.productName} onChange={e => setProductForm({...productForm, productName: e.target.value})} className="bg-card border-border text-foreground" /></div>
+              <div className="space-y-1.5"><label className="text-[10px] font-black uppercase text-muted-foreground ml-1">Category</label>
                 <Select value={productForm.category} onValueChange={v => setProductForm({...productForm, category: v as keyof typeof CATEGORY_MAP})}>
-                  <SelectTrigger className="bg-[#111] border-gray-800 text-[10px] font-black uppercase text-white h-12"><SelectValue /></SelectTrigger>
-                  <SelectContent className="bg-[#111] border-gray-800 text-white">{Object.entries(CATEGORY_MAP).map(([key, label]) => (<SelectItem key={key} value={key} className="text-[10px] font-black uppercase">{label}</SelectItem>))}</SelectContent>
+                  <SelectTrigger className="bg-card border-border text-[10px] font-black uppercase text-foreground h-12"><SelectValue /></SelectTrigger>
+                  <SelectContent className="bg-card border-border text-foreground">{Object.entries(CATEGORY_MAP).map(([key, label]) => (<SelectItem key={key} value={key} className="text-[10px] font-black uppercase">{label}</SelectItem>))}</SelectContent>
                 </Select>
               </div>
-              <div className="space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Price (₹)</label><Input type="number" value={productForm.price} onChange={e => setProductForm({...productForm, price: e.target.value})} className="bg-[#111] border-gray-800 text-white" /></div>
-              <div className="space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Quantity</label>
-                <div className="flex items-center bg-zinc-900 border border-gray-800 rounded-lg h-12 overflow-hidden shadow-inner">
-                  <button onClick={() => setProductForm(p=>({...p, quantity: Math.max(0, p.quantity-1)}))} className="w-12 h-full hover:bg-zinc-800 border-r border-zinc-800 flex items-center justify-center text-white"><Minus size={14}/></button>
-                  <input type="number" min="0" value={productForm.quantity} onChange={e => setProductForm(p=>({...p, quantity: Math.max(0, Number(e.target.value))}))} className="flex-1 w-full bg-transparent border-none text-center font-black text-sm text-white focus:outline-none min-w-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                  <button onClick={() => setProductForm(p=>({...p, quantity: p.quantity+1}))} className="w-12 h-full hover:bg-zinc-800 border-l border-zinc-800 flex items-center justify-center text-white"><Plus size={14}/></button>
+              <div className="space-y-1.5"><label className="text-[10px] font-black uppercase text-muted-foreground ml-1">Price (₹)</label><Input type="number" value={productForm.price} onChange={e => setProductForm({...productForm, price: e.target.value})} className="bg-card border-border text-foreground" /></div>
+              <div className="space-y-1.5"><label className="text-[10px] font-black uppercase text-muted-foreground ml-1">Quantity</label>
+                <div className="flex items-center bg-zinc-900 border border-border rounded-lg h-12 overflow-hidden shadow-inner">
+                  <button onClick={() => setProductForm(p=>({...p, quantity: Math.max(0, p.quantity-1)}))} className="w-12 h-full hover:bg-zinc-800 border-r border-zinc-800 flex items-center justify-center text-foreground"><Minus size={14}/></button>
+                  <input type="number" min="0" value={productForm.quantity} onChange={e => setProductForm(p=>({...p, quantity: Math.max(0, Number(e.target.value))}))} className="flex-1 w-full bg-transparent border-none text-center font-black text-sm text-foreground focus:outline-none min-w-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                  <button onClick={() => setProductForm(p=>({...p, quantity: p.quantity+1}))} className="w-12 h-full hover:bg-zinc-800 border-l border-zinc-800 flex items-center justify-center text-foreground"><Plus size={14}/></button>
                 </div>
               </div>
-              <div className="space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Unit</label><Input value={productForm.unit} onChange={e => setProductForm({...productForm, unit: e.target.value})} className="bg-[#111] border-gray-800 text-white" placeholder="KG, Bag..." /></div>
-              <div className="col-span-2 space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Product Image</label>
+              <div className="space-y-1.5"><label className="text-[10px] font-black uppercase text-muted-foreground ml-1">Unit</label><Input value={productForm.unit} onChange={e => setProductForm({...productForm, unit: e.target.value})} className="bg-card border-border text-foreground" placeholder="KG, Bag..." /></div>
+              <div className="col-span-2 space-y-1.5"><label className="text-[10px] font-black uppercase text-muted-foreground ml-1">Product Image</label>
                 <div className="flex flex-col gap-2">
                   {imagePreview ? (
-                    <div className="relative w-24 h-24 rounded-lg overflow-hidden border border-gray-800">
+                    <div className="relative w-24 h-24 rounded-lg overflow-hidden border border-border">
                       <img src={imagePreview} alt="New Preview" className="w-full h-full object-cover" />
-                      <button type="button" onClick={(e) => { e.preventDefault(); setImageFile(null); }} className="absolute top-1 right-1 bg-black/50 text-white rounded-full p-1 hover:bg-red-500 transition-colors"><Trash2 size={12} /></button>
+                      <button type="button" onClick={(e) => { e.preventDefault(); setImageFile(null); }} className="absolute top-1 right-1 bg-background/50 text-foreground rounded-full p-1 hover:bg-red-500 transition-colors"><Trash2 size={12} /></button>
                     </div>
                   ) : productForm.imageUrl && !productForm.removeImage ? (
-                    <div className="relative w-24 h-24 rounded-lg overflow-hidden border border-gray-800">
+                    <div className="relative w-24 h-24 rounded-lg overflow-hidden border border-border">
                       <img src={productForm.imageUrl} alt="Product" className="w-full h-full object-cover" />
-                      <button type="button" onClick={(e) => { e.preventDefault(); setProductForm({...productForm, removeImage: true}); }} className="absolute top-1 right-1 bg-black/50 text-white rounded-full p-1 hover:bg-red-500 transition-colors"><Trash2 size={12} /></button>
+                      <button type="button" onClick={(e) => { e.preventDefault(); setProductForm({...productForm, removeImage: true}); }} className="absolute top-1 right-1 bg-background/50 text-foreground rounded-full p-1 hover:bg-red-500 transition-colors"><Trash2 size={12} /></button>
                     </div>
                   ) : null}
                   <input key={imageFile ? 'has-file' : 'no-file'} type="file" accept="image/*" onChange={e => {
@@ -363,12 +363,12 @@ export default function Marketplace() {
                       setImageFile(file);
                       setProductForm({...productForm, removeImage: false});
                     }
-                  }} className="w-full bg-[#111] border border-gray-800 rounded-lg text-gray-400 text-sm file:text-white file:bg-zinc-800 file:border-0 file:rounded-md file:px-4 file:py-2.5 file:text-[10px] file:font-black file:uppercase file:cursor-pointer file:hover:bg-zinc-700 file:transition-colors file:mr-4 cursor-pointer p-1.5 focus:outline-none focus:ring-1 focus:ring-[#48D87D]" />
+                  }} className="w-full bg-card border border-border rounded-lg text-muted-foreground text-sm file:text-foreground file:bg-zinc-800 file:border-0 file:rounded-md file:px-4 file:py-2.5 file:text-[10px] file:font-black file:uppercase file:cursor-pointer file:hover:bg-zinc-700 file:transition-colors file:mr-4 cursor-pointer p-1.5 focus:outline-none focus:ring-1 focus:ring-primary" />
                 </div>
               </div>
-              <div className="col-span-2 space-y-1.5"><label className="text-[10px] font-black uppercase text-gray-500 ml-1">Details</label><Textarea value={productForm.description} onChange={e => setProductForm({...productForm, description: e.target.value})} className="bg-[#111] border-gray-800 text-white min-h-[100px]" placeholder="Technical data..." /></div>
+              <div className="col-span-2 space-y-1.5"><label className="text-[10px] font-black uppercase text-muted-foreground ml-1">Details</label><Textarea value={productForm.description} onChange={e => setProductForm({...productForm, description: e.target.value})} className="bg-card border-border text-foreground min-h-[100px]" placeholder="Technical data..." /></div>
             </div>
-            <button disabled={isSubmitting} onClick={handleSaveProduct} className="w-full py-4 mt-4 bg-[#48D87D] text-black font-black uppercase text-xs rounded-xl shadow-xl active:scale-95 transition-all flex items-center justify-center gap-2">
+            <button disabled={isSubmitting} onClick={handleSaveProduct} className="w-full py-4 mt-4 bg-primary text-primary-foreground font-black uppercase text-xs rounded-xl shadow-xl active:scale-95 transition-all flex items-center justify-center gap-2">
               {isSubmitting ? <Loader2 className="animate-spin w-4 h-4" /> : 'Finalize Listing'}
             </button>
           </DialogContent>
@@ -376,17 +376,17 @@ export default function Marketplace() {
 
         {/* --- DELETE DIALOG --- */}
         <Dialog open={!!deleteConfirmId} onOpenChange={() => setDeleteConfirmId(null)}>
-          <DialogContent className="bg-black border-2 border-red-900/50 text-white sm:max-w-[400px] !rounded-3xl shadow-2xl">
+          <DialogContent className="bg-background border-2 border-red-900/50 text-foreground sm:max-w-[400px] !rounded-3xl shadow-2xl">
             <DialogHeader>
               <div className="mx-auto w-12 h-12 bg-red-900/20 rounded-full flex items-center justify-center mb-4"><AlertTriangle className="text-red-500 w-6 h-6" /></div>
               <DialogTitle className="text-center text-xl font-black italic uppercase tracking-tighter">Confirm Delete</DialogTitle>
-              <DialogDescription className="text-center text-gray-500 font-bold uppercase text-[9px] mt-2">This item will be permanently removed from the network.</DialogDescription>
+              <DialogDescription className="text-center text-muted-foreground font-bold uppercase text-[9px] mt-2">This item will be permanently removed from the network.</DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-3 mt-6">
-              <button disabled={isDeleting} onClick={executeDelete} className="w-full py-4 bg-red-600 text-white font-black uppercase text-xs rounded-xl hover:bg-red-700 transition-all flex items-center justify-center gap-2 disabled:opacity-70">
+              <button disabled={isDeleting} onClick={executeDelete} className="w-full py-4 bg-red-600 text-foreground font-black uppercase text-xs rounded-xl hover:bg-red-700 transition-all flex items-center justify-center gap-2 disabled:opacity-70">
                 {isDeleting ? <Loader2 className="animate-spin w-4 h-4" /> : 'Yes, Delete'}
               </button>
-              <button disabled={isDeleting} onClick={() => setDeleteConfirmId(null)} className="w-full py-4 bg-gray-900 text-gray-400 font-black uppercase text-xs rounded-xl hover:text-white transition-all disabled:opacity-70">Cancel</button>
+              <button disabled={isDeleting} onClick={() => setDeleteConfirmId(null)} className="w-full py-4 bg-card text-muted-foreground font-black uppercase text-xs rounded-xl hover:text-foreground transition-all disabled:opacity-70">Cancel</button>
             </div>
           </DialogContent>
         </Dialog>
@@ -394,8 +394,8 @@ export default function Marketplace() {
         {/* --- TOAST NOTIFICATION --- */}
         {toast && (
           <div className="fixed bottom-8 right-8 z-[100] animate-in slide-in-from-right-10 duration-300">
-            <div className="bg-[#111] border-2 border-[#48D87D] text-white px-6 py-4 rounded-2xl shadow-[0_0_30px_rgba(72,216,125,0.2)] flex items-center gap-3">
-              <CheckCircle2 className="text-[#48D87D] w-5 h-5" />
+            <div className="bg-card border-2 border-primary text-foreground px-6 py-4 rounded-2xl shadow-[0_0_30px_rgba(72,216,125,0.2)] flex items-center gap-3">
+              <CheckCircle2 className="text-primary w-5 h-5" />
               <span className="font-black uppercase text-[10px] tracking-widest">{toast.msg}</span>
             </div>
           </div>

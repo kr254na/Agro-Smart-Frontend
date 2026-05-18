@@ -33,35 +33,35 @@ export default function UpdateDeviceModal({ isOpen, onClose, onSave, device }: a
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-gray-900 border-gray-800 text-white max-w-sm">
+      <DialogContent className="bg-card border-border text-foreground max-w-sm">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Cpu className="text-[#48D87D]" size={20} /> Device Configuration
+            <Cpu className="text-primary" size={20} /> Device Configuration
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
           <div className="space-y-1">
-            <Label className="text-slate-400 text-[10px] uppercase font-bold tracking-widest">Device Name</Label>
+            <Label className="text-muted-foreground text-[10px] uppercase font-bold tracking-widest">Device Name</Label>
             <Input 
               value={newName}
               onChange={e => setNewName(e.target.value)}
-              className="bg-gray-900/50 border-gray-800 focus:border-[#48D87D]" required 
+              className="bg-card/50 border-border focus:border-primary" required 
             />
           </div>
           
-          <div className="flex items-center justify-between p-3 bg-black/50 rounded-lg border border-slate-800">
+          <div className="flex items-center justify-between p-3 bg-background/50 rounded-lg border border-border">
             <div className="space-y-0.5">
-              <Label className="text-white text-xs font-bold">Operational Status</Label>
-              <p className="text-[10px] text-slate-500">Toggle sensor data stream</p>
+              <Label className="text-foreground text-xs font-bold">Operational Status</Label>
+              <p className="text-[10px] text-muted-foreground">Toggle sensor data stream</p>
             </div>
             <Switch 
               checked={isActive} 
               onCheckedChange={setIsActive}
-              className="data-[state=checked]:bg-[#48D87D]"
+              className="data-[state=checked]:bg-primary"
             />
           </div>
 
-          <Button type="submit" disabled={isSubmitting} className="w-full bg-[#48D87D] text-black font-black uppercase text-xs tracking-tighter">
+          <Button type="submit" disabled={isSubmitting} className="w-full bg-primary text-primary-foreground font-black uppercase text-xs tracking-tighter">
             {isSubmitting ? <Loader2 className="animate-spin h-4 w-4" /> : 'Save Changes'}
           </Button>
         </form>

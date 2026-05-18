@@ -148,7 +148,7 @@ const getNotificationIcon = (type: NotificationType) => {
     case 'community':
       return <Users className="h-5 w-5 text-green-400" />;
     case 'system':
-      return <Bell className="h-5 w-5 text-gray-400" />;
+      return <Bell className="h-5 w-5 text-muted-foreground" />;
   }
 };
 
@@ -221,20 +221,20 @@ export default function NotificationsPage() {
   };
 
   return (
-    <div className="p-6 lg:p-8 bg-gray-950 min-h-screen text-slate-100">
+    <div className="p-6 lg:p-8 bg-background min-h-screen text-foreground">
       {/* Page Header */}
       <div className="mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight uppercase">Notifications</h1>
+              <h1 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight uppercase">Notifications</h1>
               {unreadCount > 0 && (
-                <span className="bg-[#48D87D] text-black text-sm px-3 py-1 rounded-full font-semibold">
+                <span className="bg-primary text-primary-foreground text-sm px-3 py-1 rounded-full font-semibold">
                   {unreadCount} new
                 </span>
               )}
             </div>
-            <p className="text-gray-400">
+            <p className="text-muted-foreground">
               Stay updated on your farms, crops, and environment
             </p>
           </div>
@@ -242,7 +242,7 @@ export default function NotificationsPage() {
             <Button
               onClick={handleMarkAllAsRead}
               variant="outline"
-              className="border-gray-700 text-black hover:bg-[#1a1a1a] hover:text-[#48D87D] sm:w-auto font-medium"
+              className="border-input text-foreground hover:bg-accent hover:text-primary sm:w-auto font-medium"
             >
               <CheckCheck className="h-4 w-4 mr-2" />
               Mark All as Read
@@ -253,39 +253,39 @@ export default function NotificationsPage() {
         {/* Filters */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Select value={filterType} onValueChange={setFilterType}>
-            <SelectTrigger className="bg-[#1a1a1a] border-gray-800 text-white focus:border-[#48D87D]">
+            <SelectTrigger className="bg-accent border-border text-foreground focus:border-primary">
               <Filter className="h-4 w-4 mr-2" />
               <SelectValue placeholder="Filter by Type" />
             </SelectTrigger>
-            <SelectContent className="bg-[#1a1a1a] border-gray-800">
-              <SelectItem value="all" className="text-white focus:bg-[#2a2a2a]">All Types</SelectItem>
-              <SelectItem value="sensor" className="text-white focus:bg-[#2a2a2a]">Sensor Alerts</SelectItem>
-              <SelectItem value="ai" className="text-white focus:bg-[#2a2a2a]">AI Recommendations</SelectItem>
-              <SelectItem value="weather" className="text-white focus:bg-[#2a2a2a]">Weather Updates</SelectItem>
-              <SelectItem value="community" className="text-white focus:bg-[#2a2a2a]">Community</SelectItem>
-              <SelectItem value="system" className="text-white focus:bg-[#2a2a2a]">System</SelectItem>
+            <SelectContent className="bg-accent border-border">
+              <SelectItem value="all" className="text-foreground focus:bg-accent">All Types</SelectItem>
+              <SelectItem value="sensor" className="text-foreground focus:bg-accent">Sensor Alerts</SelectItem>
+              <SelectItem value="ai" className="text-foreground focus:bg-accent">AI Recommendations</SelectItem>
+              <SelectItem value="weather" className="text-foreground focus:bg-accent">Weather Updates</SelectItem>
+              <SelectItem value="community" className="text-foreground focus:bg-accent">Community</SelectItem>
+              <SelectItem value="system" className="text-foreground focus:bg-accent">System</SelectItem>
             </SelectContent>
           </Select>
 
           <Select value={filterSeverity} onValueChange={setFilterSeverity}>
-            <SelectTrigger className="bg-[#1a1a1a] border-gray-800 text-white focus:border-[#48D87D]">
+            <SelectTrigger className="bg-accent border-border text-foreground focus:border-primary">
               <SelectValue placeholder="Filter by Severity" />
             </SelectTrigger>
-            <SelectContent className="bg-[#1a1a1a] border-gray-800">
-              <SelectItem value="all" className="text-white focus:bg-[#2a2a2a]">All Severities</SelectItem>
-              <SelectItem value="critical" className="text-white focus:bg-[#2a2a2a]">Critical</SelectItem>
-              <SelectItem value="warning" className="text-white focus:bg-[#2a2a2a]">Warning</SelectItem>
-              <SelectItem value="info" className="text-white focus:bg-[#2a2a2a]">Info</SelectItem>
+            <SelectContent className="bg-accent border-border">
+              <SelectItem value="all" className="text-foreground focus:bg-accent">All Severities</SelectItem>
+              <SelectItem value="critical" className="text-foreground focus:bg-accent">Critical</SelectItem>
+              <SelectItem value="warning" className="text-foreground focus:bg-accent">Warning</SelectItem>
+              <SelectItem value="info" className="text-foreground focus:bg-accent">Info</SelectItem>
             </SelectContent>
           </Select>
 
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="bg-[#1a1a1a] border-gray-800 text-white focus:border-[#48D87D]">
+            <SelectTrigger className="bg-accent border-border text-foreground focus:border-primary">
               <SelectValue placeholder="Sort By" />
             </SelectTrigger>
-            <SelectContent className="bg-[#1a1a1a] border-gray-800">
-              <SelectItem value="date" className="text-white focus:bg-[#2a2a2a]">Most Recent</SelectItem>
-              <SelectItem value="severity" className="text-white focus:bg-[#2a2a2a]">By Severity</SelectItem>
+            <SelectContent className="bg-accent border-border">
+              <SelectItem value="date" className="text-foreground focus:bg-accent">Most Recent</SelectItem>
+              <SelectItem value="severity" className="text-foreground focus:bg-accent">By Severity</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -300,18 +300,18 @@ export default function NotificationsPage() {
               className={`${getSeverityColor(
                 notification.severity
               )} border rounded-xl p-5 cursor-pointer hover:shadow-lg transition-all ${
-                !notification.read ? 'border-l-4 border-l-[#48D87D]' : ''
+                !notification.read ? 'border-l-4 border-l-[var(--color-primary)]' : ''
               }`}
               onClick={() => handleNotificationClick(notification)}
             >
               <div className="flex items-start gap-4">
-                <div className="bg-[#1a1a1a] p-3 rounded-lg">
+                <div className="bg-accent p-3 rounded-lg">
                   {getNotificationIcon(notification.type)}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-col sm:flex-row items-start justify-between gap-3 mb-2">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="text-white font-medium text-sm sm:text-base">{notification.title}</h3>
+                      <h3 className="text-foreground font-medium text-sm sm:text-base">{notification.title}</h3>
                       <div className="flex gap-2">
                         <span
                           className={`text-[9px] sm:text-xs px-2 py-1 rounded-full ${getSeverityBadge(
@@ -321,7 +321,7 @@ export default function NotificationsPage() {
                           {notification.severity}
                         </span>
                         {!notification.read && (
-                          <span className="bg-[#48D87D] text-black text-[9px] sm:text-xs px-2 py-1 rounded-full font-bold uppercase">
+                          <span className="bg-primary text-primary-foreground text-[9px] sm:text-xs px-2 py-1 rounded-full font-bold uppercase">
                             New
                           </span>
                         )}
@@ -336,7 +336,7 @@ export default function NotificationsPage() {
                           }}
                           variant="ghost"
                           size="sm"
-                          className="text-gray-400 hover:text-white hover:bg-[#1a1a1a]"
+                          className="text-muted-foreground hover:text-foreground hover:bg-accent"
                         >
                           <Check className="h-4 w-4" />
                         </Button>
@@ -348,24 +348,24 @@ export default function NotificationsPage() {
                         }}
                         variant="ghost"
                         size="sm"
-                        className="text-gray-400 hover:text-red-400 hover:bg-red-500/10"
+                        className="text-muted-foreground hover:text-red-400 hover:bg-red-500/10"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                   </div>
-                  <p className="text-gray-400 text-sm mb-2">{notification.message}</p>
-                  <p className="text-gray-500 text-xs">{notification.timestamp}</p>
+                  <p className="text-muted-foreground text-sm mb-2">{notification.message}</p>
+                  <p className="text-muted-foreground text-xs">{notification.timestamp}</p>
                 </div>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <div className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-12 text-center shadow-xl">
-          <Bell className="h-12 w-12 text-gray-700 mx-auto mb-4" />
-          <h3 className="text-xl text-white mb-2 font-semibold">No Notifications</h3>
-          <p className="text-gray-400">
+        <div className="bg-accent border border-border rounded-xl p-12 text-center shadow-xl">
+          <Bell className="h-12 w-12 text-secondary-foreground mx-auto mb-4" />
+          <h3 className="text-xl text-foreground mb-2 font-semibold">No Notifications</h3>
+          <p className="text-muted-foreground">
             {filterType !== 'all' || filterSeverity !== 'all'
               ? 'No notifications match your current filters'
               : "You're all caught up! No new notifications at the moment."}

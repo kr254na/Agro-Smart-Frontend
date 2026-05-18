@@ -112,7 +112,7 @@ export default function About() {
   ];
 
   return (
-    <div className="pt-20 bg-gray-950 text-white">
+    <div className="pt-20 bg-background text-foreground">
       <SEO 
         title="About Us" 
         description="Learn about AgroSmart's mission to empower farmers with technology, data-driven insights, and sustainable agriculture solutions." 
@@ -153,13 +153,13 @@ export default function About() {
                 </span>
               </h1>
 
-              <p className="text-xl text-gray-400 mb-8 leading-relaxed">
+              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
                 AgroSmart combines IoT, AI, and community support to help farmers make smarter, 
                 more profitable decisions for sustainable agriculture.
               </p>
 
               {/* CTA Button */}
-              <Link to={ctaLink} className="px-8 py-4 bg-gradient-to-r from-green-500 cursor-pointer to-emerald-600 text-white rounded-lg hover:shadow-xl z-10 relative hover:shadow-green-500/50 transition-all text-lg font-semibold flex items-center justify-center gap-2">
+              <Link to={ctaLink} className="px-8 py-4 bg-gradient-to-r from-green-500 cursor-pointer to-emerald-600 text-foreground rounded-lg hover:shadow-xl z-10 relative hover:shadow-green-500/50 transition-all text-lg font-semibold flex items-center justify-center gap-2">
                 Get Started
                 <ArrowRight className="w-5 h-5" />
               </Link>
@@ -185,7 +185,7 @@ export default function About() {
       </section>
 
       {/* Vision Section */}
-      <section className="py-20 bg-gray-950">
+      <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -206,7 +206,7 @@ export default function About() {
                   transition={{ duration: 3, repeat: Infinity }}
                   className="absolute top-8 -right-6 w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl shadow-green-500/50"
                 >
-                  <Lightbulb className="w-10 h-10 text-white" />
+                  <Lightbulb className="w-10 h-10 text-foreground" />
                 </motion.div>
               </div>
 
@@ -220,11 +220,11 @@ export default function About() {
                     Sustainable Future
                   </span>
                 </h2>
-                <p className="text-xl text-gray-400 leading-relaxed mb-6">
+                <p className="text-xl text-muted-foreground leading-relaxed mb-6">
                   To create a sustainable, technology-driven agriculture ecosystem where farmers can 
                   monitor, analyze, and optimize their farms with real-time data and actionable insights.
                 </p>
-                <p className="text-lg text-gray-500 leading-relaxed">
+                <p className="text-lg text-muted-foreground leading-relaxed">
                   We envision a world where every farmer, regardless of farm size, has access to 
                   cutting-edge technology that helps them increase yields, reduce waste, and build 
                   a more sustainable agricultural future for generations to come.
@@ -248,7 +248,7 @@ export default function About() {
               Our Objectives
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold mb-4">What We Aim to Achieve</h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Comprehensive goals designed to revolutionize agriculture through technology and community
             </p>
           </motion.div>
@@ -262,15 +262,15 @@ export default function About() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="bg-gray-900/50 border-gray-800 hover:border-green-500/50 transition-all h-full group hover:shadow-xl hover:shadow-green-500/20 hover:scale-105 cursor-pointer">
+                <Card className="bg-card/50 border-border hover:border-green-500/50 transition-all h-full group hover:shadow-xl hover:shadow-green-500/20 hover:scale-105 cursor-pointer">
                   <CardHeader>
                     <div className={`w-16 h-16 bg-gradient-to-br ${objective.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                      <objective.icon className="w-8 h-8 text-white" />
+                      <objective.icon className="w-8 h-8 text-foreground" />
                     </div>
-                    <CardTitle className="text-xl text-white">{objective.title}</CardTitle>
+                    <CardTitle className="text-xl text-foreground">{objective.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-400">{objective.description}</p>
+                    <p className="text-muted-foreground">{objective.description}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -280,7 +280,7 @@ export default function About() {
       </section>
 
       {/* Technology Stack Section */}
-      <section className="py-20 bg-gray-950">
+      <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -297,7 +297,7 @@ export default function About() {
                 AgroSmart
               </span>
             </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Built with cutting-edge technologies to deliver reliable, scalable, and intelligent solutions
             </p>
           </motion.div>
@@ -311,15 +311,15 @@ export default function About() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="bg-gray-900/50 border-gray-800 hover:border-green-500/50 transition-all group hover:scale-105 cursor-pointer h-full">
+                <Card className="bg-card/50 border-border hover:border-green-500/50 transition-all group hover:scale-105 cursor-pointer h-full">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4 mb-4">
-                      <div className="w-14 h-14 bg-gray-800/50 rounded-xl flex items-center justify-center group-hover:bg-green-500/20 transition-all">
+                      <div className="w-14 h-14 bg-accent/50 rounded-xl flex items-center justify-center group-hover:bg-green-500/20 transition-all">
                         <tech.icon className={`w-7 h-7 ${tech.color}`} />
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-white">{tech.name}</h3>
-                        <p className="text-sm text-gray-400">{tech.description}</p>
+                        <h3 className="text-lg font-bold text-foreground">{tech.name}</h3>
+                        <p className="text-sm text-muted-foreground">{tech.description}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -343,7 +343,7 @@ export default function About() {
               Our Impact
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Why AgroSmart Matters</h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Farmers gain insights on soil health, crop growth, and weather, leading to higher yields 
               and more sustainable practices
             </p>
@@ -358,13 +358,13 @@ export default function About() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="bg-gray-900/50 border-gray-800 hover:border-green-500/50 transition-all text-center group hover:scale-105 cursor-pointer">
+                <Card className="bg-card/50 border-border hover:border-green-500/50 transition-all text-center group hover:scale-105 cursor-pointer">
                   <CardContent className="p-8">
                     <div className={`w-16 h-16 bg-gradient-to-br ${impact.color} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform`}>
-                      <impact.icon className="w-8 h-8 text-white" />
+                      <impact.icon className="w-8 h-8 text-foreground" />
                     </div>
-                    <h3 className="text-5xl font-bold text-white mb-2">{impact.value}</h3>
-                    <p className="text-gray-400">{impact.label}</p>
+                    <h3 className="text-5xl font-bold text-foreground mb-2">{impact.value}</h3>
+                    <p className="text-muted-foreground">{impact.label}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -384,10 +384,10 @@ export default function About() {
                   alt="Analytics Dashboard"
                   className="w-full h-64 object-cover rounded-xl mb-6"
                 />
-                <h3 className="text-2xl font-bold text-white mb-4">
+                <h3 className="text-2xl font-bold text-foreground mb-4">
                   Transforming Agriculture Through Data
                 </h3>
-                <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+                <p className="text-lg text-secondary-foreground max-w-2xl mx-auto">
                   Our platform has helped farmers increase productivity by providing real-time insights, 
                   reducing resource waste, and enabling proactive decision-making based on accurate predictions.
                 </p>
@@ -398,7 +398,7 @@ export default function About() {
       </section>
 
       {/* Team Section */}
-      <section className="py-20 bg-gray-950">
+      <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -410,7 +410,7 @@ export default function About() {
               Our Team
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Meet the Team</h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Passionate experts dedicated to revolutionizing agriculture with technology
             </p>
           </motion.div>
@@ -424,30 +424,30 @@ export default function About() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="bg-gray-900/50 border-gray-800 hover:border-green-500/50 transition-all group hover:scale-105 cursor-pointer text-center">
+                <Card className="bg-card/50 border-border hover:border-green-500/50 transition-all group hover:scale-105 cursor-pointer text-center">
                   <CardContent className="p-6">
-                    <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-gray-800 group-hover:border-green-500/50 transition-all">
+                    <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-border group-hover:border-green-500/50 transition-all">
                       {member.image && <AvatarImage src={member.image} alt={member.name} className="object-cover" />}
-                      <AvatarFallback className={`bg-gradient-to-br ${member.color} text-white text-2xl`}>
+                      <AvatarFallback className={`bg-gradient-to-br ${member.color} text-foreground text-2xl`}>
                         {member.avatar}
                       </AvatarFallback>
                     </Avatar>
-                    <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
-                    <p className="text-gray-400 text-sm mb-4">{member.role}</p>
+                    <h3 className="text-xl font-bold text-foreground mb-1">{member.name}</h3>
+                    <p className="text-muted-foreground text-sm mb-4">{member.role}</p>
                     
                     {/* Social Links */}
                     <div className="flex gap-3 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                       <a 
                         href={member.linkedin}
-                        className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-green-500/20 transition-all"
+                        className="w-9 h-9 bg-accent rounded-lg flex items-center justify-center hover:bg-green-500/20 transition-all"
                       >
-                        <Linkedin className="w-4 h-4 text-gray-400 hover:text-green-400" />
+                        <Linkedin className="w-4 h-4 text-muted-foreground hover:text-green-400" />
                       </a>
                       <a 
                         href={member.instagram}
-                        className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-green-500/20 transition-all"
+                        className="w-9 h-9 bg-accent rounded-lg flex items-center justify-center hover:bg-green-500/20 transition-all"
                       >
-                        <Instagram className="w-4 h-4 text-gray-400 hover:text-green-400" />
+                        <Instagram className="w-4 h-4 text-muted-foreground hover:text-green-400" />
                       </a>
                     </div>
                   </CardContent>
@@ -481,11 +481,11 @@ export default function About() {
                 Farming to the Next Level?
               </span>
             </h2>
-            <p className="text-xl text-gray-300 mb-10">
+            <p className="text-xl text-secondary-foreground mb-10">
               Join thousands of farmers who are already using AgroSmart to increase yields, 
               reduce waste, and build a sustainable future.
             </p>
-            <Link to={ctaLink} className="px-10 py-5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:shadow-2xl hover:shadow-green-500/50 transition-all text-xl font-bold inline-flex items-center gap-3">
+            <Link to={ctaLink} className="px-10 py-5 bg-gradient-to-r from-green-500 to-emerald-600 text-foreground rounded-lg hover:shadow-2xl hover:shadow-green-500/50 transition-all text-xl font-bold inline-flex items-center gap-3">
               Create Free Account
               <ArrowRight className="w-6 h-6" />
             </Link>

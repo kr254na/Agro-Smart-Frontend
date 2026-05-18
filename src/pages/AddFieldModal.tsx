@@ -55,21 +55,21 @@ export default function AddFieldModal({ isOpen, onClose, onSave, editingField }:
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-[#111] border-slate-800 text-white max-w-sm">
+      <DialogContent className="bg-card border-border text-foreground max-w-sm">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Leaf className="text-[#48D87D]" size={20} /> 
+            <Leaf className="text-primary" size={20} /> 
             {editingField ? 'Update Field Zone' : 'Add New Field Zone'}
           </DialogTitle>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
           <div className="space-y-1">
-            <Label className="text-slate-400 text-[10px] uppercase font-bold tracking-widest">Field Name</Label>
+            <Label className="text-muted-foreground text-[10px] uppercase font-bold tracking-widest">Field Name</Label>
             <Input 
               value={formData.fieldName} 
               onChange={e => setFormData({...formData, fieldName: e.target.value})} 
-              className="bg-black border-slate-800 focus:border-[#48D87D] transition-colors" 
+              className="bg-background border-border focus:border-primary transition-colors" 
               placeholder="e.g. North Sector" 
               required
             />
@@ -77,34 +77,34 @@ export default function AddFieldModal({ isOpen, onClose, onSave, editingField }:
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1">
-              <Label className="text-slate-400 text-[10px] uppercase font-bold tracking-widest">Crop Type</Label>
+              <Label className="text-muted-foreground text-[10px] uppercase font-bold tracking-widest">Crop Type</Label>
               <Input 
                 value={formData.cropType} 
                 onChange={e => setFormData({...formData, cropType: e.target.value})} 
-                className="bg-black border-slate-800 focus:border-[#48D87D] transition-colors" 
+                className="bg-background border-border focus:border-primary transition-colors" 
                 placeholder="Wheat" 
                 required
               />
             </div>
             <div className="space-y-1">
-              <Label className="text-slate-400 text-[10px] uppercase font-bold tracking-widest">Area (Acres)</Label>
+              <Label className="text-muted-foreground text-[10px] uppercase font-bold tracking-widest">Area (Acres)</Label>
               <Input 
                 type="number" 
                 step="0.1"
                 value={formData.fieldArea} 
                 onChange={e => setFormData({...formData, fieldArea: e.target.value})} 
-                className="bg-black border-slate-800 focus:border-[#48D87D] transition-colors" 
+                className="bg-background border-border focus:border-primary transition-colors" 
                 required
               />
             </div>
           </div>
 
           <div className="space-y-1">
-            <Label className="text-slate-400 text-[10px] uppercase font-bold tracking-widest">Soil Type</Label>
+            <Label className="text-muted-foreground text-[10px] uppercase font-bold tracking-widest">Soil Type</Label>
             <Input 
               value={formData.soilType} 
               onChange={e => setFormData({...formData, soilType: e.target.value})} 
-              className="bg-black border-slate-800 focus:border-[#48D87D] transition-colors" 
+              className="bg-background border-border focus:border-primary transition-colors" 
               placeholder="Alluvial / Clay"
             />
           </div>
@@ -112,7 +112,7 @@ export default function AddFieldModal({ isOpen, onClose, onSave, editingField }:
           <Button 
             type="submit" 
             disabled={isSubmitting} 
-            className="w-full bg-[#48D87D] hover:bg-[#3bc56d] text-black font-black uppercase tracking-tighter mt-2"
+            className="w-full bg-primary hover:bg-primary/80 text-primary-foreground font-black uppercase tracking-tighter mt-2"
           >
             {isSubmitting ? (
               <Loader2 className="animate-spin h-4 w-4" />

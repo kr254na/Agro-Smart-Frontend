@@ -136,51 +136,51 @@ export default function RegisterPage() {
   };
 
   const fc = (name: string, hasErr?: boolean) =>
-    `w-full bg-gray-900/80 border ${hasErr ? 'border-red-500/70 shadow-[0_0_0_3px_rgba(239,68,68,0.08)]' : focusedField === name ? 'border-[#48D87D]/60 shadow-[0_0_0_3px_rgba(72,216,125,0.08)]' : 'border-gray-700/60'} 
-     text-white placeholder:text-slate-600 rounded-xl h-11 px-4 text-sm outline-none transition-all duration-200`;
+    `w-full bg-card/80 border ${hasErr ? 'border-red-500/70 shadow-[0_0_0_3px_rgba(239,68,68,0.08)]' : focusedField === name ? 'border-primary/60 shadow-[0_0_0_3px_rgba(72,216,125,0.08)]' : 'border-input/60'} 
+     text-foreground placeholder:text-slate-600 rounded-xl h-11 px-4 text-sm outline-none transition-all duration-200`;
 
   const strengthMeta = {
     weak:   { color: 'bg-red-500',    w: 'w-1/3', label: 'Weak',   text: 'text-red-400' },
     medium: { color: 'bg-amber-400',  w: 'w-2/3', label: 'Medium', text: 'text-amber-400' },
-    strong: { color: 'bg-[#48D87D]',  w: 'w-full', label: 'Strong', text: 'text-[#48D87D]' },
+    strong: { color: 'bg-primary',  w: 'w-full', label: 'Strong', text: 'text-primary' },
   }[passwordStrength];
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center relative overflow-hidden py-10 px-4">
+    <div className="min-h-screen bg-background flex items-center justify-center relative overflow-hidden py-10 px-4">
       <SEO 
         title="Create Account" 
         description="Create a free AgroSmart account to start managing your smart farm with IoT sensors and AI insights." 
         url="https://agrofy.vercel.app/register" 
       />
       {isGoogleLoading && (
-        <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center">
-          <Loader2 className="w-12 h-12 text-[#48D87D] animate-spin mb-4" />
-          <p className="text-[#48D87D] font-bold tracking-widest uppercase text-sm animate-pulse">Authenticating with Google...</p>
+        <div className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center">
+          <Loader2 className="w-12 h-12 text-primary animate-spin mb-4" />
+          <p className="text-primary font-bold tracking-widest uppercase text-sm animate-pulse">Authenticating with Google...</p>
         </div>
       )}
 
       {/* Ambient blobs */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#48D87D]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="w-full max-w-lg relative z-10">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
-          <div className="p-2.5 bg-[#48D87D]/20 rounded-xl border border-[#48D87D]/20">
-            <Sprout className="h-6 w-6 text-[#48D87D]" />
+          <div className="p-2.5 bg-primary/20 rounded-xl border border-primary/20">
+            <Sprout className="h-6 w-6 text-primary" />
           </div>
           <div>
-            <p className="text-white font-bold text-xl tracking-tight leading-none">AgroSmart</p>
+            <p className="text-foreground font-bold text-xl tracking-tight leading-none">AgroSmart</p>
             <p className="text-slate-600 text-[10px] uppercase tracking-widest font-bold">IoT Farm Platform</p>
           </div>
         </div>
 
         {/* Card */}
-        <div className="bg-gray-900/60 border border-gray-800/60 rounded-2xl shadow-2xl backdrop-blur-sm overflow-hidden p-8">
+        <div className="bg-card/60 border border-border/60 rounded-2xl shadow-2xl backdrop-blur-sm overflow-hidden p-8">
           {/* Header */}
           <div className="mb-7">
-            <h1 className="text-2xl font-bold text-white mb-1">Create your account</h1>
-            <p className="text-slate-500 text-sm">Start managing your smart farm in minutes</p>
+            <h1 className="text-2xl font-bold text-foreground mb-1">Create your account</h1>
+            <p className="text-muted-foreground text-sm">Start managing your smart farm in minutes</p>
           </div>
 
           {errors.general && (
@@ -192,14 +192,14 @@ export default function RegisterPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex justify-center mb-4">
               <div className="relative">
-                <div className="w-20 h-20 rounded-full bg-gray-900/80 border border-gray-700/60 overflow-hidden flex items-center justify-center">
+                <div className="w-20 h-20 rounded-full bg-card/80 border border-input/60 overflow-hidden flex items-center justify-center">
                   {profilePicPreview ? (
                     <img src={profilePicPreview} alt="Preview" className="w-full h-full object-cover" />
                   ) : (
                     <User className="w-8 h-8 text-slate-600" />
                   )}
                 </div>
-                <label className="absolute bottom-0 right-0 p-1.5 bg-[#48D87D] text-black rounded-full cursor-pointer hover:bg-[#3bc56d] transition-colors shadow-lg">
+                <label className="absolute bottom-0 right-0 p-1.5 bg-primary text-primary-foreground rounded-full cursor-pointer hover:bg-primary/80 transition-colors shadow-lg">
                   <Camera size={12} />
                   <input type="file" accept="image/*" className="hidden" onChange={e => {
                     if (e.target.files && e.target.files[0]) {
@@ -219,7 +219,7 @@ export default function RegisterPage() {
             
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <label className="text-slate-500 text-[10px] uppercase tracking-widest font-bold">First Name</label>
+                <label className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold">First Name</label>
                 <input placeholder="John" value={formData.firstName}
                   onChange={e => setFormData({ ...formData, firstName: e.target.value })}
                   onFocus={() => setFocusedField('firstName')} onBlur={() => setFocusedField(null)}
@@ -227,7 +227,7 @@ export default function RegisterPage() {
                 {errors.firstName && <p className="text-[10px] text-red-400">✕ {errors.firstName}</p>}
               </div>
               <div className="space-y-1.5">
-                <label className="text-slate-500 text-[10px] uppercase tracking-widest font-bold">Last Name</label>
+                <label className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold">Last Name</label>
                 <input placeholder="Doe" value={formData.lastName}
                   onChange={e => setFormData({ ...formData, lastName: e.target.value })}
                   onFocus={() => setFocusedField('lastName')} onBlur={() => setFocusedField(null)}
@@ -238,7 +238,7 @@ export default function RegisterPage() {
 
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <label className="text-slate-500 text-[10px] uppercase tracking-widest font-bold">Email</label>
+                <label className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold">Email</label>
                 <input type="email" placeholder="name@farm.com" value={formData.email}
                   onChange={e => setFormData({ ...formData, email: e.target.value })}
                   onFocus={() => setFocusedField('email')} onBlur={() => setFocusedField(null)}
@@ -246,7 +246,7 @@ export default function RegisterPage() {
                 {errors.email && <p className="text-[10px] text-red-400">✕ {errors.email}</p>}
               </div>
               <div className="space-y-1.5">
-                <label className="text-slate-500 text-[10px] uppercase tracking-widest font-bold">Phone</label>
+                <label className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold">Phone</label>
                 <input placeholder="+91 98765 43210" value={formData.phoneNo}
                   onChange={e => setFormData({ ...formData, phoneNo: e.target.value })}
                   onFocus={() => setFocusedField('phoneNo')} onBlur={() => setFocusedField(null)}
@@ -257,7 +257,7 @@ export default function RegisterPage() {
 
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <label className="text-slate-500 text-[10px] uppercase tracking-widest font-bold">City</label>
+                <label className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold">City</label>
                 <input placeholder="Lucknow" value={formData.city}
                   onChange={e => setFormData({ ...formData, city: e.target.value })}
                   onFocus={() => setFocusedField('city')} onBlur={() => setFocusedField(null)}
@@ -265,7 +265,7 @@ export default function RegisterPage() {
                 {errors.city && <p className="text-[10px] text-red-400">✕ {errors.city}</p>}
               </div>
               <div className="space-y-1.5">
-                <label className="text-slate-500 text-[10px] uppercase tracking-widest font-bold">District</label>
+                <label className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold">District</label>
                 <input placeholder="Barabanki" value={formData.district}
                   onChange={e => setFormData({ ...formData, district: e.target.value })}
                   onFocus={() => setFocusedField('district')} onBlur={() => setFocusedField(null)}
@@ -276,7 +276,7 @@ export default function RegisterPage() {
 
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <label className="text-slate-500 text-[10px] uppercase tracking-widest font-bold">State</label>
+                <label className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold">State</label>
                 <input placeholder="Uttar Pradesh" value={formData.state}
                   onChange={e => setFormData({ ...formData, state: e.target.value })}
                   onFocus={() => setFocusedField('state')} onBlur={() => setFocusedField(null)}
@@ -284,7 +284,7 @@ export default function RegisterPage() {
                 {errors.state && <p className="text-[10px] text-red-400">✕ {errors.state}</p>}
               </div>
               <div className="space-y-1.5">
-                <label className="text-slate-500 text-[10px] uppercase tracking-widest font-bold">Pincode</label>
+                <label className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold">Pincode</label>
                 <input placeholder="6-digit PIN" value={formData.pincode}
                   onChange={e => setFormData({ ...formData, pincode: e.target.value.replace(/\D/g, '').slice(0, 6) })}
                   onFocus={() => setFocusedField('pincode')} onBlur={() => setFocusedField(null)}
@@ -295,28 +295,28 @@ export default function RegisterPage() {
 
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <label className="text-slate-500 text-[10px] uppercase tracking-widest font-bold">Password</label>
+                <label className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold">Password</label>
                 <div className="relative">
                   <input type={showPassword ? 'text' : 'password'} value={formData.password}
                     onChange={e => { setFormData({ ...formData, password: e.target.value }); setPasswordStrength(calcStrength(e.target.value)); }}
                     onFocus={() => setFocusedField('password')} onBlur={() => setFocusedField(null)}
                     className={`${fc('password', !!errors.password)} pr-10`} />
                   <button type="button" onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-600 hover:text-[#48D87D] transition-colors">
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-600 hover:text-primary transition-colors">
                     {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
                   </button>
                 </div>
                 {errors.password && <p className="text-[10px] text-red-400">✕ {errors.password}</p>}
               </div>
               <div className="space-y-1.5">
-                <label className="text-slate-500 text-[10px] uppercase tracking-widest font-bold">Confirm</label>
+                <label className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold">Confirm</label>
                 <div className="relative">
                   <input type={showConfirm ? 'text' : 'password'} value={formData.confirmPassword}
                     onChange={e => setFormData({ ...formData, confirmPassword: e.target.value })}
                     onFocus={() => setFocusedField('confirm')} onBlur={() => setFocusedField(null)}
                     className={`${fc('confirm', !!errors.confirmPassword)} pr-10`} />
                   <button type="button" onClick={() => setShowConfirm(!showConfirm)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-600 hover:text-[#48D87D] transition-colors">
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-600 hover:text-primary transition-colors">
                     {showConfirm ? <EyeOff size={14} /> : <Eye size={14} />}
                   </button>
                 </div>
@@ -326,33 +326,33 @@ export default function RegisterPage() {
 
             {formData.password && (
               <div className="space-y-1">
-                <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                <div className="h-1.5 bg-accent rounded-full overflow-hidden">
                   <div className={`h-full rounded-full transition-all duration-500 ${strengthMeta.color} ${strengthMeta.w}`} />
                 </div>
-                <p className="text-[10px] font-bold text-slate-500 uppercase">
+                <p className="text-[10px] font-bold text-muted-foreground uppercase">
                   Strength: <span className={strengthMeta.text}>{strengthMeta.label}</span>
                 </p>
               </div>
             )}
 
             {/* Terms */}
-            <div className="bg-gray-900/50 border border-gray-800/60 rounded-xl p-4 mt-2">
+            <div className="bg-card/50 border border-border/60 rounded-xl p-4 mt-2">
               <div className="flex items-start gap-3">
                 <Checkbox id="terms" checked={formData.agreeToTerms}
                   onCheckedChange={c => setFormData({ ...formData, agreeToTerms: !!c })}
-                  className="mt-0.5 border-gray-600 data-[state=checked]:bg-[#48D87D] data-[state=checked]:border-[#48D87D]" />
-                <label htmlFor="terms" className="text-xs text-slate-400 leading-relaxed cursor-pointer">
+                  className="mt-0.5 border-gray-600 data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
+                <label htmlFor="terms" className="text-xs text-muted-foreground leading-relaxed cursor-pointer">
                   I agree to AgroSmart's{' '}
-                  <span className="text-[#48D87D] underline underline-offset-2">Terms of Service</span>{' '}
+                  <span className="text-primary underline underline-offset-2">Terms of Service</span>{' '}
                   and{' '}
-                  <span className="text-[#48D87D] underline underline-offset-2">Privacy Policy</span>.
+                  <span className="text-primary underline underline-offset-2">Privacy Policy</span>.
                 </label>
               </div>
               {errors.agreeToTerms && <p className="text-[10px] text-red-400 mt-2 ml-7">✕ {errors.agreeToTerms}</p>}
             </div>
 
             <button type="submit" disabled={isLoading}
-              className="w-full bg-[#48D87D] hover:bg-[#3bc56d] disabled:opacity-60 text-black font-bold h-12 rounded-xl transition-all duration-200 group flex items-center justify-center gap-2 text-sm shadow-[0_4px_20px_rgba(72,216,125,0.2)] hover:shadow-[0_4px_28px_rgba(72,216,125,0.35)] active:scale-[0.98] mt-4">
+              className="w-full bg-primary hover:bg-primary/80 disabled:opacity-60 text-primary-foreground font-bold h-12 rounded-xl transition-all duration-200 group flex items-center justify-center gap-2 text-sm shadow-[0_4px_20px_rgba(72,216,125,0.2)] hover:shadow-[0_4px_28px_rgba(72,216,125,0.35)] active:scale-[0.98] mt-4">
               {isLoading
                 ? <><Loader2 className="h-4 w-4 animate-spin" /> Creating Account...</>
                 : <><span>Create Account</span><ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" /></>
@@ -361,9 +361,9 @@ export default function RegisterPage() {
           </form>
 
           <div className="mt-6 flex items-center gap-4">
-            <div className="h-px bg-gray-800/60 flex-1"></div>
-            <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">or continue with</span>
-            <div className="h-px bg-gray-800/60 flex-1"></div>
+            <div className="h-px bg-accent/60 flex-1"></div>
+            <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">or continue with</span>
+            <div className="h-px bg-accent/60 flex-1"></div>
           </div>
 
           <div className="mt-6 flex justify-center">
@@ -380,9 +380,9 @@ export default function RegisterPage() {
           </div>
 
           {/* Sign in link */}
-          <p className="text-center text-slate-500 text-xs mt-6 pt-5 border-t border-gray-800/60">
+          <p className="text-center text-muted-foreground text-xs mt-6 pt-5 border-t border-border/60">
             Already have an account?{' '}
-            <Link to="/login" className="text-[#48D87D] hover:underline font-semibold">Sign in</Link>
+            <Link to="/login" className="text-primary hover:underline font-semibold">Sign in</Link>
           </p>
         </div>
 

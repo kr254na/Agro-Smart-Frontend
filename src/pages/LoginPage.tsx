@@ -84,26 +84,26 @@ export default function LoginPage() {
   };
 
   const fieldClass = (name: string, hasErr?: boolean) =>
-    `w-full bg-gray-900/80 border ${hasErr ? 'border-red-500/70' : focusedField === name ? 'border-[#48D87D]/60' : 'border-gray-700/60'} 
-     text-white placeholder:text-slate-600 rounded-xl h-12 px-4 text-sm outline-none transition-all duration-200
+    `w-full bg-card/80 border ${hasErr ? 'border-red-500/70' : focusedField === name ? 'border-primary/60' : 'border-input/60'} 
+     text-foreground placeholder:text-slate-600 rounded-xl h-12 px-4 text-sm outline-none transition-all duration-200
      ${focusedField === name && !hasErr ? 'shadow-[0_0_0_3px_rgba(72,216,125,0.08)]' : ''}
      ${hasErr ? 'shadow-[0_0_0_3px_rgba(239,68,68,0.08)]' : ''}`;
 
   return (
-    <div className="min-h-screen bg-gray-950 flex relative overflow-hidden">
+    <div className="min-h-screen bg-background flex relative overflow-hidden">
       <SEO 
         title="Login" 
         description="Sign in to your AgroSmart account to access your farm dashboard, live sensor data, and AI crop analysis." 
         url="https://agrofy.vercel.app/login" 
       />
       {isGoogleLoading && (
-        <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center">
-          <Loader2 className="w-12 h-12 text-[#48D87D] animate-spin mb-4" />
-          <p className="text-[#48D87D] font-bold tracking-widest uppercase text-sm animate-pulse">Authenticating with Google...</p>
+        <div className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center">
+          <Loader2 className="w-12 h-12 text-primary animate-spin mb-4" />
+          <p className="text-primary font-bold tracking-widest uppercase text-sm animate-pulse">Authenticating with Google...</p>
         </div>
       )}
       {/* Ambient background blobs */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#48D87D]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="flex w-full max-w-6xl mx-auto px-4 lg:px-12 items-center gap-16 py-12">
@@ -112,22 +112,22 @@ export default function LoginPage() {
         <div className="hidden lg:flex flex-col flex-1 gap-10">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-[#48D87D]/20 rounded-xl border border-[#48D87D]/20">
-              <Sprout className="h-7 w-7 text-[#48D87D]" />
+            <div className="p-2.5 bg-primary/20 rounded-xl border border-primary/20">
+              <Sprout className="h-7 w-7 text-primary" />
             </div>
             <div>
-              <p className="text-white font-bold text-xl tracking-tight leading-none">AgroSmart</p>
+              <p className="text-foreground font-bold text-xl tracking-tight leading-none">AgroSmart</p>
               <p className="text-slate-600 text-[10px] uppercase tracking-widest font-bold">IoT Farm Platform</p>
             </div>
           </div>
 
           {/* Headline */}
           <div>
-            <h2 className="text-4xl font-bold text-white leading-tight mb-3">
+            <h2 className="text-4xl font-bold text-foreground leading-tight mb-3">
               Intelligence for<br />
-              <span className="text-[#48D87D]">Every Field.</span>
+              <span className="text-primary">Every Field.</span>
             </h2>
-            <p className="text-slate-500 leading-relaxed max-w-xs">
+            <p className="text-muted-foreground leading-relaxed max-w-xs">
               Monitor soil health, predict harvests, and optimize your farm operations — all in one platform.
             </p>
           </div>
@@ -135,11 +135,11 @@ export default function LoginPage() {
           {/* Feature Pills */}
           <div className="space-y-3">
             {features.map(f => (
-              <div key={f.title} className="flex items-center gap-4 bg-gray-900/40 border border-gray-800/60 rounded-xl p-4 hover:border-[#48D87D]/20 transition-colors">
+              <div key={f.title} className="flex items-center gap-4 bg-card/40 border border-border/60 rounded-xl p-4 hover:border-primary/20 transition-colors">
                 <span className="text-2xl">{f.icon}</span>
                 <div>
-                  <p className="text-white text-sm font-semibold">{f.title}</p>
-                  <p className="text-slate-500 text-xs">{f.desc}</p>
+                  <p className="text-foreground text-sm font-semibold">{f.title}</p>
+                  <p className="text-muted-foreground text-xs">{f.desc}</p>
                 </div>
               </div>
             ))}
@@ -148,8 +148,8 @@ export default function LoginPage() {
           {/* Stats */}
           <div className="flex gap-4">
             {[{ v: '2,400+', l: 'Farms' }, { v: '18K+', l: 'Sensors' }, { v: '99.9%', l: 'Uptime' }].map(s => (
-              <div key={s.l} className="flex-1 bg-gray-900/40 border border-gray-800/60 rounded-xl p-3 text-center">
-                <p className="text-[#48D87D] font-bold text-base">{s.v}</p>
+              <div key={s.l} className="flex-1 bg-card/40 border border-border/60 rounded-xl p-3 text-center">
+                <p className="text-primary font-bold text-base">{s.v}</p>
                 <p className="text-slate-600 text-[9px] uppercase tracking-widest font-bold">{s.l}</p>
               </div>
             ))}
@@ -160,21 +160,21 @@ export default function LoginPage() {
         <div className="w-full max-w-[420px] mx-auto">
           {/* Mobile logo */}
           <div className="flex lg:hidden items-center gap-2 justify-center mb-8">
-            <div className="p-2 bg-[#48D87D]/20 rounded-xl">
-              <Sprout className="h-5 w-5 text-[#48D87D]" />
+            <div className="p-2 bg-primary/20 rounded-xl">
+              <Sprout className="h-5 w-5 text-primary" />
             </div>
-            <span className="text-white font-bold text-lg">AgroSmart</span>
+            <span className="text-foreground font-bold text-lg">AgroSmart</span>
           </div>
 
-          <div className="bg-gray-900/60 border border-gray-800/60 rounded-2xl p-8 shadow-2xl backdrop-blur-sm">
+          <div className="bg-card/60 border border-border/60 rounded-2xl p-8 shadow-2xl backdrop-blur-sm">
             {/* Header */}
             <div className="mb-8">
-              <div className="inline-flex items-center gap-2 bg-[#48D87D]/10 border border-[#48D87D]/20 rounded-full px-3 py-1 mb-4">
-                <ShieldCheck className="h-3 w-3 text-[#48D87D]" />
-                <span className="text-[#48D87D] text-[10px] font-bold uppercase tracking-widest">Secure Login</span>
+              <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-3 py-1 mb-4">
+                <ShieldCheck className="h-3 w-3 text-primary" />
+                <span className="text-primary text-[10px] font-bold uppercase tracking-widest">Secure Login</span>
               </div>
-              <h1 className="text-2xl font-bold text-white mb-1">Welcome back</h1>
-              <p className="text-slate-500 text-sm">Sign in to access your farm dashboard</p>
+              <h1 className="text-2xl font-bold text-foreground mb-1">Welcome back</h1>
+              <p className="text-muted-foreground text-sm">Sign in to access your farm dashboard</p>
             </div>
 
             {/* Error */}
@@ -188,9 +188,9 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Email */}
               <div className="space-y-1.5">
-                <label className="text-slate-400 text-[11px] font-bold uppercase tracking-widest">Email Address</label>
+                <label className="text-muted-foreground text-[11px] font-bold uppercase tracking-widest">Email Address</label>
                 <div className="relative">
-                  <Mail className={`absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 transition-colors ${focusedField === 'email' ? 'text-[#48D87D]' : 'text-slate-600'}`} />
+                  <Mail className={`absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 transition-colors ${focusedField === 'email' ? 'text-primary' : 'text-slate-600'}`} />
                   <input
                     type="email"
                     placeholder="farmer@agrosmart.com"
@@ -207,11 +207,11 @@ export default function LoginPage() {
               {/* Password */}
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-slate-400 text-[11px] font-bold uppercase tracking-widest">Password</label>
-                  <Link to="/forgot-password" className="text-[11px] text-[#48D87D] hover:underline font-semibold">Forgot password?</Link>
+                  <label className="text-muted-foreground text-[11px] font-bold uppercase tracking-widest">Password</label>
+                  <Link to="/forgot-password" className="text-[11px] text-primary hover:underline font-semibold">Forgot password?</Link>
                 </div>
                 <div className="relative">
-                  <Lock className={`absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 transition-colors ${focusedField === 'password' ? 'text-[#48D87D]' : 'text-slate-600'}`} />
+                  <Lock className={`absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 transition-colors ${focusedField === 'password' ? 'text-primary' : 'text-slate-600'}`} />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     placeholder="••••••••"
@@ -222,7 +222,7 @@ export default function LoginPage() {
                     className={`${fieldClass('password', !!errors.password)} pl-10 pr-10`}
                   />
                   <button type="button" onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-600 hover:text-[#48D87D] transition-colors">
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-600 hover:text-primary transition-colors">
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
@@ -233,7 +233,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-[#48D87D] hover:bg-[#3bc56d] disabled:opacity-60 text-black font-bold h-12 rounded-xl transition-all duration-200 group flex items-center justify-center gap-2 text-sm shadow-[0_4px_20px_rgba(72,216,125,0.25)] hover:shadow-[0_4px_28px_rgba(72,216,125,0.4)] active:scale-[0.98]"
+                className="w-full bg-primary hover:bg-primary/80 disabled:opacity-60 text-primary-foreground font-bold h-12 rounded-xl transition-all duration-200 group flex items-center justify-center gap-2 text-sm shadow-[0_4px_20px_rgba(72,216,125,0.25)] hover:shadow-[0_4px_28px_rgba(72,216,125,0.4)] active:scale-[0.98]"
               >
                 {isLoading
                   ? <><Loader2 className="h-4 w-4 animate-spin" /> Verifying credentials...</>
@@ -243,9 +243,9 @@ export default function LoginPage() {
             </form>
 
             <div className="mt-6 flex items-center gap-4">
-              <div className="h-px bg-gray-800/60 flex-1"></div>
-              <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">or</span>
-              <div className="h-px bg-gray-800/60 flex-1"></div>
+              <div className="h-px bg-accent/60 flex-1"></div>
+              <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">or</span>
+              <div className="h-px bg-accent/60 flex-1"></div>
             </div>
 
             <div className="mt-6 flex justify-center">
@@ -262,10 +262,10 @@ export default function LoginPage() {
             </div>
 
             {/* Footer */}
-            <div className="mt-7 pt-6 border-t border-gray-800/60 text-center space-y-3">
-              <p className="text-slate-500 text-sm">
+            <div className="mt-7 pt-6 border-t border-border/60 text-center space-y-3">
+              <p className="text-muted-foreground text-sm">
                 New to AgroSmart?{' '}
-                <Link to="/register" className="text-[#48D87D] font-semibold hover:underline">Create a free account</Link>
+                <Link to="/register" className="text-primary font-semibold hover:underline">Create a free account</Link>
               </p>
               <div className="flex items-center justify-center gap-1.5 text-slate-700 text-[10px]">
                 <Wifi className="h-3 w-3" />

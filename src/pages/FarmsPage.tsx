@@ -81,19 +81,19 @@ export default function FarmsPage() {
 
   if (isLoading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-gray-950">
-        <Loader2 className="w-12 h-12 text-[#48D87D] animate-spin" />
+      <div className="flex h-screen items-center justify-center bg-background">
+        <Loader2 className="w-12 h-12 text-primary animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="p-6 lg:p-8 bg-gray-950 min-h-screen text-white">
+    <div className="p-6 lg:p-8 bg-background min-h-screen text-foreground">
       {/* HEADER SECTION - Ensure high contrast */}
       <div className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight uppercase">Infrastructure</h1>
-          <p className="text-slate-500 font-bold text-[10px] uppercase tracking-[0.3em] mt-1">Global Node Registry</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight uppercase">Infrastructure</h1>
+          <p className="text-muted-foreground font-bold text-[10px] uppercase tracking-[0.3em] mt-1">Global Node Registry</p>
         </div>
         
         {/* ADD FARM BUTTON - Made more prominent */}
@@ -102,7 +102,7 @@ export default function FarmsPage() {
             setEditingFarm(null); // CRITICAL: Reset editing state before opening
             setIsAddModalOpen(true);
           }}
-          className="bg-[#48D87D] text-black font-black uppercase text-xs tracking-widest h-12 px-8 hover:bg-[#3bc56d] shadow-[0_0_20px_rgba(72,216,125,0.2)] transition-all hover:scale-105"
+          className="bg-primary text-primary-foreground font-black uppercase text-xs tracking-widest h-12 px-8 hover:bg-primary/80 shadow-[0_0_20px_rgba(72,216,125,0.2)] transition-all hover:scale-105"
         >
           <Plus className="mr-2 h-5 w-5 stroke-[3]" /> Register New Node
         </Button>
@@ -111,10 +111,10 @@ export default function FarmsPage() {
       {/* SEARCH SECTION */}
       <div className="max-w-md mb-12">
         <div className="relative group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 group-focus-within:text-[#48D87D] transition-colors h-4 w-4" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 group-focus-within:text-primary transition-colors h-4 w-4" />
           <Input
             placeholder="Search farm identifiers..."
-            className="bg-gray-900/50 border-gray-800 pl-10 h-12 focus:border-[#48D87D] transition-all"
+            className="bg-card/50 border-border pl-10 h-12 focus:border-primary transition-all"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -137,9 +137,9 @@ export default function FarmsPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-32 bg-gray-900/30 rounded-3xl border-2 border-dashed border-gray-800">
+        <div className="text-center py-32 bg-card/30 rounded-3xl border-2 border-dashed border-border">
           <Sprout size={64} className="mx-auto text-slate-800 mb-6 animate-pulse" />
-          <h3 className="text-slate-400 font-black uppercase text-sm tracking-widest">No active deployments</h3>
+          <h3 className="text-muted-foreground font-black uppercase text-sm tracking-widest">No active deployments</h3>
           <p className="text-slate-600 text-xs mt-2 uppercase font-bold">Use the register button above to link your first farm node.</p>
         </div>
       )}

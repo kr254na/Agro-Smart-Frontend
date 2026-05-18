@@ -102,7 +102,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="text-white">
+    <div className="text-foreground">
       <SEO 
         title="Smart Farming & Precision Agriculture" 
         description="AgroSmart is an advanced precision agriculture platform offering real-time farm monitoring, sensor data analysis, and AI-driven crop insights for modern farmers." 
@@ -140,7 +140,7 @@ export default function Home() {
                 </span>
               </h1>
 
-              <p className="text-xl text-gray-400 mb-8 leading-relaxed">
+              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
                 Monitor soil health, track crops, predict diseases, and grow smarter with real-time insights designed for modern farmers.
               </p>
 
@@ -150,31 +150,31 @@ export default function Home() {
                   <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Activity className="w-5 h-5 text-green-400" />
                   </div>
-                  <span className="text-gray-300">Real-time monitoring</span>
+                  <span className="text-secondary-foreground">Real-time monitoring</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Brain className="w-5 h-5 text-purple-400" />
                   </div>
-                  <span className="text-gray-300">AI recommendations</span>
+                  <span className="text-secondary-foreground">AI recommendations</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-cyan-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
                     <CloudRain className="w-5 h-5 text-cyan-400" />
                   </div>
-                  <span className="text-gray-300">Weather alerts</span>
+                  <span className="text-secondary-foreground">Weather alerts</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Users className="w-5 h-5 text-orange-400" />
                   </div>
-                  <span className="text-gray-300">Farmer community</span>
+                  <span className="text-secondary-foreground">Farmer community</span>
                 </div>
               </div>
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to={ctaLink} className="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:shadow-xl
+                <Link to={ctaLink} className="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-foreground rounded-lg hover:shadow-xl
                 z-10 hover:shadow-green-500/50 transition-all text-lg font-semibold flex items-center justify-center gap-2">
                   Start Farming Smart
                   <ArrowRight className="w-5 h-5" />
@@ -206,15 +206,15 @@ export default function Home() {
                 <motion.div
                   animate={{ y: [0, -10, 0] }}
                   transition={{ duration: 3, repeat: Infinity }}
-                  className="absolute top-8 -left-4 bg-gray-900/90 backdrop-blur-lg border border-green-500/30 rounded-xl p-4 shadow-xl"
+                  className="absolute top-8 -left-4 bg-card/90 backdrop-blur-lg border border-green-500/30 rounded-xl p-4 shadow-xl"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
                       <Droplets className="w-5 h-5 text-blue-400" />
                     </div>
                     <div>
-                      <p className="text-xs text-gray-400">Soil Moisture</p>
-                      <p className="text-lg font-bold text-white">68%</p>
+                      <p className="text-xs text-muted-foreground">Soil Moisture</p>
+                      <p className="text-lg font-bold text-foreground">68%</p>
                     </div>
                   </div>
                 </motion.div>
@@ -222,15 +222,15 @@ export default function Home() {
                 <motion.div
                   animate={{ y: [0, 10, 0] }}
                   transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
-                  className="absolute bottom-8 -right-4 bg-gray-900/90 backdrop-blur-lg border border-green-500/30 rounded-xl p-4 shadow-xl"
+                  className="absolute bottom-8 -right-4 bg-card/90 backdrop-blur-lg border border-green-500/30 rounded-xl p-4 shadow-xl"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
                       <Thermometer className="w-5 h-5 text-orange-400" />
                     </div>
                     <div>
-                      <p className="text-xs text-gray-400">Temperature</p>
-                      <p className="text-lg font-bold text-white">
+                      <p className="text-xs text-muted-foreground">Temperature</p>
+                      <p className="text-lg font-bold text-foreground">
                         {weatherData ? `${weatherData.current.temp_c}°C` : '28°C'}
                       </p>
                     </div>
@@ -240,15 +240,15 @@ export default function Home() {
                 <motion.div
                   animate={{ y: [0, -8, 0] }}
                   transition={{ duration: 3, repeat: Infinity, delay: 1 }}
-                  className="absolute top-1/2 right-0 bg-gray-900/90 backdrop-blur-lg border border-green-500/30 rounded-xl p-4 shadow-xl"
+                  className="absolute top-1/2 right-0 bg-card/90 backdrop-blur-lg border border-green-500/30 rounded-xl p-4 shadow-xl"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
                       <Leaf className="w-5 h-5 text-green-400" />
                     </div>
                     <div>
-                      <p className="text-xs text-gray-400">Crop Health</p>
-                      <p className="text-lg font-bold text-white">Excellent</p>
+                      <p className="text-xs text-muted-foreground">Crop Health</p>
+                      <p className="text-lg font-bold text-foreground">Excellent</p>
                     </div>
                   </div>
                 </motion.div>
@@ -271,7 +271,7 @@ export default function Home() {
               Simple Process
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold mb-4">How It Works</h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Four simple steps to transform your farming with smart technology
             </p>
           </motion.div>
@@ -314,16 +314,16 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="bg-gray-900/50 border-gray-800 hover:border-green-500/50 transition-all h-full group hover:shadow-xl hover:shadow-green-500/10">
+                <Card className="bg-card/50 border-border hover:border-green-500/50 transition-all h-full group hover:shadow-xl hover:shadow-green-500/10">
                   <CardHeader>
                     <div className={`w-16 h-16 bg-gradient-to-br ${item.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                      <item.icon className="w-8 h-8 text-white" />
+                      <item.icon className="w-8 h-8 text-foreground" />
                     </div>
                     <div className="text-5xl font-bold text-green-500/20 mb-2">{item.step}</div>
-                    <CardTitle className="text-xl text-white">{item.title}</CardTitle>
+                    <CardTitle className="text-xl text-foreground">{item.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-400">{item.description}</p>
+                    <p className="text-muted-foreground">{item.description}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -333,7 +333,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 bg-gray-950">
+      <section id="features" className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -345,7 +345,7 @@ export default function Home() {
               Core Features
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Everything You Need</h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Comprehensive tools designed to make farming smarter, easier, and more profitable
             </p>
           </motion.div>
@@ -359,15 +359,15 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="bg-gray-900/50 border-gray-800 hover:border-green-500/50 transition-all h-full group hover:shadow-xl hover:shadow-green-500/20 hover:scale-105">
+                <Card className="bg-card/50 border-border hover:border-green-500/50 transition-all h-full group hover:shadow-xl hover:shadow-green-500/20 hover:scale-105">
                   <CardHeader>
-                    <div className="w-14 h-14 bg-gray-800/50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-green-500/20 transition-all">
+                    <div className="w-14 h-14 bg-accent/50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-green-500/20 transition-all">
                       <feature.icon className={`w-7 h-7 ${feature.color}`} />
                     </div>
-                    <CardTitle className="text-xl text-white">{feature.title}</CardTitle>
+                    <CardTitle className="text-xl text-foreground">{feature.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-400">{feature.description}</p>
+                    <p className="text-muted-foreground">{feature.description}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -398,7 +398,7 @@ export default function Home() {
               Live Weather
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Weather Intelligence</h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Real-time weather data and forecasts tailored for your location
             </p>
           </motion.div>
@@ -414,8 +414,8 @@ export default function Home() {
                   <div className="flex items-center gap-3">
                     <MapPin className="w-6 h-6 text-cyan-400" />
                     <div>
-                      <CardTitle className="text-2xl text-white">{isWeatherLoading ? 'Detecting...' : locationName}</CardTitle>
-                      <CardDescription className="text-gray-400">
+                      <CardTitle className="text-2xl text-foreground">{isWeatherLoading ? 'Detecting...' : locationName}</CardTitle>
+                      <CardDescription className="text-muted-foreground">
                         {weatherData ? `Live update from ${weatherData.current.last_updated}` : 'Analyzing conditions...'}
                       </CardDescription>
                     </div>
@@ -427,45 +427,45 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-                  <div className="bg-gray-900/50 rounded-xl p-4 border border-gray-800">
+                  <div className="bg-card/50 rounded-xl p-4 border border-border">
                     <div className="flex items-center gap-2 mb-2">
                       <Droplets className="w-5 h-5 text-blue-400" />
-                      <span className="text-sm text-gray-400">Humidity</span>
+                      <span className="text-sm text-muted-foreground">Humidity</span>
                     </div>
-                    <p className="text-2xl font-bold text-white">{weatherData ? `${weatherData.current.humidity}%` : '--%'}</p>
+                    <p className="text-2xl font-bold text-foreground">{weatherData ? `${weatherData.current.humidity}%` : '--%'}</p>
                   </div>
-                  <div className="bg-gray-900/50 rounded-xl p-4 border border-gray-800">
+                  <div className="bg-card/50 rounded-xl p-4 border border-border">
                     <div className="flex items-center gap-2 mb-2">
                       <CloudRain className="w-5 h-5 text-cyan-400" />
-                      <span className="text-sm text-gray-400">Visibility</span>
+                      <span className="text-sm text-muted-foreground">Visibility</span>
                     </div>
-                    <p className="text-2xl font-bold text-white">{weatherData ? `${weatherData.current.vis_km} km` : '-- km'}</p>
+                    <p className="text-2xl font-bold text-foreground">{weatherData ? `${weatherData.current.vis_km} km` : '-- km'}</p>
                   </div>
-                  <div className="bg-gray-900/50 rounded-xl p-4 border border-gray-800">
+                  <div className="bg-card/50 rounded-xl p-4 border border-border">
                     <div className="flex items-center gap-2 mb-2">
                       <Wind className="w-5 h-5 text-green-400" />
-                      <span className="text-sm text-gray-400">Wind</span>
+                      <span className="text-sm text-muted-foreground">Wind</span>
                     </div>
-                    <p className="text-2xl font-bold text-white">{weatherData ? `${weatherData.current.wind_kph} km/h` : '-- km/h'}</p>
+                    <p className="text-2xl font-bold text-foreground">{weatherData ? `${weatherData.current.wind_kph} km/h` : '-- km/h'}</p>
                   </div>
-                  <div className="bg-gray-900/50 rounded-xl p-4 border border-gray-800">
+                  <div className="bg-card/50 rounded-xl p-4 border border-border">
                     <div className="flex items-center gap-2 mb-2">
                       <Calendar className="w-5 h-5 text-purple-400" />
-                      <span className="text-sm text-gray-400">UV Index</span>
+                      <span className="text-sm text-muted-foreground">UV Index</span>
                     </div>
-                    <p className="text-2xl font-bold text-white">{weatherData ? weatherData.current.uv : '--'}</p>
+                    <p className="text-2xl font-bold text-foreground">{weatherData ? weatherData.current.uv : '--'}</p>
                   </div>
                 </div>
 
                 {/* 3-Day Forecast */}
                 <div className="grid grid-cols-3 gap-4">
                   {(weatherData?.forecast?.forecastday || [null, null, null]).map((day: any, index: number) => (
-                    <div key={index} className="bg-gray-900/50 rounded-xl p-4 border border-gray-800 text-center">
-                      <p className="text-sm text-gray-400 mb-2">
+                    <div key={index} className="bg-card/50 rounded-xl p-4 border border-border text-center">
+                      <p className="text-sm text-muted-foreground mb-2">
                         {index === 0 ? 'Today' : index === 1 ? 'Tomorrow' : 'Next Day'}
                       </p>
                       <CloudRain className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-                      <p className="text-xl font-bold text-white">
+                      <p className="text-xl font-bold text-foreground">
                         {day ? `${Math.round(day.day.maxtemp_c)}°C` : '--°C'}
                       </p>
                     </div>
@@ -483,7 +483,7 @@ export default function Home() {
       </section>
 
       {/* Why Choose Section */}
-      <section className="py-20 bg-gray-950">
+      <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -500,7 +500,7 @@ export default function Home() {
                   AgroSmart?
                 </span>
               </h2>
-              <p className="text-xl text-gray-400 mb-8">
+              <p className="text-xl text-muted-foreground mb-8">
                 We combine cutting-edge technology with farmer-friendly design to deliver real results
               </p>
 
@@ -519,10 +519,10 @@ export default function Home() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
-                    className="flex items-center gap-4 bg-gray-900/30 border border-gray-800 rounded-lg p-4 hover:border-green-500/50 transition-all"
+                    className="flex items-center gap-4 bg-card/30 border border-border rounded-lg p-4 hover:border-green-500/50 transition-all"
                   >
                     <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0" />
-                    <span className="text-lg text-gray-300">{item.text}</span>
+                    <span className="text-lg text-secondary-foreground">{item.text}</span>
                   </motion.div>
                 ))}
               </div>
@@ -559,7 +559,7 @@ export default function Home() {
               Community
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Farmer Community</h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Learn, share, and grow together with farmers across regions
             </p>
           </motion.div>
@@ -570,15 +570,15 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <Card className="bg-gray-900/50 border-gray-800 h-full">
+              <Card className="bg-card/50 border-border h-full">
                 <CardHeader>
                   <img 
                     src="https://images.unsplash.com/photo-1724996871733-93a10302de11?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZ3JpY3VsdHVyZSUyMGNvbW11bml0eSUyMHBlb3BsZSUyMHdvcmtpbmd8ZW58MXx8fHwxNzY5ODY5NzExfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
                     alt="Community"
                     className="w-full h-48 object-cover rounded-lg mb-4"
                   />
-                  <CardTitle className="text-2xl text-white">Connect with Experts</CardTitle>
-                  <CardDescription className="text-gray-400">
+                  <CardTitle className="text-2xl text-foreground">Connect with Experts</CardTitle>
+                  <CardDescription className="text-muted-foreground">
                     Join thousands of farmers sharing knowledge and experiences
                   </CardDescription>
                 </CardHeader>
@@ -590,19 +590,19 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <Card className="bg-gray-900/50 border-gray-800 h-full">
+              <Card className="bg-card/50 border-border h-full">
                 <CardHeader>
-                  <CardTitle className="text-xl text-white mb-4 flex items-center gap-2">
+                  <CardTitle className="text-xl text-foreground mb-4 flex items-center gap-2">
                     <MessageSquare className="w-5 h-5 text-green-400" />
                     Recent Discussions
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {communityPosts.map((post, index) => (
-                    <div key={index} className="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-green-500/50 transition-all cursor-pointer">
-                      <h4 className="text-white font-medium mb-2">{post.title}</h4>
+                    <div key={index} className="bg-accent/50 rounded-lg p-4 border border-input hover:border-green-500/50 transition-all cursor-pointer">
+                      <h4 className="text-foreground font-medium mb-2">{post.title}</h4>
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-400">by {post.author}</span>
+                        <span className="text-muted-foreground">by {post.author}</span>
                         <span className="text-green-400">{post.replies} replies</span>
                       </div>
                     </div>
@@ -613,7 +613,7 @@ export default function Home() {
           </div>
 
           <div className="text-center">
-            <Link to="/community" className="px-8 py-4 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg hover:shadow-xl hover:shadow-orange-500/50 transition-all text-lg font-semibold inline-flex items-center gap-2">
+            <Link to="/community" className="px-8 py-4 bg-gradient-to-r from-orange-500 to-red-600 text-foreground rounded-lg hover:shadow-xl hover:shadow-orange-500/50 transition-all text-lg font-semibold inline-flex items-center gap-2">
               Join the Farmer Community
               <ArrowRight className="w-5 h-5" />
             </Link>
@@ -622,7 +622,7 @@ export default function Home() {
       </section>
 
       {/* Marketplace Section */}
-      <section id="marketplace" className="py-20 bg-gray-950">
+      <section id="marketplace" className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -634,7 +634,7 @@ export default function Home() {
               Marketplace
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Agro Marketplace</h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Buy and sell seeds, equipment, and produce directly with farmers and vendors
             </p>
           </motion.div>
@@ -648,7 +648,7 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="bg-gray-900/50 border-gray-800 hover:border-green-500/50 transition-all overflow-hidden group cursor-pointer">
+                <Card className="bg-card/50 border-border hover:border-green-500/50 transition-all overflow-hidden group cursor-pointer">
                   <div className="relative h-48 overflow-hidden">
                     <img 
                       src={item.image}
@@ -657,10 +657,10 @@ export default function Home() {
                     />
                   </div>
                   <CardContent className="p-4">
-                    <h3 className="text-lg font-semibold text-white mb-2">{item.name}</h3>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">{item.name}</h3>
                     <div className="flex items-center justify-between">
                       <span className="text-2xl font-bold text-green-400">{item.price}</span>
-                      <Badge className="bg-gray-800 text-gray-400 border-gray-700">
+                      <Badge className="bg-accent text-muted-foreground border-input">
                         {item.seller}
                       </Badge>
                     </div>
@@ -671,7 +671,7 @@ export default function Home() {
           </div>
 
           <div className="text-center">
-            <Link to="/marketplace" className="px-8 py-4 bg-gradient-to-r from-yellow-500 to-orange-600 text-white rounded-lg hover:shadow-xl hover:shadow-yellow-500/50 transition-all text-lg font-semibold inline-flex items-center gap-2">
+            <Link to="/marketplace" className="px-8 py-4 bg-gradient-to-r from-yellow-500 to-orange-600 text-foreground rounded-lg hover:shadow-xl hover:shadow-yellow-500/50 transition-all text-lg font-semibold inline-flex items-center gap-2">
               Explore Marketplace
               <ShoppingCart className="w-5 h-5" />
             </Link>
@@ -702,10 +702,10 @@ export default function Home() {
                 Your Farming?
               </span>
             </h2>
-            <p className="text-xl text-gray-300 mb-10">
+            <p className="text-xl text-secondary-foreground mb-10">
               Join thousands of farmers using smart technology to grow better crops and increase profitability
             </p>
-            <Link to={ctaLink} className="px-10 py-5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:shadow-2xl hover:shadow-green-500/50 transition-all text-xl font-bold inline-flex items-center gap-3">
+            <Link to={ctaLink} className="px-10 py-5 bg-gradient-to-r from-green-500 to-emerald-600 text-foreground rounded-lg hover:shadow-2xl hover:shadow-green-500/50 transition-all text-xl font-bold inline-flex items-center gap-3">
               Create Free Account
               <ArrowRight className="w-6 h-6" />
             </Link>

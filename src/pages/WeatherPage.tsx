@@ -54,10 +54,10 @@ const getWeatherIcon = (condition: string) => {
   if (c.includes('thunder') || c.includes('storm')) 
     return <AlertTriangle className="h-12 w-12 text-yellow-500" />;
   if (c.includes('cloud') || c.includes('overcast')) 
-    return <Cloud className="h-12 w-12 text-gray-400" />;
+    return <Cloud className="h-12 w-12 text-muted-foreground" />;
   if (c.includes('mist') || c.includes('fog')) 
-    return <Wind className="h-12 w-12 text-gray-500" />;
-  return <Cloud className="h-12 w-12 text-gray-400" />;
+    return <Wind className="h-12 w-12 text-muted-foreground" />;
+  return <Cloud className="h-12 w-12 text-muted-foreground" />;
 };
 
 const defaultCurrentWeather: WeatherData = {
@@ -190,13 +190,13 @@ export default function WeatherPage() {
   };
 
   return (
-    <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 bg-gray-950 min-h-screen overflow-x-hidden">
+    <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 bg-background min-h-screen overflow-x-hidden">
         {/* Page Header */}
           <div className="mb-8">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight uppercase">Weather Insights</h1>
-                <p className="text-gray-400">
+                <h1 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight uppercase">Weather Insights</h1>
+                <p className="text-muted-foreground">
                   Real-time weather for <span className="text-green-400 font-bold">{locationName}</span>
                 </p>
               </div>
@@ -205,37 +205,37 @@ export default function WeatherPage() {
             {/* Controls */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Select value={selectedFarm} onValueChange={setSelectedFarm}>
-                <SelectTrigger className="bg-gray-900/50 border-gray-800 text-white">
+                <SelectTrigger className="bg-card/50 border-border text-foreground">
                 <SelectValue placeholder="Select Farm / Location" />
               </SelectTrigger>
-              <SelectContent className="bg-gray-900 border-gray-800">
-                <SelectItem value="current" className="text-white focus:bg-gray-800">
+              <SelectContent className="bg-card border-border">
+                <SelectItem value="current" className="text-foreground focus:bg-accent">
                   📍 Current Location
                 </SelectItem>
-                <SelectItem value="lucknow" className="text-white focus:bg-gray-800">
+                <SelectItem value="lucknow" className="text-foreground focus:bg-accent">
                   Lucknow (Hazratganj)
                 </SelectItem>
-                <SelectItem value="kanpur" className="text-white focus:bg-gray-800">
+                <SelectItem value="kanpur" className="text-foreground focus:bg-accent">
                   Kanpur (Civic Lines)
                 </SelectItem>
-                <SelectItem value="barabanki" className="text-white focus:bg-gray-800">
+                <SelectItem value="barabanki" className="text-foreground focus:bg-accent">
                   Barabanki (Rural)
                 </SelectItem>
-                <SelectItem value="unnao" className="text-white focus:bg-gray-800">
+                <SelectItem value="unnao" className="text-foreground focus:bg-accent">
                   Unnao (Central Area)
                 </SelectItem>
               </SelectContent>
               </Select>
 
               <Select value={tempUnit} onValueChange={setTempUnit}>
-                <SelectTrigger className="bg-gray-900/50 border-gray-800 text-white">
+                <SelectTrigger className="bg-card/50 border-border text-foreground">
                 <SelectValue placeholder="Temperature Unit" />
               </SelectTrigger>
-              <SelectContent className="bg-gray-900 border-gray-800">
-                <SelectItem value="celsius" className="text-white focus:bg-gray-800">
+              <SelectContent className="bg-card border-border">
+                <SelectItem value="celsius" className="text-foreground focus:bg-accent">
                   Celsius (°C)
                 </SelectItem>
-                <SelectItem value="fahrenheit" className="text-white focus:bg-gray-800">
+                <SelectItem value="fahrenheit" className="text-foreground focus:bg-accent">
                   Fahrenheit (°F)
                 </SelectItem>
               </SelectContent>
@@ -252,7 +252,7 @@ export default function WeatherPage() {
           {/* Weather Alerts */}
           {weatherAlerts.length > 0 && (
             <div className="mb-8">
-              <h2 className="text-xl text-white mb-4 flex items-center gap-2">
+              <h2 className="text-xl text-foreground mb-4 flex items-center gap-2">
                 <AlertTriangle className="h-5 w-5 text-yellow-500" />
                 Active Alerts
               </h2>
@@ -274,7 +274,7 @@ export default function WeatherPage() {
                       />
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <h3 className="text-white">{alert.title}</h3>
+                          <h3 className="text-foreground">{alert.title}</h3>
                           <span
                             className={`text-xs px-2 py-1 rounded-full ${
                               alert.severity === 'critical'
@@ -285,8 +285,8 @@ export default function WeatherPage() {
                             {alert.severity === 'critical' ? 'Critical' : 'Advisory'}
                           </span>
                         </div>
-                        <p className="text-gray-400 text-sm mb-2">{alert.description}</p>
-                        <p className="text-gray-500 text-xs">{alert.timestamp}</p>
+                        <p className="text-muted-foreground text-sm mb-2">{alert.description}</p>
+                        <p className="text-muted-foreground text-xs">{alert.timestamp}</p>
                       </div>
                     </div>
                   </div>
@@ -302,52 +302,52 @@ export default function WeatherPage() {
                   {getWeatherIcon(currentWeather.condition)}
                 </div>
                 <div>
-                  <p className="text-gray-400 text-xs sm:text-sm mb-1 uppercase tracking-wider">
+                  <p className="text-muted-foreground text-xs sm:text-sm mb-1 uppercase tracking-wider">
                     {isLoading ? 'Detecting Location...' : 'Current Weather'}
                   </p>
-                  <p className="text-4xl sm:text-6xl text-white mb-1">
+                  <p className="text-4xl sm:text-6xl text-foreground mb-1">
                     {convertTemp(currentWeather.temp)}°{tempUnit === 'celsius' ? 'C' : 'F'}
                   </p>
-                  <p className="text-lg sm:text-xl text-gray-300 font-medium">{currentWeather.condition}</p>
+                  <p className="text-lg sm:text-xl text-secondary-foreground font-medium">{currentWeather.condition}</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 w-full lg:w-auto">
-                <div className="bg-gray-800/50 rounded-xl p-3 sm:p-4 border border-gray-700/50">
+                <div className="bg-accent/50 rounded-xl p-3 sm:p-4 border border-input/50">
                   <div className="flex items-center gap-2 mb-1 sm:mb-2">
                     <Droplets className="h-3.5 w-3.5 text-blue-400" />
-                    <span className="text-gray-400 text-xs sm:text-sm">Humidity</span>
+                    <span className="text-muted-foreground text-xs sm:text-sm">Humidity</span>
                   </div>
-                  <p className="text-xl sm:text-2xl text-white font-bold">{currentWeather.humidity}%</p>
+                  <p className="text-xl sm:text-2xl text-foreground font-bold">{currentWeather.humidity}%</p>
                 </div>
-                <div className="bg-gray-800/50 rounded-xl p-3 sm:p-4 border border-gray-700/50">
+                <div className="bg-accent/50 rounded-xl p-3 sm:p-4 border border-input/50">
                   <div className="flex items-center gap-2 mb-1 sm:mb-2">
                     <Wind className="h-3.5 w-3.5 text-cyan-400" />
-                    <span className="text-gray-400 text-xs sm:text-sm">Wind</span>
+                    <span className="text-muted-foreground text-xs sm:text-sm">Wind</span>
                   </div>
-                  <p className="text-xl sm:text-2xl text-white font-bold">{currentWeather.windSpeed} km/h</p>
+                  <p className="text-xl sm:text-2xl text-foreground font-bold">{currentWeather.windSpeed} km/h</p>
                 </div>
-                <div className="bg-gray-800/50 rounded-xl p-3 sm:p-4 border border-gray-700/50">
+                <div className="bg-accent/50 rounded-xl p-3 sm:p-4 border border-input/50">
                   <div className="flex items-center gap-2 mb-1 sm:mb-2">
                     <CloudRain className="h-3.5 w-3.5 text-blue-400" />
-                    <span className="text-gray-400 text-xs sm:text-sm">Rain</span>
+                    <span className="text-muted-foreground text-xs sm:text-sm">Rain</span>
                   </div>
-                  <p className="text-xl sm:text-2xl text-white font-bold">{currentWeather.rainProbability}%</p>
+                  <p className="text-xl sm:text-2xl text-foreground font-bold">{currentWeather.rainProbability}%</p>
                 </div>
-                <div className="bg-gray-800/50 rounded-xl p-3 sm:p-4 border border-gray-700/50">
+                <div className="bg-accent/50 rounded-xl p-3 sm:p-4 border border-input/50">
                   <div className="flex items-center gap-2 mb-1 sm:mb-2">
-                    <Eye className="h-3.5 w-3.5 text-gray-400" />
-                    <span className="text-gray-400 text-xs sm:text-sm">Visibility</span>
+                    <Eye className="h-3.5 w-3.5 text-muted-foreground" />
+                    <span className="text-muted-foreground text-xs sm:text-sm">Visibility</span>
                   </div>
-                  <p className="text-xl sm:text-2xl text-white font-bold">{currentWeather.visibility} km</p>
+                  <p className="text-xl sm:text-2xl text-foreground font-bold">{currentWeather.visibility} km</p>
                 </div>
               </div>
             </div>
 
           {/* Hourly Forecast */}
-          <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-4 sm:p-6 mb-8">
-            <h2 className="text-lg font-bold text-white uppercase tracking-widest mb-6 flex items-center gap-2">
-              <span className="w-1 h-4 bg-[#48D87D] rounded-full inline-block"></span>
+          <div className="bg-card/50 border border-border rounded-2xl p-4 sm:p-6 mb-8">
+            <h2 className="text-lg font-bold text-foreground uppercase tracking-widest mb-6 flex items-center gap-2">
+              <span className="w-1 h-4 bg-primary rounded-full inline-block"></span>
               Hourly Forecast
             </h2>
             <div className="overflow-x-auto">
@@ -355,13 +355,13 @@ export default function WeatherPage() {
                 {hourlyForecast.map((hour, index) => (
                   <div
                     key={index}
-                    className="bg-gray-900/50 rounded-lg p-4 min-w-[120px] hover:bg-gray-800/50 transition-colors"
+                    className="bg-card/50 rounded-lg p-4 min-w-[120px] hover:bg-accent/50 transition-colors"
                   >
-                    <p className="text-gray-400 text-sm mb-3 text-center">{hour.hour}</p>
+                    <p className="text-muted-foreground text-sm mb-3 text-center">{hour.hour}</p>
                     <div className="flex justify-center mb-3">
                       {getWeatherIcon(hour.condition)}
                     </div>
-                    <p className="text-white text-xl text-center mb-2">
+                    <p className="text-foreground text-xl text-center mb-2">
                       {convertTemp(hour.temp)}°
                     </p>
                     <div className="flex items-center justify-center gap-1 text-blue-400">
@@ -375,28 +375,28 @@ export default function WeatherPage() {
           </div>
 
           {/* 7-Day Forecast */}
-          <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-4 sm:p-6 text-sm sm:text-base">
-            <h2 className="text-lg font-bold text-white uppercase tracking-widest mb-6 flex items-center gap-2">
-              <span className="w-1 h-4 bg-[#48D87D] rounded-full inline-block"></span>
+          <div className="bg-card/50 border border-border rounded-2xl p-4 sm:p-6 text-sm sm:text-base">
+            <h2 className="text-lg font-bold text-foreground uppercase tracking-widest mb-6 flex items-center gap-2">
+              <span className="w-1 h-4 bg-primary rounded-full inline-block"></span>
               7-Day Forecast
             </h2>
             <div className="space-y-3">
               {dailyForecast.map((day, index) => (
                 <div
                   key={index}
-                  className="bg-gray-900/50 rounded-lg p-4 hover:bg-gray-800/50 transition-colors"
+                  className="bg-card/50 rounded-lg p-4 hover:bg-accent/50 transition-colors"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
                     <div className="flex items-center gap-2 sm:gap-4 flex-1">
                       <div className="w-16 sm:w-24">
-                        <p className="text-white font-medium text-sm sm:text-base">{day.day}</p>
-                        <p className="text-gray-500 text-[10px] sm:text-xs uppercase">{day.date}</p>
+                        <p className="text-foreground font-medium text-sm sm:text-base">{day.day}</p>
+                        <p className="text-muted-foreground text-[10px] sm:text-xs uppercase">{day.date}</p>
                       </div>
                       <div className="flex items-center gap-2 sm:gap-3">
                         <div className="scale-75 sm:scale-100 origin-left">
                           {getWeatherIcon(day.condition)}
                         </div>
-                        <p className="text-gray-400 text-xs sm:text-sm hidden md:block w-32">
+                        <p className="text-muted-foreground text-xs sm:text-sm hidden md:block w-32">
                           {day.condition}
                         </p>
                       </div>
@@ -407,11 +407,11 @@ export default function WeatherPage() {
                         <span className="text-[11px] sm:text-sm font-medium">{day.rainProbability}%</span>
                       </div>
                       <div className="flex items-center gap-1 sm:gap-2">
-                        <span className="text-gray-400 text-xs sm:text-sm w-7 sm:w-8 text-right">
+                        <span className="text-muted-foreground text-xs sm:text-sm w-7 sm:w-8 text-right">
                           {convertTemp(day.minTemp)}°
                         </span>
                         <div className="w-8 sm:w-20 h-1 sm:h-1.5 bg-gradient-to-r from-blue-500 to-orange-500 rounded-full" />
-                        <span className="text-white font-medium text-xs sm:text-sm w-7 sm:w-8">
+                        <span className="text-foreground font-medium text-xs sm:text-sm w-7 sm:w-8">
                           {convertTemp(day.maxTemp)}°
                         </span>
                       </div>

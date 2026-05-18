@@ -89,21 +89,21 @@ export default function AddFarmModal({ isOpen, onClose, onSave, editingFarm }: A
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-[#111] border-slate-800 text-white max-w-md">
+      <DialogContent className="bg-card border-border text-foreground max-w-md">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold flex items-center gap-2">
-            <Navigation className="text-[#48D87D]" size={20} />
+            <Navigation className="text-primary" size={20} />
             {editingFarm ? 'Update Infrastructure Node' : 'Register New Node'}
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
           <div className="space-y-1.5">
-            <Label className="text-slate-400 text-[10px] uppercase font-black tracking-widest">Farm Identifier</Label>
+            <Label className="text-muted-foreground text-[10px] uppercase font-black tracking-widest">Farm Identifier</Label>
             <Input
               value={formData.farmName}
               onChange={e => setFormData({...formData, farmName: e.target.value})}
-              className="bg-black border-slate-800 text-white focus:border-[#48D87D]"
+              className="bg-background border-border text-foreground focus:border-primary"
               placeholder="e.g. Lucknow HQ"
             />
             {errors.farmName && <p className="text-red-500 text-[10px] font-bold uppercase">{errors.farmName}</p>}
@@ -111,23 +111,23 @@ export default function AddFarmModal({ isOpen, onClose, onSave, editingFarm }: A
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <Label className="text-slate-400 text-[10px] uppercase font-black tracking-widest">Latitude</Label>
+              <Label className="text-muted-foreground text-[10px] uppercase font-black tracking-widest">Latitude</Label>
               <Input
                 type="number"
                 step="any"
                 value={formData.latitude}
                 onChange={e => setFormData({...formData, latitude: e.target.value})}
-                className="bg-black border-slate-800 text-white focus:border-[#48D87D]"
+                className="bg-background border-border text-foreground focus:border-primary"
               />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-slate-400 text-[10px] uppercase font-black tracking-widest">Longitude</Label>
+              <Label className="text-muted-foreground text-[10px] uppercase font-black tracking-widest">Longitude</Label>
               <Input
                 type="number"
                 step="any"
                 value={formData.longitude}
                 onChange={e => setFormData({...formData, longitude: e.target.value})}
-                className="bg-black border-slate-800 text-white focus:border-[#48D87D]"
+                className="bg-background border-border text-foreground focus:border-primary"
               />
             </div>
           </div>
@@ -136,26 +136,26 @@ export default function AddFarmModal({ isOpen, onClose, onSave, editingFarm }: A
             type="button" 
             variant="outline" 
             onClick={getCurrentLocation}
-            className="w-full border-slate-800 text-slate-400 text-[10px] font-black uppercase h-9 hover:bg-white/5"
+            className="w-full border-border text-muted-foreground text-[10px] font-black uppercase h-9 hover:bg-white/5"
           >
-            <Crosshair size={12} className="mr-2 text-[#48D87D]" /> Sync GPS Coordinates
+            <Crosshair size={12} className="mr-2 text-primary" /> Sync GPS Coordinates
           </Button>
 
           <div className="space-y-1.5">
-            <Label className="text-slate-400 text-[10px] uppercase font-black tracking-widest">Total Area (Acres)</Label>
+            <Label className="text-muted-foreground text-[10px] uppercase font-black tracking-widest">Total Area (Acres)</Label>
             <Input
               type="number"
               step="0.1"
               value={formData.totalArea}
               onChange={e => setFormData({...formData, totalArea: e.target.value})}
-              className="bg-black border-slate-800 text-white focus:border-[#48D87D]"
+              className="bg-background border-border text-foreground focus:border-primary"
             />
             {errors.totalArea && <p className="text-red-500 text-[10px] font-bold uppercase">{errors.totalArea}</p>}
           </div>
 
           <div className="flex gap-3 pt-4">
-            <Button type="button" variant="ghost" onClick={onClose} className="flex-1 text-slate-500 font-bold uppercase text-[10px]">Cancel</Button>
-            <Button type="submit" disabled={isSubmitting} className="flex-1 bg-[#48D87D] text-black font-black uppercase text-[10px] tracking-widest">
+            <Button type="button" variant="ghost" onClick={onClose} className="flex-1 text-muted-foreground font-bold uppercase text-[10px]">Cancel</Button>
+            <Button type="submit" disabled={isSubmitting} className="flex-1 bg-primary text-primary-foreground font-black uppercase text-[10px] tracking-widest">
               {isSubmitting ? <Loader2 className="animate-spin h-4 w-4" /> : editingFarm ? 'Apply Updates' : 'Register Node'}
             </Button>
           </div>

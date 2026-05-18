@@ -13,7 +13,7 @@ L.Icon.Default.mergeOptions({
 });
 
 const customIcon = L.divIcon({
-  html: `<svg width="25" height="41" viewBox="0 0 25 41" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 0C5.59645 0 0 5.59645 0 12.5C0 21.875 12.5 40.625 12.5 40.625C12.5 40.625 25 21.875 25 12.5C25 5.59645 19.4036 0 12.5 0Z" fill="#48D87D"/><circle cx="12.5" cy="12.5" r="5" fill="black"/></svg>`,
+  html: `<svg width="25" height="41" viewBox="0 0 25 41" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 0C5.59645 0 0 5.59645 0 12.5C0 21.875 12.5 40.625 12.5 40.625C12.5 40.625 25 21.875 25 12.5C25 5.59645 19.4036 0 12.5 0Z" fill="var(--color-primary)"/><circle cx="12.5" cy="12.5" r="5" fill="black"/></svg>`,
   className: '',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
@@ -49,8 +49,8 @@ export default function FarmMap({ farms }: { farms: Farm[] }) {
         {validFarms.map((farm) => (
           <Marker key={farm.id} position={[farm.latitude, farm.longitude]} icon={customIcon}>
             <Popup>
-              <div className="text-black font-bold">{farm.farmName}</div>
-              <div className="text-xs text-gray-600">{farm.totalArea} Acres</div>
+              <div className="text-primary-foreground font-bold">{farm.farmName}</div>
+              <div className="text-xs text-muted-foreground">{farm.totalArea} Acres</div>
             </Popup>
           </Marker>
         ))}
