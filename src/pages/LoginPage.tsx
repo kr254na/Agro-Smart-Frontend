@@ -6,6 +6,7 @@ import { Input } from '@/app/components/ui/input';
 import { setStorage } from '../utils/storage';
 import { apiClient } from '../api/apiClient';
 import { GoogleLogin } from '@react-oauth/google';
+import SEO from '../app/components/SEO';
 
 interface LoginResponse { accessToken: string; refreshToken: string; email: string; role: string; }
 interface ApiResponse<T> { success: boolean; message: string; data: T; }
@@ -90,6 +91,11 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gray-950 flex relative overflow-hidden">
+      <SEO 
+        title="Login" 
+        description="Sign in to your AgroSmart account to access your farm dashboard, live sensor data, and AI crop analysis." 
+        url="https://agrofy.vercel.app/login" 
+      />
       {isGoogleLoading && (
         <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center">
           <Loader2 className="w-12 h-12 text-[#48D87D] animate-spin mb-4" />

@@ -22,6 +22,7 @@ import Sidebar from './components/Sidebar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute'; // Ensure this path is correct
 import { Toaster } from './components/ui/sonner';
+import { HelmetProvider } from 'react-helmet-async';
 
 function AppContent() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -83,8 +84,10 @@ function AppContent() {
 
 export default function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>    
+    <HelmetProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </HelmetProvider>
   );
 }

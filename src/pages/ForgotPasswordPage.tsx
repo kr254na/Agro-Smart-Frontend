@@ -5,6 +5,7 @@ import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
 import { apiClient } from '../api/apiClient';
+import SEO from '../app/components/SEO';
 
 type ResetStep = 'EMAIL' | 'OTP' | 'PASSWORD' | 'SUCCESS';
 
@@ -116,6 +117,11 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
+      <SEO 
+        title="Forgot Password" 
+        description="Reset your AgroSmart account password securely." 
+        url="https://agrofy.vercel.app/forgot-password" 
+      />
       <div className="w-full max-w-md bg-[#111] p-8 rounded-2xl border border-gray-800 shadow-xl">
         
         {/* Dynamic Header */}

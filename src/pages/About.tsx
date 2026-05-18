@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/app/components/ui/ca
 import { Badge } from '@/app/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
 import { getStorage } from '../utils/storage';
+import SEO from '../app/components/SEO';
 
 export default function About() {
   const token = getStorage('token');
@@ -112,6 +113,11 @@ export default function About() {
 
   return (
     <div className="pt-20 bg-gray-950 text-white">
+      <SEO 
+        title="About Us" 
+        description="Learn about AgroSmart's mission to empower farmers with technology, data-driven insights, and sustainable agriculture solutions." 
+        url="https://agrofy.vercel.app/about" 
+      />
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">

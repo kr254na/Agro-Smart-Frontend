@@ -11,6 +11,7 @@ import { Badge } from '@/app/components/ui/badge';
 import { useState, useEffect } from 'react';
 import { WEATHER_CONFIG } from '@/config/weatherConfig';
 import { getStorage } from '../utils/storage';
+import SEO from '../app/components/SEO';
 
 export default function Home() {
   const [weatherData, setWeatherData] = useState<any>(null);
@@ -102,6 +103,10 @@ export default function Home() {
 
   return (
     <div className="text-white">
+      <SEO 
+        title="Smart Farming & Precision Agriculture" 
+        description="AgroSmart is an advanced precision agriculture platform offering real-time farm monitoring, sensor data analysis, and AI-driven crop insights for modern farmers." 
+      />
       {/* Hero Section */}
       <section id="home" className="relative pt-32 pb-20 overflow-hidden">
         {/* Background Pattern */}

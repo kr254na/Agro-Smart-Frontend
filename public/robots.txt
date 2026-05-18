@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+Allow: /about
+Allow: /login
+Allow: /register
+Allow: /forgot-password
+Disallow: /dashboard
+Disallow: /farms
+Disallow: /sensors
+Disallow: /analysis
+Disallow: /smart-eye
+Disallow: /weather
+Disallow: /notifications
+Disallow: /community
+Disallow: /marketplace
+Disallow: /settings
+Disallow: /profile
+
+Sitemap: https://agrofy.vercel.app/sitemap.xml

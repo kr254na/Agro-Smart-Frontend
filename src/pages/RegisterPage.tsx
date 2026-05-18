@@ -5,6 +5,7 @@ import { Checkbox } from '@/app/components/ui/checkbox';
 import { apiClient } from '../api/apiClient';
 import { GoogleLogin } from '@react-oauth/google';
 import { setStorage } from '../utils/storage';
+import SEO from '../app/components/SEO';
 
 type PasswordStrength = 'weak' | 'medium' | 'strong';
 interface ApiResponse<T> { success: boolean; message: string; data: T; timestamp: string; }
@@ -146,6 +147,11 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-gray-950 flex items-center justify-center relative overflow-hidden py-10 px-4">
+      <SEO 
+        title="Create Account" 
+        description="Create a free AgroSmart account to start managing your smart farm with IoT sensors and AI insights." 
+        url="https://agrofy.vercel.app/register" 
+      />
       {isGoogleLoading && (
         <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center">
           <Loader2 className="w-12 h-12 text-[#48D87D] animate-spin mb-4" />
