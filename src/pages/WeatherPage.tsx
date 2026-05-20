@@ -388,14 +388,14 @@ const navigate = useNavigate();
                   key={index}
                   className="bg-card/50 rounded-lg p-4 hover:bg-accent/50 transition-colors"
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
-                    <div className="flex items-center gap-2 sm:gap-4 flex-1">
-                      <div className="w-16 sm:w-24">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 w-full">
+                    <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
+                      <div className="w-16 sm:w-24 shrink-0">
                         <p className="text-foreground font-medium text-sm sm:text-base">{day.day}</p>
                         <p className="text-muted-foreground text-[10px] sm:text-xs uppercase">{day.date}</p>
                       </div>
                       <div className="flex items-center gap-2 sm:gap-3">
-                        <div className="scale-75 sm:scale-100 origin-left">
+                        <div className="scale-75 sm:scale-100 origin-left shrink-0">
                           {getWeatherIcon(day.condition)}
                         </div>
                         <p className="text-muted-foreground text-xs sm:text-sm hidden md:block w-32">
@@ -403,17 +403,17 @@ const navigate = useNavigate();
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-6 ml-auto sm:ml-0">
+                    <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-6 w-full sm:w-auto mt-2 sm:mt-0">
                       <div className="flex items-center gap-1 sm:gap-2 text-blue-400 min-w-[45px] sm:min-w-[60px]">
-                        <Droplets className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                        <Droplets className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
                         <span className="text-[11px] sm:text-sm font-medium">{day.rainProbability}%</span>
                       </div>
-                      <div className="flex items-center gap-1 sm:gap-2">
-                        <span className="text-muted-foreground text-xs sm:text-sm w-7 sm:w-8 text-right">
+                      <div className="flex items-center gap-1 sm:gap-2 flex-1 sm:flex-none justify-end">
+                        <span className="text-muted-foreground text-xs sm:text-sm w-7 sm:w-8 text-right shrink-0">
                           {convertTemp(day.minTemp)}°
                         </span>
-                        <div className="w-8 sm:w-20 h-1 sm:h-1.5 bg-gradient-to-r from-blue-500 to-orange-500 rounded-full" />
-                        <span className="text-foreground font-medium text-xs sm:text-sm w-7 sm:w-8">
+                        <div className="w-12 sm:w-20 h-1 sm:h-1.5 bg-gradient-to-r from-blue-500 to-orange-500 rounded-full shrink-0" />
+                        <span className="text-foreground font-medium text-xs sm:text-sm w-7 sm:w-8 shrink-0">
                           {convertTemp(day.maxTemp)}°
                         </span>
                       </div>

@@ -62,7 +62,7 @@ function AppContent() {
         isSidebarOpen={isSidebarOpen}
       />
 
-      <div className="flex flex-1">
+      <div className="flex flex-1 min-w-0">
         {isDashboardRoute && isLoggedIn && (
           <Sidebar
             isOpen={isSidebarOpen}
@@ -70,8 +70,8 @@ function AppContent() {
           />
         )}
 
-        <main className={`flex-1 flex flex-col ${isDashboardRoute && isLoggedIn ? 'lg:pl-64' : ''}`}>
-          <div className="flex-grow pt-20">
+        <main className={`flex-1 flex flex-col min-w-0 ${isDashboardRoute && isLoggedIn ? 'lg:pl-64' : ''}`}>
+          <div className="flex-grow pt-20 min-w-0 w-full">
             <Routes>
                 {/* Public Routes */}
                 <Route path="/" element={<Home />} />
