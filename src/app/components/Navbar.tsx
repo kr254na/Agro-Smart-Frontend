@@ -141,13 +141,11 @@ export default function Navbar({ onMenuToggle, isSidebarOpen }: NavbarProps) {
             
             {/* Toggles Group on Right */}
             <div className="flex items-center gap-1">
-              {isLoggedIn && isDashboardRoute && (
+              {isLoggedIn && isDashboardRoute ? (
                 <button onClick={onMenuToggle} className="lg:hidden p-2 text-muted-foreground hover:text-green-400">
                   {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
                 </button>
-              )}
-              
-              {!isDashboardRoute && (
+              ) : (
                 <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden p-2 text-green-400">
                   {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
                 </button>

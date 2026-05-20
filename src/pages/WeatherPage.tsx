@@ -314,7 +314,7 @@ const navigate = useNavigate();
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 w-full lg:w-auto">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 w-full lg:w-auto mt-6 sm:mt-8">
                 <div className="bg-accent/50 rounded-xl p-3 sm:p-4 border border-input/50">
                   <div className="flex items-center gap-2 mb-1 sm:mb-2">
                     <Droplets className="h-3.5 w-3.5 text-blue-400" />
