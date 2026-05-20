@@ -1,12 +1,8 @@
-import { useState, useEffect } from 'react';
-import { Cloud, CloudRain, Sun, Wind, Droplets, Eye, AlertTriangle } from 'lucide-react';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/app/components/ui/select';
+
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Sun, CloudRain, Cloud, AlertTriangle, Wind, Droplets, Eye } from 'lucide-react';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/app/components/ui/select';
 import { WEATHER_CONFIG } from '@/config/weatherConfig';
 
 interface WeatherData {
@@ -71,11 +67,17 @@ const defaultCurrentWeather: WeatherData = {
 };
 
 export default function WeatherPage() {
-  const [selectedFarm, setSelectedFarm] = useState('lucknow');
+const navigate = useNavigate();
+
+
+  // State declarations for public page
+  const [selectedFarm, setSelectedFarm] = useState('current');
   const [tempUnit, setTempUnit] = useState('celsius');
-  const [locationName, setLocationName] = useState('Lucknow, Uttar Pradesh');
-  const [isLoading, setIsLoading] = useState(true);
+  const [locationName, setLocationName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+
 
   const [currentWeather, setCurrentWeather] = useState<WeatherData>(defaultCurrentWeather);
   const [hourlyForecast, setHourlyForecast] = useState<HourlyForecast[]>([]);
@@ -190,7 +192,7 @@ export default function WeatherPage() {
   };
 
   return (
-    <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 bg-background min-h-screen overflow-x-hidden">
+    <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 bg-background min-h-screen overflow-x-hidden pt-12">
         {/* Page Header */}
           <div className="mb-8">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">

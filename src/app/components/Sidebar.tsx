@@ -7,7 +7,6 @@ import {
   Cloud, 
   Users, 
   ShoppingCart, 
-  Bell, 
   Settings,
   Home,
   Info,
@@ -32,7 +31,6 @@ const menuItems = [
   { icon: Cloud, label: 'Weather', path: '/weather' },
   { icon: Users, label: 'Community', path: '/community' },
   { icon: ShoppingCart, label: 'Marketplace', path: '/marketplace' },
-  { icon: Bell, label: 'Notifications', path: '/notifications' },
   { icon: Settings, label: 'Settings', path: '/settings' },
 ];
 

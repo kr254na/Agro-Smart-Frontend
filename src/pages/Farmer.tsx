@@ -116,12 +116,7 @@ export default function Farmer() {
     },
   ];
 
-  const alerts = [
-    { id: 1, type: 'critical', icon: AlertTriangle, message: 'Low soil moisture detected in Farm 2', time: '10 min ago', color: 'text-red-400' },
-    { id: 2, type: 'warning', icon: Thermometer, message: 'High temperature warning - 35°C expected', time: '1 hour ago', color: 'text-yellow-400' },
-    { id: 3, type: 'success', icon: CheckCircle, message: 'Crop health improved in Farm 1', time: '3 hours ago', color: 'text-green-400' },
-    { id: 4, type: 'info', icon: CloudRain, message: 'Rain expected in 48 hours', time: '5 hours ago', color: 'text-blue-400' },
-  ];
+
 
   const communityPosts = [
     { title: 'Best organic fertilizers for wheat?', author: 'Sanjay Yadav', replies: 12 },
@@ -149,7 +144,7 @@ export default function Farmer() {
         </div>
 
         {/* Overview Summary Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <Card 
             onClick={() => navigate('/farms')}
             className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border-blue-500/30 hover:border-blue-500/50 transition-all cursor-pointer hover:shadow-lg"
@@ -188,22 +183,6 @@ export default function Farmer() {
               <div className="flex items-center gap-2 text-green-400">
                 <CheckCircle className="w-4 h-4" />
                 <span className="text-sm font-medium">Overall health</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card 
-            onClick={() => navigate('/notifications')}
-            className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-yellow-500/30 hover:border-yellow-500/50 transition-all cursor-pointer hover:shadow-lg"
-          >
-            <CardHeader className="pb-3">
-              <CardDescription className="text-muted-foreground">Alerts</CardDescription>
-              <CardTitle className="text-4xl text-yellow-400 font-bold">2</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center gap-2 text-yellow-400">
-                <AlertTriangle className="w-4 h-4" />
-                <span className="text-sm font-medium">Needs attention</span>
               </div>
             </CardContent>
           </Card>
@@ -463,34 +442,7 @@ export default function Farmer() {
           </div>
         </section>
 
-        {/* Recent Alerts & Notifications */}
-        <section className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-foreground">Recent Alerts & Notifications</h2>
-            <button className="text-green-400 hover:text-green-300 text-sm font-medium">Mark all as read</button>
-          </div>
-          <Card className="bg-background border-border shadow-lg overflow-hidden">
-            <CardContent className="p-0">
-              {alerts.map((alert, index) => (
-                <div 
-                  key={alert.id} 
-                  className={`flex items-start gap-4 p-5 hover:bg-card cursor-pointer transition-colors ${
-                    index !== alerts.length - 1 ? 'border-b border-border' : ''
-                  }`}
-                >
-                  <alert.icon className={`w-5 h-5 ${alert.color} flex-shrink-0 mt-0.5`} />
-                  <div className="flex-1">
-                    <p className="text-foreground text-sm font-medium">{alert.message}</p>
-                    <p className="text-muted-foreground text-xs mt-1">{alert.time}</p>
-                  </div>
-                  <button className="text-muted-foreground hover:text-foreground text-xs font-medium">
-                    Mark read
-                  </button>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </section>
+
 
         {/* Community & Marketplace Row */}
         <div className="grid lg:grid-cols-2 gap-8">

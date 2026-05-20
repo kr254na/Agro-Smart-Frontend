@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Search, MapPin, ShoppingCart, Plus, Minus, Edit, Trash2,
   Package, Loader2, Phone, MessageCircle, AlertTriangle, CheckCircle2
@@ -18,6 +19,7 @@ import {
 import { Separator } from '@/app/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
 import { apiClient } from '@/api/apiClient';
+import { getStorage } from '@/utils/storage';
 
 const CATEGORY_MAP: Record<string, string> = {
   SEEDS: "Seeds",
@@ -45,6 +47,8 @@ interface ProductResponse {
 }
 
 export default function Marketplace() {
+  const navigate = useNavigate();
+  const isLoggedIn = Boolean(getStorage('token'));
   const [products, setProducts] = useState<ProductResponse[]>([]);
   const [myListings, setMyListings] = useState<ProductResponse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -94,6 +98,7 @@ export default function Marketplace() {
   }, [selectedCategory, searchQuery]);
 
   const fetchMyListings = useCallback(async () => {
+    if (!getStorage('token')) { setMyListings([]); return; }
     setIsLoading(true);
     try {
       const res = await apiClient('/api/market/products/my-listings') as Response;
@@ -103,6 +108,7 @@ export default function Marketplace() {
   }, []);
 
   const handleSaveProduct = async () => {
+    if (!isLoggedIn) { navigate('/login'); return; }
     if (!productForm.productName || !productForm.price) return;
     setIsSubmitting(true);
     try {
@@ -137,6 +143,7 @@ export default function Marketplace() {
   };
 
   const updateStock = async (productId: number, newQty: number) => {
+    if (!isLoggedIn) { navigate('/login'); return; }
     if (newQty < 0) return;
     try {
       const p = myListings.find(item => item.id === productId);
@@ -162,6 +169,7 @@ export default function Marketplace() {
   };
 
   const executeDelete = async () => {
+    if (!isLoggedIn) { navigate('/login'); return; }
     if (!deleteConfirmId) return;
     setIsDeleting(true);
     try {
@@ -211,7 +219,7 @@ export default function Marketplace() {
             </h1>
             <p className="text-muted-foreground font-bold uppercase text-[10px] tracking-[0.2em] mt-1 italic">Lucknow network</p>
           </div>
-          <button onClick={() => { setEditingId(null); setProductForm(initialForm); setImageFile(null); setIsModalOpen(true); }} 
+          <button onClick={() => { if (!isLoggedIn) { navigate('/login'); return; } setEditingId(null); setProductForm(initialForm); setImageFile(null); setIsModalOpen(true); }} 
             className="px-6 py-3 bg-primary text-primary-foreground font-black uppercase text-xs tracking-widest rounded-lg hover:shadow-[0_0_20px_rgba(72,216,125,0.4)] transition-all flex items-center gap-2">
             <Plus className="w-5 h-5" /> New Listing
           </button>
@@ -285,7 +293,18 @@ export default function Marketplace() {
           </TabsContent>
 
           <TabsContent value="mylisting">
-             <Card className="bg-card border-border shadow-2xl">
+            {!isLoggedIn ? (
+              <Card className="bg-card border-border shadow-2xl">
+                <CardHeader><CardTitle className="text-foreground font-black uppercase italic">Inventory Management</CardTitle></CardHeader>
+                <CardContent className="space-y-4 text-center">
+                  <p className="text-muted-foreground mb-4">Please login to view and manage your listings.</p>
+                  <div className="flex justify-center">
+                    <button onClick={() => navigate('/login')} className="px-6 py-3 bg-primary text-primary-foreground font-black uppercase rounded-lg">Login</button>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : (
+              <Card className="bg-card border-border shadow-2xl">
                 <CardHeader><CardTitle className="text-foreground font-black uppercase italic">Inventory Management</CardTitle></CardHeader>
                 <CardContent className="space-y-4">
                   {myListings.map(p => (
@@ -312,7 +331,8 @@ export default function Marketplace() {
                   ))}
                   {myListings.length === 0 && <p className="text-center py-10 text-muted-foreground uppercase font-black text-xs italic">No listings discovered.</p>}
                 </CardContent>
-             </Card>
+              </Card>
+            )}
           </TabsContent>
         </Tabs>
 

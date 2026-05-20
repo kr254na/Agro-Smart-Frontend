@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
+
+import { useNavigate } from 'react-router-dom';
 import {
   MessageSquare, Search, Plus, ThumbsUp, MessageCircle, 
   Loader2, Send, AlertCircle, CloudAlert, 
@@ -12,7 +14,7 @@ import { Textarea } from '@/app/components/ui/textarea';
 import { Separator } from '@/app/components/ui/separator';
 import { apiClient } from '@/api/apiClient';
 import { formatDistanceToNow } from 'date-fns';
-import { getStorage } from '../utils/storage';
+
 import {
   Dialog,
   DialogContent,
@@ -20,6 +22,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/app/components/ui/dialog';
+import { getStorage } from '@/utils/storage';
 import {
   Select,
   SelectContent,
@@ -65,8 +68,11 @@ interface PostResponse {
   comments: CommentResponse[];
 }
 
-export default function Community() {
+
   // --- STATE ---
+export default function Community() {
+  const isLoggedIn = Boolean(getStorage('token'));
+  const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState<{email: string; name: string} | null>(null);
   const [posts, setPosts] = useState<PostResponse[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -165,6 +171,7 @@ export default function Community() {
 
   // --- 4. ACTIONS ---
   const handleToggleLike = async (postId: number) => {
+    if (!isLoggedIn) { navigate('/login'); return; }
     const post = posts.find(p => p.id === postId);
     if (!post) return;
     const alreadyLiked = post.isLikedByCurrentUser;
@@ -183,6 +190,7 @@ export default function Community() {
   };
 
   const handleCreatePost = async () => {
+    if (!isLoggedIn) { navigate('/login'); return; }
     try {
       const response = (await apiClient('/api/community/posts', {
         method: 'POST',
@@ -197,6 +205,7 @@ export default function Community() {
   };
 
   const executeDelete = async () => {
+    if (!getStorage('token')) { navigate('/login'); return; }
     if (!deleteConfig) return;
     const { id, type, postId } = deleteConfig;
     try {
@@ -238,6 +247,7 @@ export default function Community() {
   };
 
   const handleAddComment = async (postId: number) => {
+    if (!isLoggedIn) { navigate('/login'); return; }
     if (!activeCommentInput.trim()) return;
     try {
       const response = (await apiClient(`/api/community/comments/${postId}`, {
@@ -266,7 +276,7 @@ export default function Community() {
                 {currentUser ? `Welcome, ${currentUser.name}` : 'AgroSmart Lucknow'}
             </p>
           </div>
-          <button onClick={() => setIsSubmitOpen(true)} className="px-6 py-3 bg-primary text-primary-foreground font-black uppercase text-xs tracking-widest rounded-lg hover:shadow-[0_0_20px_rgba(72,216,125,0.4)] transition-all flex items-center gap-2">
+          <button onClick={() => { if (!isLoggedIn) { navigate('/login'); return; } setIsSubmitOpen(true); }} className="px-6 py-3 bg-primary text-primary-foreground font-black uppercase text-xs tracking-widest rounded-lg hover:shadow-[0_0_20px_rgba(72,216,125,0.4)] transition-all flex items-center gap-2">
             <Plus className="w-5 h-5" /> New Post
           </button>
         </div>

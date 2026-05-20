@@ -21,16 +21,16 @@ export default function Footer() {
               Empowering farmers with IoT and AI technology for smarter, more sustainable agriculture.
             </p>
             <div className="flex gap-3">
-              <a href="#" className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center hover:bg-green-500/20 transition-all">
+              <a href="https://www.facebook.com/profile.php?id=100040609269255" className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center hover:bg-green-500/20 transition-all">
                 <Facebook className="w-5 h-5 text-muted-foreground hover:text-green-400" />
               </a>
               <a href="#" className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center hover:bg-green-500/20 transition-all">
                 <Twitter className="w-5 h-5 text-muted-foreground hover:text-green-400" />
               </a>
-              <a href="#" className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center hover:bg-green-500/20 transition-all">
+              <a href="https://www.instagram.com/kr254na/" className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center hover:bg-green-500/20 transition-all">
                 <Instagram className="w-5 h-5 text-muted-foreground hover:text-green-400" />
               </a>
-              <a href="#" className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center hover:bg-green-500/20 transition-all">
+              <a href="https://www.linkedin.com/in/kr254na/" className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center hover:bg-green-500/20 transition-all">
                 <Linkedin className="w-5 h-5 text-muted-foreground hover:text-green-400" />
               </a>
             </div>
@@ -52,10 +52,10 @@ export default function Footer() {
           <div>
             <h3 className="text-foreground font-semibold mb-4">Support</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-muted-foreground hover:text-green-400 transition-colors">Help Center</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-green-400 transition-colors">Documentation</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-green-400 transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-green-400 transition-colors">Terms of Service</a></li>
+               <li><Link to="/help-center" className="text-muted-foreground hover:text-green-400 transition-colors">Help Center</Link></li>
+               <li><Link to="/documentation" className="text-muted-foreground hover:text-green-400 transition-colors">Documentation</Link></li>
+               <li><Link to="/privacy-policy" className="text-muted-foreground hover:text-green-400 transition-colors">Privacy Policy</Link></li>
+               <li><Link to="/terms-of-service" className="text-muted-foreground hover:text-green-400 transition-colors">Terms of Service</Link></li>
             </ul>
           </div>
 

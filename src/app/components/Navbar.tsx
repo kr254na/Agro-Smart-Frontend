@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sprout, Menu, X, Bell, User, LogOut, Settings as SettingsIcon } from 'lucide-react';
+import { Sprout, Menu, X, User, LogOut, Settings as SettingsIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import {
   DropdownMenu,
@@ -11,12 +11,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuPortal,
 } from "@/app/components/ui/dropdown-menu";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/app/components/ui/popover";
+
 import { getStorage, clearAllStorage } from '../../utils/storage';
+import Marketplace from '@/pages/Marketplace';
 
 interface NavbarProps {
   onMenuToggle?: () => void;
@@ -30,30 +27,7 @@ export default function Navbar({ onMenuToggle, isSidebarOpen }: NavbarProps) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [notifOpen, setNotifOpen] = useState(false);
-  const [notifications] = useState([
-    {
-      id: 1,
-      title: 'Low Soil Moisture',
-      message: 'Zone A moisture level is 32%.',
-      time: '10m ago',
-      type: 'sensor'
-    },
-    {
-      id: 2,
-      title: 'Heavy Rainfall',
-      message: 'Storm expected tomorrow.',
-      time: '2h ago',
-      type: 'weather'
-    },
-    {
-      id: 3,
-      title: 'AI Insight',
-      message: 'Optimal maize conditions detected.',
-      time: '3h ago',
-      type: 'ai'
-    },
-  ]);
+
 
   useEffect(() => {
     const token = getStorage('token');
@@ -71,19 +45,21 @@ export default function Navbar({ onMenuToggle, isSidebarOpen }: NavbarProps) {
   };
 
   const isDashboardRoute = [
-    '/dashboard', '/farms', '/sensors', '/analysis', '/weather', '/community', '/marketplace', '/notifications', '/settings', '/profile'
+    '/dashboard', '/farms', '/sensors', '/analysis', '/weather', '/community', '/marketplace', '/settings', '/profile', '/smart-eye'
   ].some(path => location.pathname === path || location.pathname.startsWith(path + '/'));
 
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
+    { name: 'Weather', path: '/weather' },
     ...(isLoggedIn ? [
       { name: 'Dashboard', path: '/dashboard' },
       { name: 'Farms', path: '/farms' },
-      { name: 'Market', path: '/marketplace' },
-      { name: 'Community', path: '/community' },
     ] : []),
+      { name: 'Smart Eye', path: '/smart-eye' },
+      { name: 'Settings', path: '/settings' },
   ];
+
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
@@ -118,52 +94,6 @@ export default function Navbar({ onMenuToggle, isSidebarOpen }: NavbarProps) {
           <div className="flex items-center gap-3">
             {isLoggedIn ? (
               <div className="flex items-center gap-2">
-                <Popover open={notifOpen} onOpenChange={setNotifOpen}>
-                  <PopoverTrigger asChild>
-                    <button className="relative p-2 rounded-full text-muted-foreground hover:text-green-400 hover:bg-card outline-none transition-colors">
-                      <Bell className="h-6 w-6" />
-                      <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-gray-950"></span>
-                    </button>
-                  </PopoverTrigger>
-                  <PopoverContent 
-                    align="end" 
-                    sideOffset={8}
-                    className="w-[calc(100vw-32px)] sm:w-80 bg-card border-border text-foreground p-0 shadow-2xl z-[110] max-h-[calc(100vh-100px)] flex flex-col"
-                  >
-                    <div className="p-4 border-b border-border flex justify-between items-center bg-background/50 flex-shrink-0">
-                      <h3 className="font-bold text-sm text-green-400 uppercase tracking-widest">Notifications</h3>
-                      <span className="text-[10px] bg-red-500/20 text-red-500 px-2 py-0.5 rounded-full font-bold">3 NEW</span>
-                    </div>
-                    <div className="overflow-y-auto custom-scrollbar">
-                      {notifications.map((notif) => (
-                        <div 
-                          key={notif.id} 
-                          onClick={() => {
-                            setNotifOpen(false);
-                            navigate('/notifications');
-                          }}
-                          className="p-4 border-b border-border/50 hover:bg-accent/50 cursor-pointer transition-colors"
-                        >
-                          <div className="flex justify-between mb-1">
-                            <h4 className="text-xs font-bold text-gray-200">{notif.title}</h4>
-                            <span className="text-[10px] text-muted-foreground">{notif.time}</span>
-                          </div>
-                          <p className="text-[11px] text-muted-foreground line-clamp-2">{notif.message}</p>
-                        </div>
-                      ))}
-                    </div>
-                    <button 
-                      onClick={() => {
-                        setNotifOpen(false);
-                        navigate('/notifications');
-                      }}
-                      className="w-full p-3 text-center text-xs font-bold text-green-400 hover:bg-accent border-t border-border transition-colors uppercase tracking-widest flex-shrink-0"
-                    >
-                      View all notifications
-                    </button>
-                  </PopoverContent>
-                </Popover>
-
                 <DropdownMenu>
                   <DropdownMenuTrigger className="p-2 rounded-full text-muted-foreground hover:text-green-400 hover:bg-card outline-none transition-colors">
                     <User className="h-6 w-6" />
@@ -250,12 +180,6 @@ export default function Navbar({ onMenuToggle, isSidebarOpen }: NavbarProps) {
               {isLoggedIn ? (
                 <>
                   <div className="h-px bg-accent my-2" />
-                  <Link to="/notifications" onClick={() => setMobileMenuOpen(false)} className="text-secondary-foreground hover:text-green-400 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Bell size={18} /> Notifications
-                    </div>
-                    <span className="bg-red-500 w-2 h-2 rounded-full"></span>
-                  </Link>
                   <Link to="/profile" onClick={() => setMobileMenuOpen(false)} className="text-secondary-foreground hover:text-green-400 flex items-center gap-2">
                     <User size={18} /> Profile
                   </Link>

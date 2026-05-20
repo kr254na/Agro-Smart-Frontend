@@ -110,6 +110,8 @@ export default function SensorsPage() {
       } catch (e) { console.error(e); }
     };
     loadData();
+
+    // Poll for new data every 30 seconds (backend pushes every 60s)
     const interval = setInterval(loadData, 30000);
     return () => clearInterval(interval);
   }, [selectedFieldId]);

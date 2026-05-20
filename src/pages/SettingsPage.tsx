@@ -2,6 +2,8 @@ import { Settings, User, Palette, Globe, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
+import { useEffect, useState } from 'react';
+
 const settingsCards = [
   {
     icon: User,
@@ -38,7 +40,7 @@ const settingsCards = [
   },
 ];
 
-export default function SettingsPage() {
+export default function SettingsPage(): JSX.Element {
   const navigate = useNavigate();
 
   const handleAction = (card: typeof settingsCards[0]) => {
@@ -48,7 +50,6 @@ export default function SettingsPage() {
       toast.info(`${card.title} — coming soon!`);
     }
   };
-
   return (
     <div className="p-6 lg:p-10 bg-background min-h-screen transition-colors duration-300">
       {/* Header */}

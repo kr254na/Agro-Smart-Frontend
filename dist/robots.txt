@@ -10,7 +10,6 @@ Disallow: /sensors
 Disallow: /analysis
 Disallow: /smart-eye
 Disallow: /weather
-Disallow: /notifications
 Disallow: /community
 Disallow: /marketplace
 Disallow: /settings

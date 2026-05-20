@@ -93,6 +93,13 @@ export default function FarmDetailPage() {
     fetchFarmDetails();
   }, [fetchFarmDetails]);
 
+  // Poll for fresh telemetry every 30 seconds when a field is selected
+  useEffect(() => {
+    if (!selectedFieldId) return;
+    const interval = setInterval(() => fetchTelemetry(selectedFieldId), 30000);
+    return () => clearInterval(interval);
+  }, [selectedFieldId]);
+
   // Modals/Handlers (Preserved from existing code)
   const handleUpdateFarm = async (farmData: any) => {
     try {
