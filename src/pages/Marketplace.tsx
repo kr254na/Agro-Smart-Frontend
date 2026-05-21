@@ -18,6 +18,7 @@ import {
 } from '@/app/components/ui/select';
 import { Separator } from '@/app/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
+import { PublicProfileModal } from '@/app/components/PublicProfileModal';
 import { apiClient } from '@/api/apiClient';
 import { getStorage } from '@/utils/storage';
 
@@ -42,6 +43,7 @@ interface ProductResponse {
   imageUrl: string;
   sellerName: string;
   sellerContact: string;
+  sellerEmail?: string;
   isSold: boolean;
   createdAt: string;
 }
@@ -62,6 +64,7 @@ export default function Marketplace() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [toast, setToast] = useState<{show: boolean, msg: string} | null>(null);
+  const [profileModalEmail, setProfileModalEmail] = useState<string | null>(null);
 
   const initialForm = { productName: '', description: '', price: '', quantity: 1, unit: 'KG', category: 'SEEDS' as keyof typeof CATEGORY_MAP, imageUrl: '', removeImage: false };
   const [productForm, setProductForm] = useState(initialForm);
@@ -270,7 +273,20 @@ export default function Marketplace() {
                         </div>
                         <div className="flex justify-between items-center">
                           <p className="text-2xl font-black text-foreground">₹{p.price} <span className="text-[10px] text-muted-foreground uppercase font-black">/ {p.unit}</span></p>
-                          <Badge variant="outline" className="text-[9px] border-input text-primary uppercase font-black italic">{p.sellerName}</Badge>
+                          <Badge 
+                            variant="outline" 
+                            className={`text-[9px] border-input text-primary uppercase font-black italic cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors`} 
+                            onClick={() => {
+                              const targetEmail = (p as any).email || (p as any).userEmail || p.sellerEmail || (p as any).authorEmail;
+                              if (targetEmail) {
+                                setProfileModalEmail(targetEmail);
+                              } else {
+                                showNotification("Seller email is not available for this listing.");
+                              }
+                            }}
+                          >
+                            {p.sellerName}
+                          </Badge>
                         </div>
                         <Separator className="bg-accent" />
                         <div className="flex gap-2">
@@ -410,6 +426,12 @@ export default function Marketplace() {
             </div>
           </DialogContent>
         </Dialog>
+
+        <PublicProfileModal 
+          email={profileModalEmail} 
+          isOpen={!!profileModalEmail} 
+          onClose={() => setProfileModalEmail(null)} 
+        />
 
         {/* --- TOAST NOTIFICATION --- */}
         {toast && (

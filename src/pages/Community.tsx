@@ -8,10 +8,11 @@ import {
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/app/components/ui/card';
 import { Badge } from '@/app/components/ui/badge';
-import { Avatar, AvatarFallback } from '@/app/components/ui/avatar';
+import { UserAvatar } from '@/app/components/UserAvatar';
 import { Input } from '@/app/components/ui/input';
 import { Textarea } from '@/app/components/ui/textarea';
 import { Separator } from '@/app/components/ui/separator';
+import { PublicProfileModal } from '@/app/components/PublicProfileModal';
 import { apiClient } from '@/api/apiClient';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -88,6 +89,7 @@ export default function Community() {
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [editCommentValue, setEditCommentValue] = useState('');
   const [deleteConfig, setDeleteConfig] = useState<{ id: number; type: 'POST' | 'COMMENT'; postId?: number } | null>(null);
+  const [profileModalEmail, setProfileModalEmail] = useState<string | null>(null);
 
   const categoryConfig: Record<string, { name: string; icon: any; color: string }> = {
     ALL: { name: 'All Topics', icon: MessageSquare, color: 'text-muted-foreground' },
@@ -314,11 +316,14 @@ export default function Community() {
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
-                      <Avatar className="w-10 h-10 border-2 border-border shadow-inner">
-                        <AvatarFallback className="bg-gradient-to-br from-primary to-emerald-600 text-primary-foreground font-black uppercase">{post.authorName?.[0] || 'A'}</AvatarFallback>
-                      </Avatar>
+                      <UserAvatar 
+                        name={post.authorName} 
+                        email={post.authorEmail}
+                        className="w-10 h-10 border-2 border-border shadow-inner cursor-pointer" 
+                        onClick={() => setProfileModalEmail(post.authorEmail)} 
+                      />
                       <div>
-                        <h3 className="text-foreground font-black text-[11px] uppercase tracking-wide">{post.authorName}</h3>
+                        <h3 className="text-foreground font-black text-[11px] uppercase tracking-wide cursor-pointer hover:text-primary transition-colors" onClick={() => setProfileModalEmail(post.authorEmail)}>{post.authorName}</h3>
                         <p className="text-muted-foreground text-[9px] font-bold uppercase tracking-widest">{formatDistanceToNow(new Date(post.createdAt))} ago</p>
                       </div>
                     </div>
@@ -393,7 +398,7 @@ export default function Community() {
                 </div>
                 <DialogTitle className="text-2xl font-black italic tracking-tight uppercase text-foreground mt-2">{selectedPostForComments.title}</DialogTitle>
                 <div className="flex items-center gap-2 text-[10px] text-muted-foreground font-bold uppercase mt-2">
-                    <span className="text-primary">{selectedPostForComments.authorName}</span>
+                    <span className="text-primary cursor-pointer hover:underline" onClick={() => setProfileModalEmail(selectedPostForComments.authorEmail)}>{selectedPostForComments.authorName}</span>
                     <span>•</span>
                     <span>{formatDistanceToNow(new Date(selectedPostForComments.createdAt))} ago</span>
                 </div>
@@ -407,7 +412,7 @@ export default function Community() {
                     {selectedPostForComments.comments?.map(comment => (
                       <div key={comment.id} className="bg-card p-4 rounded-xl border border-border group relative shadow-inner">
                         <div className="flex justify-between items-center mb-2">
-                          <span className="text-primary text-[9px] font-black uppercase tracking-widest">{comment.authorName}</span>
+                          <span className="text-primary text-[9px] font-black uppercase tracking-widest cursor-pointer hover:underline" onClick={() => setProfileModalEmail(comment.authorEmail)}>{comment.authorName}</span>
                           <div className="flex items-center gap-2">
                             <span className="text-muted-foreground text-[8px] font-bold">{formatDistanceToNow(new Date(comment.createdAt))} ago</span>
                             {isOwner(comment.authorEmail) && editingCommentId !== comment.id && (
@@ -464,6 +469,12 @@ export default function Community() {
         </DialogContent>
       </Dialog>
       
+      <PublicProfileModal 
+        email={profileModalEmail} 
+        isOpen={!!profileModalEmail} 
+        onClose={() => setProfileModalEmail(null)} 
+      />
+
       <style>{`
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
