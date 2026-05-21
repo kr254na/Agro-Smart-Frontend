@@ -1,5 +1,5 @@
-export //const BASE_URL = 'https://agrosmart-backend-spz5.onrender.com';
-const BASE_URL = 'http://localhost:8081';
+export const BASE_URL = 'https://agrosmart-backend-spz5.onrender.com';
+//const BASE_URL = 'http://localhost:8081';
 import { getStorage, setStorage, clearAllStorage } from '../utils/storage';
 
 
